@@ -18,6 +18,8 @@
 | `/share/[mediaId]` | 中性分享图，仅限标记为公开的素材 |
 | `/api/lab/story` | Story Lab 的 X / Telegram 数据（无凭证时返回示例数据） |
 
+后台仍保留**头像与照片条**编辑：头像用于公开页身份区；照片条数据继续保存在草稿/发布配置中，但当前 Story Lab 不渲染照片条，五张背景为 `web/public/lusion/01–05.jpg` 固定资源。
+
 Story Lab 的五个章节定义在 `src/components/story-content.ts`，页面实现在 `src/components/story-lab.tsx`，共享样式在 `story-shell.css`，页内布局在 `story-lab.css`。
 
 ## 本地运行
