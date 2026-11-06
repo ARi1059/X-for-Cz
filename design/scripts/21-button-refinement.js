@@ -1,5 +1,0 @@
-const page=await figma.getNodeByIdAsync('25:3');await figma.setCurrentPageAsync(page);
-const btn={"Link/Default":"27:2","Link/Hover":"27:4","Link/Focus":"27:6","Link/Pressed":"27:8","Link/Disabled":"27:10","Link/Loading":"27:12","Primary/Default":"27:14","Primary/Hover":"27:16","Primary/Focus":"27:18","Primary/Pressed":"27:20","Primary/Disabled":"27:22","Primary/Loading":"27:24","Secondary/Default":"27:26","Secondary/Hover":"27:28","Secondary/Focus":"27:30","Secondary/Pressed":"27:32","Secondary/Disabled":"27:34","Secondary/Loading":"27:36"};
-for(const state of ['Hover','Pressed','Disabled']){const c=await figma.getNodeByIdAsync(btn['Primary/'+state]);if(state==='Disabled'){fill(c,'surface');fill(c.children[0],'muted')}else{fill(c,'accent');stroke(c,state==='Hover'?'text':'bg',state==='Hover'?1:2)}mutatedNodeIds.push(c.id,c.children[0].id)}
-note(page,'尺寸与反馈','所有操作按钮56px高。主按钮悬停增加细描边，按下增加深色内描边；禁用改为表面色和次级文字。\n隐藏由布局移除；加载状态防重复操作。原型为即时状态切换，正式动效及可访问性在实现阶段验证。',1100,100,740);
-return {createdNodeIds,mutatedNodeIds};
