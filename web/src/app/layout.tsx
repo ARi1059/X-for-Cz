@@ -1,8 +1,7 @@
 import type { ReactNode } from 'react';
 import './globals.css';
 import './public-tokens.css';
-import '../components/noir-motion.css';
-import './noir-public.css';
+import './gate.css';
 
 export const dynamic = 'force-dynamic';
 export default function RootLayout({ children }: { children: ReactNode }) {
