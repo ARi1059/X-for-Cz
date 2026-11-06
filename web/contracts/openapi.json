@@ -1,0 +1,2933 @@
+{
+  "openapi": "3.1.0",
+  "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
+  "info": {
+    "title": "顾清棠个人导航站 M2 API 契约",
+    "version": "1.0.0",
+    "description": "M2接口约定；HTTP处理器、浏览器交互、鉴权与媒体传输在M3实现，本文档不代表已运行服务。所有业务路径同源，真实域名待配置。"
+  },
+  "servers": [
+    {
+      "url": "/",
+      "description": "同源站点；不预填域名"
+    }
+  ],
+  "security": [],
+  "paths": {
+    "/api/gate": {
+      "get": {
+        "operationId": "getGate",
+        "summary": "读取中性元数据与成年确认页",
+        "description": "不返回短简介、主页链接、受控照片 ID、受控图片 URL、草稿或管理员信息。meta.shareMediaId仅可为当前已发布、ready且purpose=public_share的明确审核中性素材，初始为null；不自动使用头像。读取本身不计gate_view；显式展示后调用计数接口。",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "仅返回 Gate 投影。",
+            "headers": {
+              "Cache-Control": {
+                "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+                "schema": {
+                  "type": "string",
+                  "const": "private, no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Gate"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/api/events/gate-view": {
+      "post": {
+        "operationId": "recordGateView",
+        "summary": "计数年龄门实际展示",
+        "description": "客户端仅有 gate_view 写入口；不接收任意事件名、linkId、用户标识或 IP。其余三类事件由对应服务端动作计数。",
+        "security": [],
+        "responses": {
+          "204": {
+            "description": "展示事件已计入汇总。",
+            "headers": {
+              "Cache-Control": {
+                "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+                "schema": {
+                  "type": "string",
+                  "const": "private, no-store"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "source": {
+                    "$ref": "#/components/schemas/Source"
+                  }
+                },
+                "required": [
+                  "source"
+                ]
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/Csrf"
+          }
+        ]
+      }
+    },
+    "/api/age/confirm": {
+      "post": {
+        "operationId": "confirmAge",
+        "summary": "主动确认年满18岁",
+        "description": "adult 必须为 true。issuedAt 首次确认，expiresAt=issuedAt+2592000秒；有效凭据重访或重复点击不续期。memory accessToken 只保留于标签页内存，以 Authorization: Bearer 访问受控接口；没有访客账号。",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "首次签发或返回仍有效的固定到期凭据。",
+            "headers": {
+              "Cache-Control": {
+                "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+                "schema": {
+                  "type": "string",
+                  "const": "private, no-store"
+                }
+              },
+              "Set-Cookie": {
+                "description": "cookie 模式设置 __Host-age；Secure; HttpOnly; SameSite=Lax; Path=/，剩余 Max-Age；memory 模式不依赖 Cookie。",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgeGrant"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmAgeRequest"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/Csrf"
+          }
+        ]
+      }
+    },
+    "/api/age/reset": {
+      "post": {
+        "operationId": "resetAge",
+        "summary": "清除并撤销当前成年凭据",
+        "description": "仅撤销当前访问凭据，不清除所有访客。过期或无凭据时前端直接进入确认页；会话已撤销再次使用返回401。",
+        "security": [
+          {
+            "AgeCookie": []
+          },
+          {
+            "AgeBearer": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "清除 cookie，撤销当前凭据；前端清空内存 token、受控内容与 Blob URL。",
+            "headers": {
+              "Cache-Control": {
+                "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+                "schema": {
+                  "type": "string",
+                  "const": "private, no-store"
+                }
+              },
+              "Set-Cookie": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "__Host-age 清除；Max-Age=0。"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {},
+                "required": []
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/Csrf"
+          }
+        ]
+      }
+    },
+    "/api/age/leave": {
+      "post": {
+        "operationId": "leaveAgeGate",
+        "summary": "选择离开成年确认页",
+        "description": "只返回已配置中性 HTTPS 地址，不接受来访者传入目标；不签发成年凭据，不进入主页。计数 leave。",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "返回当前发布版本的离开地址；为空时停留退出提示。",
+            "headers": {
+              "Cache-Control": {
+                "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+                "schema": {
+                  "type": "string",
+                  "const": "private, no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeaveResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "source": {
+                    "$ref": "#/components/schemas/Source"
+                  }
+                },
+                "required": [
+                  "source"
+                ]
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/Csrf"
+          }
+        ]
+      }
+    },
+    "/api/site": {
+      "get": {
+        "operationId": "getPublicSite",
+        "summary": "读取已发布主页投影",
+        "description": "仅当前已发布快照；隐藏入口和照片不返回，照片区停用时photos为空数组，界面将零张照片区隐藏。无原始文件路径、媒体存储key、管理员信息、草稿或外部目标URL。前端从固定入口ID/媒体ID及同一versionId构造同源go/media路径；memory模式使用resolve和授权fetch。",
+        "security": [
+          {
+            "AgeCookie": []
+          },
+          {
+            "AgeBearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "一个完整、同版本公开投影。",
+            "headers": {
+              "Cache-Control": {
+                "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+                "schema": {
+                  "type": "string",
+                  "const": "private, no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicSite"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/go/{linkId}": {
+      "get": {
+        "operationId": "redirectPublishedLink",
+        "summary": "打开当前已发布的固定入口",
+        "description": "同一事务读取当前版本和入口，要求visible、enabled及合法HTTPS目标。只接受固定id，不接受url/next/redirect参数。Cookie模式正常导航；memory模式使用下述POST解析接口，避免跨源fetch重定向。",
+        "security": [
+          {
+            "AgeCookie": []
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "已验证入口并计数 link_click，Location 为已发布 HTTPS 目标。",
+            "headers": {
+              "Cache-Control": {
+                "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+                "schema": {
+                  "type": "string",
+                  "const": "private, no-store"
+                }
+              },
+              "Location": {
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "description": "只从当前已发布快照读取。"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/LinkId"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/From"
+          }
+        ]
+      }
+    },
+    "/api/links/{linkId}/resolve": {
+      "post": {
+        "operationId": "resolvePublishedLink",
+        "summary": "为标签页内存凭据解析外跳目标",
+        "description": "memory模式把Bearer token留在同源fetch请求头；返回目标后使用window.location或预打开窗口完成外跳。不得把token写进URL，不对目标跨源fetch。目标仍由服务器固定入口查找；一个点击仅使用go或resolve其一。",
+        "security": [
+          {
+            "AgeCookie": []
+          },
+          {
+            "AgeBearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "已验证入口并计数 link_click，前端随后导航。",
+            "headers": {
+              "Cache-Control": {
+                "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+                "schema": {
+                  "type": "string",
+                  "const": "private, no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "versionId": {
+                      "$ref": "#/components/schemas/VersionId"
+                    },
+                    "url": {
+                      "type": "string",
+                      "format": "uri"
+                    }
+                  },
+                  "required": [
+                    "versionId",
+                    "url"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "versionId": {
+                    "$ref": "#/components/schemas/VersionId"
+                  },
+                  "source": {
+                    "$ref": "#/components/schemas/Source"
+                  }
+                },
+                "required": [
+                  "versionId",
+                  "source"
+                ]
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/LinkId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/Csrf"
+          }
+        ]
+      }
+    },
+    "/media/{mediaId}": {
+      "get": {
+        "operationId": "getPublishedMedia",
+        "summary": "读取当前已发布受控媒体",
+        "description": "仅返回当前公开投影引用的ready媒体，不通过猜测ID读取隐藏照片、旧版本或未发布草稿。memory模式fetch→Blob URL显示，重置及卸载时revokeObjectURL。返回private,no-store；不放入public目录/CDN公开桶。",
+        "security": [
+          {
+            "AgeCookie": []
+          },
+          {
+            "AgeBearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "授权通过并校验版本及媒体引用后流式返回已去 EXIF 的衍生图片。",
+            "headers": {
+              "Cache-Control": {
+                "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+                "schema": {
+                  "type": "string",
+                  "const": "private, no-store"
+                }
+              },
+              "X-Content-Type-Options": {
+                "schema": {
+                  "type": "string",
+                  "const": "nosniff"
+                }
+              },
+              "Content-Disposition": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "inline；名称由系统生成，不使用原上传路径。"
+              }
+            },
+            "content": {
+              "image/jpeg": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/png": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/webp": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/MediaId"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/Variant"
+          }
+        ]
+      }
+    },
+    "/api/admin/login": {
+      "post": {
+        "operationId": "loginAdmin",
+        "summary": "管理员登录",
+        "description": "仅应用/json且严格Origin一致；无公开注册或默认密码。错误统一为凭据无效，不区分用户名存在性。凭据原值不写日志，库中只存会话SHA-256摘要。",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "设置管理cookie并返回CSRF token。",
+            "headers": {
+              "Cache-Control": {
+                "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+                "schema": {
+                  "type": "string",
+                  "const": "private, no-store"
+                }
+              },
+              "Set-Cookie": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "__Host-admin 随机opaque凭据；Secure; HttpOnly; SameSite=Strict; Path=/；固定8小时。"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminSession"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Origin"
+          }
+        ]
+      }
+    },
+    "/api/admin/session": {
+      "get": {
+        "operationId": "getAdminSession",
+        "summary": "读取管理员会话",
+        "description": "读取管理员会话",
+        "security": [
+          {
+            "AdminCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "当前会话及CSRF token，不延长固定到期时间。",
+            "headers": {
+              "Cache-Control": {
+                "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+                "schema": {
+                  "type": "string",
+                  "const": "private, no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminSession"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/api/admin/logout": {
+      "post": {
+        "operationId": "logoutAdmin",
+        "summary": "退出管理员登录",
+        "description": "退出管理员登录",
+        "security": [
+          {
+            "AdminCookie": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "当前管理会话撤销，cookie清除。",
+            "headers": {
+              "Cache-Control": {
+                "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+                "schema": {
+                  "type": "string",
+                  "const": "private, no-store"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {},
+                "required": []
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/Csrf"
+          }
+        ]
+      }
+    },
+    "/api/admin/password": {
+      "put": {
+        "operationId": "changeAdminPassword",
+        "summary": "修改管理员密码并失效原会话",
+        "description": "核对当前密码，scrypt保存独立盐与参数，更新auth epoch并撤销全部旧管理会话；成年凭据不变。新密码至少12字素，最多256字素，M3同时限制UTF-8输入字节。",
+        "security": [
+          {
+            "AdminCookie": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "所有旧管理会话失效；返回登录页。",
+            "headers": {
+              "Cache-Control": {
+                "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+                "schema": {
+                  "type": "string",
+                  "const": "private, no-store"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordRequest"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/Csrf"
+          }
+        ]
+      }
+    },
+    "/api/admin/draft": {
+      "get": {
+        "operationId": "getDraft",
+        "summary": "读取管理员草稿",
+        "description": "读取管理员草稿",
+        "security": [
+          {
+            "AdminCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "完整管理员配置及revision。",
+            "headers": {
+              "Cache-Control": {
+                "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+                "schema": {
+                  "type": "string",
+                  "const": "private, no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Draft"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "put": {
+        "operationId": "saveDraft",
+        "summary": "以revision比较并保存完整草稿",
+        "description": "全量替换，不支持含糊merge。expectedRevision与当前值不符返回409；客户端保留输入并提供重载/重做。结构校验通过可保存未补齐上线信息的草稿；成功保存不切换公开指针。",
+        "security": [
+          {
+            "AdminCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "保存成功，revision递增。",
+            "headers": {
+              "Cache-Control": {
+                "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+                "schema": {
+                  "type": "string",
+                  "const": "private, no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Draft"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveDraftRequest"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/Csrf"
+          }
+        ]
+      }
+    },
+    "/api/admin/preview": {
+      "get": {
+        "operationId": "previewDraft",
+        "summary": "读取管理员草稿预览",
+        "description": "独立管理员权限，带草稿预览标识；复用公开布局但媒体读取/api/admin/media/{mediaId}/content。此接口既不发布也不授予公众访问。",
+        "security": [
+          {
+            "AdminCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "当前草稿及发布检查问题列表。",
+            "headers": {
+              "Cache-Control": {
+                "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+                "schema": {
+                  "type": "string",
+                  "const": "private, no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Preview"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/api/admin/publish": {
+      "post": {
+        "operationId": "publishDraft",
+        "summary": "原子发布当前草稿",
+        "description": "BEGIN IMMEDIATE→核对expectedRevision→结构及上线校验→验证ready媒体及引用→写不可变版本与引用→切换指针→写审计→COMMIT。任一步失败ROLLBACK，原发布版本不变；公开请求每次取当前指针。空值bootstrap只属于首次CLI初始化，HTTP发布没有绕过开关。",
+        "security": [
+          {
+            "AdminCookie": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "不可变快照与发布指针在同一事务提交。",
+            "headers": {
+              "Cache-Control": {
+                "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+                "schema": {
+                  "type": "string",
+                  "const": "private, no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Published"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublishRequest"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/Csrf"
+          }
+        ]
+      }
+    },
+    "/api/admin/media": {
+      "get": {
+        "operationId": "listMedia",
+        "summary": "列出管理员媒体及引用",
+        "description": "列出管理员媒体及引用",
+        "security": [
+          {
+            "AdminCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "管理员媒体清单，无原始磁盘路径。",
+            "headers": {
+              "Cache-Control": {
+                "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+                "schema": {
+                  "type": "string",
+                  "const": "private, no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MediaList"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Cursor"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ]
+      },
+      "post": {
+        "operationId": "uploadMedia",
+        "summary": "上传并处理受控图片",
+        "description": "只接受JPEG/PNG/WebP真实解码；上限10MiB、2400万像素、边长6000px，总媒体500MiB。生成thumbnail/display/20px内联LQIP后再标ready；display最长边2500px；实际存储key由服务器生成。失败清理本次临时文件，不影响原媒体。 上传目的必须显式选择；public_share要求neutralConfirmed=true并由管理员确认素材中性，controlled要求false。公开分享用途与受控人物照片分开，不自动转换既有素材用途。",
+        "security": [
+          {
+            "AdminCookie": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "衍生图生成及去EXIF成功，status=ready。",
+            "headers": {
+              "Cache-Control": {
+                "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+                "schema": {
+                  "type": "string",
+                  "const": "private, no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MediaRecord"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "413": {
+            "$ref": "#/components/responses/413"
+          },
+          "415": {
+            "$ref": "#/components/responses/415"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "507": {
+            "$ref": "#/components/responses/507"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/Csrf"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "file",
+                  "purpose",
+                  "neutralConfirmed"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "purpose": {
+                    "type": "string",
+                    "enum": [
+                      "controlled",
+                      "public_share"
+                    ]
+                  },
+                  "neutralConfirmed": {
+                    "type": "boolean",
+                    "description": "管理员明确确认本次素材可在成年确认前公开；public_share必须true，controlled必须false。"
+                  }
+                },
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "purpose": {
+                          "const": "public_share"
+                        }
+                      },
+                      "required": [
+                        "purpose"
+                      ]
+                    },
+                    "then": {
+                      "properties": {
+                        "neutralConfirmed": {
+                          "const": true
+                        }
+                      }
+                    },
+                    "else": {
+                      "properties": {
+                        "neutralConfirmed": {
+                          "const": false
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "encoding": {
+                "file": {
+                  "contentType": "image/jpeg, image/png, image/webp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/media/{mediaId}": {
+      "delete": {
+        "operationId": "deleteUnreferencedMedia",
+        "summary": "删除无引用媒体",
+        "description": "草稿或任一保留发布版本仍引用时返回409；先移除草稿引用不影响公开版本。数据库与文件删除采用待清理标记/重试，不先删文件后检测引用。",
+        "security": [
+          {
+            "AdminCookie": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "无引用媒体已移除，审计已记录。",
+            "headers": {
+              "Cache-Control": {
+                "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+                "schema": {
+                  "type": "string",
+                  "const": "private, no-store"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/MediaId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/Csrf"
+          }
+        ]
+      }
+    },
+    "/api/admin/media/{mediaId}/content": {
+      "get": {
+        "operationId": "getAdminMedia",
+        "summary": "读取管理员预览媒体",
+        "description": "管理会话验证独立于成年凭据；允许管理员读取草稿媒体。禁止把此URL写入公开投影；private,no-store。",
+        "security": [
+          {
+            "AdminCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "授权通过并校验版本及媒体引用后流式返回已去 EXIF 的衍生图片。",
+            "headers": {
+              "Cache-Control": {
+                "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+                "schema": {
+                  "type": "string",
+                  "const": "private, no-store"
+                }
+              },
+              "X-Content-Type-Options": {
+                "schema": {
+                  "type": "string",
+                  "const": "nosniff"
+                }
+              },
+              "Content-Disposition": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "inline；名称由系统生成，不使用原上传路径。"
+              }
+            },
+            "content": {
+              "image/jpeg": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/png": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/webp": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/MediaId"
+          },
+          {
+            "$ref": "#/components/parameters/Variant"
+          }
+        ]
+      }
+    },
+    "/api/admin/stats": {
+      "get": {
+        "operationId": "getStats",
+        "summary": "读取按日聚合的来源与入口点击",
+        "description": "读取按日聚合的来源与入口点击",
+        "security": [
+          {
+            "AdminCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "仅返回汇总计数，不解释为人数、入群或成交。",
+            "headers": {
+              "Cache-Control": {
+                "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+                "schema": {
+                  "type": "string",
+                  "const": "private, no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Stats"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "闭区间，UTC日期，from<=to，最多90天。"
+          }
+        ]
+      }
+    },
+    "/share/{mediaId}": {
+      "get": {
+        "operationId": "getPublishedShareImage",
+        "summary": "读取当前明确发布的中性分享图",
+        "description": "无成年凭据，仅当mediaId等于当前发布meta.shareMediaId、purpose为public_share、status为ready且version匹配时返回。受控avatar/gallery不能作为此用途；未发布、旧版本或普通媒体请求返回404/409。初始shareMediaId为空。",
+        "security": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/MediaId"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "授权通过并校验版本及媒体引用后流式返回已去 EXIF 的衍生图片。",
+            "headers": {
+              "Cache-Control": {
+                "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+                "schema": {
+                  "type": "string",
+                  "const": "private, no-store"
+                }
+              },
+              "X-Content-Type-Options": {
+                "schema": {
+                  "type": "string",
+                  "const": "nosniff"
+                }
+              },
+              "Content-Disposition": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "inline；名称由系统生成，不使用原上传路径。"
+              }
+            },
+            "content": {
+              "image/jpeg": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/png": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/webp": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SiteConfig": {
+        "$ref": "./site-config.schema.json"
+      },
+      "LinkId": {
+        "type": "string",
+        "enum": [
+          "x_profile",
+          "tg_personal",
+          "tg_preview",
+          "onlyfans",
+          "membership"
+        ]
+      },
+      "Source": {
+        "type": "string",
+        "enum": [
+          "profile",
+          "pin",
+          "weekly",
+          "other"
+        ]
+      },
+      "VersionId": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128
+      },
+      "MediaId": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 80,
+        "pattern": "^[a-zA-Z0-9_-]{1,80}$"
+      },
+      "ValidationIssue": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "code",
+          "message"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "requestId": {
+                "type": "string"
+              },
+              "fields": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ValidationIssue"
+                }
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "requestId"
+            ]
+          }
+        },
+        "required": [
+          "error"
+        ]
+      },
+      "Meta": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "shareMediaId": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MediaId"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "title",
+          "description",
+          "shareMediaId"
+        ]
+      },
+      "AgeContent": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "notice": {
+            "type": "string"
+          },
+          "confirmLabel": {
+            "type": "string"
+          },
+          "exitLabel": {
+            "type": "string"
+          },
+          "exitUrl": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "exitNotice": {
+            "type": "string"
+          },
+          "resetLabel": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "notice",
+          "confirmLabel",
+          "exitLabel",
+          "exitUrl",
+          "exitNotice",
+          "resetLabel"
+        ]
+      },
+      "Gate": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "versionId": {
+            "$ref": "#/components/schemas/VersionId"
+          },
+          "name": {
+            "type": "string"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "ageGate": {
+            "$ref": "#/components/schemas/AgeContent"
+          },
+          "ageStatus": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "confirmed": {
+                "type": "boolean"
+              },
+              "expiresAt": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "confirmed",
+              "expiresAt"
+            ]
+          },
+          "csrfToken": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "versionId",
+          "name",
+          "meta",
+          "ageGate",
+          "ageStatus",
+          "csrfToken"
+        ]
+      },
+      "ConfirmAgeRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "adult": {
+            "type": "boolean",
+            "const": true
+          },
+          "storage": {
+            "type": "string",
+            "enum": [
+              "cookie",
+              "memory"
+            ]
+          },
+          "source": {
+            "$ref": "#/components/schemas/Source"
+          }
+        },
+        "required": [
+          "adult",
+          "storage",
+          "source"
+        ]
+      },
+      "AgeGrant": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "storage": {
+                "type": "string",
+                "const": "cookie"
+              },
+              "confirmed": {
+                "type": "boolean",
+                "const": true
+              },
+              "issuedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "expiresAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "expiresIn": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2592000
+              }
+            },
+            "required": [
+              "storage",
+              "confirmed",
+              "issuedAt",
+              "expiresAt",
+              "expiresIn"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "storage": {
+                "type": "string",
+                "const": "memory"
+              },
+              "confirmed": {
+                "type": "boolean",
+                "const": true
+              },
+              "issuedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "expiresAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "expiresIn": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2592000
+              },
+              "accessToken": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "storage",
+              "confirmed",
+              "issuedAt",
+              "expiresAt",
+              "expiresIn",
+              "accessToken"
+            ]
+          }
+        ]
+      },
+      "LeaveResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "exitUrl": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "notice": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "exitUrl",
+          "notice"
+        ]
+      },
+      "PublicLink": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/LinkId"
+          },
+          "label": {
+            "type": "string"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "position": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "emphasized": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "description",
+          "position",
+          "available",
+          "emphasized"
+        ]
+      },
+      "PublicPhoto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "mediaId": {
+            "$ref": "#/components/schemas/MediaId"
+          },
+          "alt": {
+            "type": "string"
+          },
+          "caption": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "position": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 12
+          },
+          "visible": {
+            "type": "boolean",
+            "const": true
+          },
+          "focalPoint": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "x": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "y": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            },
+            "required": [
+              "x",
+              "y"
+            ]
+          },
+          "lqip": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 20000
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "mediaId",
+          "alt",
+          "caption",
+          "position",
+          "visible",
+          "focalPoint",
+          "lqip"
+        ]
+      },
+      "PublicInfo": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "body": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "faq": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "question": {
+                  "type": "string"
+                },
+                "answer": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "question",
+                "answer"
+              ]
+            }
+          }
+        },
+        "required": [
+          "title",
+          "body",
+          "faq"
+        ]
+      },
+      "PublicFooter": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "notice": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "contactEmail": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "email"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "removalNotice": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "updateText": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "notice",
+          "contactEmail",
+          "removalNotice",
+          "updateText"
+        ]
+      },
+      "States": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "unavailable": {
+            "type": "string"
+          },
+          "loading": {
+            "type": "string"
+          },
+          "empty": {
+            "type": "string"
+          },
+          "error": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "unavailable",
+          "loading",
+          "empty",
+          "error"
+        ]
+      },
+      "PublicSite": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "versionId": {
+            "$ref": "#/components/schemas/VersionId"
+          },
+          "theme": {
+            "type": "string",
+            "const": "ink-champagne"
+          },
+          "site": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "tagline": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "description": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "avatarMediaId": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/MediaId"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "avatarLqip": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 20000
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "tagline",
+              "description",
+              "avatarMediaId",
+              "avatarLqip"
+            ]
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicLink"
+            },
+            "maxItems": 5
+          },
+          "gallery": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "enabled": {
+                "type": "boolean"
+              },
+              "title": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "photos": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PublicPhoto"
+                },
+                "maxItems": 12
+              }
+            },
+            "required": [
+              "enabled",
+              "title",
+              "photos"
+            ]
+          },
+          "info": {
+            "$ref": "#/components/schemas/PublicInfo"
+          },
+          "footer": {
+            "$ref": "#/components/schemas/PublicFooter"
+          },
+          "states": {
+            "$ref": "#/components/schemas/States"
+          },
+          "resetLabel": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "versionId",
+          "theme",
+          "site",
+          "links",
+          "gallery",
+          "info",
+          "footer",
+          "states",
+          "resetLabel"
+        ]
+      },
+      "LoginRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "password": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024,
+            "description": "最多 1024 UTF-8 字节；允许已设置密码中的组合字素。"
+          }
+        },
+        "required": [
+          "username",
+          "password"
+        ]
+      },
+      "AdminSession": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "csrfToken": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "username",
+          "expiresAt",
+          "csrfToken"
+        ]
+      },
+      "PasswordRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "currentPassword": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024,
+            "description": "最多 1024 UTF-8 字节；允许已设置密码中的组合字素。"
+          },
+          "newPassword": {
+            "type": "string",
+            "minLength": 12,
+            "maxLength": 1024,
+            "description": "12–256 个字素，且最多 1024 UTF-8 字节；运行时校验字素与字节数。",
+            "x-grapheme-minimum": 12,
+            "x-grapheme-limit": 256
+          }
+        },
+        "required": [
+          "currentPassword",
+          "newPassword"
+        ]
+      },
+      "Draft": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "config": {
+            "$ref": "#/components/schemas/SiteConfig"
+          }
+        },
+        "required": [
+          "revision",
+          "updatedAt",
+          "config"
+        ]
+      },
+      "SaveDraftRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "expectedRevision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "config": {
+            "$ref": "#/components/schemas/SiteConfig"
+          }
+        },
+        "required": [
+          "expectedRevision",
+          "config"
+        ]
+      },
+      "Preview": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "config": {
+            "$ref": "#/components/schemas/SiteConfig"
+          },
+          "publishIssues": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationIssue"
+            }
+          }
+        },
+        "required": [
+          "revision",
+          "config",
+          "publishIssues"
+        ]
+      },
+      "PublishRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "expectedRevision": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "expectedRevision"
+        ]
+      },
+      "Published": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "versionId": {
+            "$ref": "#/components/schemas/VersionId"
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "sourceRevision": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "versionId",
+          "publishedAt",
+          "sourceRevision"
+        ]
+      },
+      "MediaRecord": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/MediaId"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "ready",
+              "failed"
+            ]
+          },
+          "mimeType": {
+            "type": "string",
+            "enum": [
+              "image/jpeg",
+              "image/png",
+              "image/webp"
+            ]
+          },
+          "width": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 6000
+          },
+          "height": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 6000
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10485760
+          },
+          "lqip": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 20000
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "references": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "draft": {
+                "type": "boolean"
+              },
+              "publishedVersionCount": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "draft",
+              "publishedVersionCount"
+            ]
+          },
+          "purpose": {
+            "type": "string",
+            "enum": [
+              "controlled",
+              "public_share"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "mimeType",
+          "width",
+          "height",
+          "bytes",
+          "lqip",
+          "createdAt",
+          "references",
+          "purpose"
+        ]
+      },
+      "MediaList": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MediaRecord"
+            },
+            "maxItems": 100
+          },
+          "nextCursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "nextCursor"
+        ]
+      },
+      "StatBucket": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "source": {
+            "$ref": "#/components/schemas/Source"
+          },
+          "event": {
+            "type": "string",
+            "enum": [
+              "gate_view",
+              "adult_confirm",
+              "leave",
+              "link_click"
+            ]
+          },
+          "linkId": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LinkId"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "date",
+          "source",
+          "event",
+          "linkId",
+          "count"
+        ]
+      },
+      "Stats": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
+          },
+          "buckets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StatBucket"
+            }
+          }
+        },
+        "required": [
+          "from",
+          "to",
+          "buckets"
+        ]
+      }
+    },
+    "parameters": {
+      "Origin": {
+        "name": "Origin",
+        "in": "header",
+        "required": true,
+        "description": "必须与配置的站点 origin 完全相同；拒绝 null 和缺失值。",
+        "schema": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "Csrf": {
+        "name": "X-CSRF-Token",
+        "in": "header",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": "公开操作使用 gate 短期签名挑战，管理员操作使用当前管理会话的 token。"
+      },
+      "Version": {
+        "name": "version",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/VersionId"
+        },
+        "description": "调用方读取的当前已发布 versionId；与服务器当前指针不一致返回 409，不回退到旧快照。"
+      },
+      "MediaId": {
+        "name": "mediaId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/MediaId"
+        }
+      },
+      "LinkId": {
+        "name": "linkId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/LinkId"
+        }
+      },
+      "From": {
+        "name": "from",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "description": "profile/pin/weekly，其余值统一计为 other。"
+      },
+      "Variant": {
+        "name": "variant",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "thumbnail",
+            "display"
+          ],
+          "default": "display"
+        }
+      },
+      "Cursor": {
+        "name": "cursor",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "maxLength": 256
+        }
+      },
+      "Limit": {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 30
+        }
+      }
+    },
+    "responses": {
+      "400": {
+        "description": "请求格式或参数错误。",
+        "headers": {
+          "Cache-Control": {
+            "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+            "schema": {
+              "type": "string",
+              "const": "private, no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "凭据缺失、无效或已过期；管理员与成年凭据互不替代。",
+        "headers": {
+          "Cache-Control": {
+            "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+            "schema": {
+              "type": "string",
+              "const": "private, no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "403": {
+        "description": "同源、CSRF 或访问资格检查未通过。",
+        "headers": {
+          "Cache-Control": {
+            "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+            "schema": {
+              "type": "string",
+              "const": "private, no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "入口或媒体未公开／不存在。",
+        "headers": {
+          "Cache-Control": {
+            "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+            "schema": {
+              "type": "string",
+              "const": "private, no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "409": {
+        "description": "版本冲突、草稿已更新或媒体仍被引用。",
+        "headers": {
+          "Cache-Control": {
+            "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+            "schema": {
+              "type": "string",
+              "const": "private, no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "413": {
+        "description": "文件字节或像素大小超限。",
+        "headers": {
+          "Cache-Control": {
+            "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+            "schema": {
+              "type": "string",
+              "const": "private, no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "415": {
+        "description": "媒体真实格式不受支持。",
+        "headers": {
+          "Cache-Control": {
+            "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+            "schema": {
+              "type": "string",
+              "const": "private, no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "422": {
+        "description": "字段或发布约束未通过，fields 定位问题。",
+        "headers": {
+          "Cache-Control": {
+            "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+            "schema": {
+              "type": "string",
+              "const": "private, no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "429": {
+        "description": "请求频率超限；Retry-After 给出秒数。",
+        "headers": {
+          "Cache-Control": {
+            "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+            "schema": {
+              "type": "string",
+              "const": "private, no-store"
+            }
+          },
+          "Retry-After": {
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9]+$"
+            },
+            "description": "重试等待秒数，由服务端计算。"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "服务异常，公开旧版本及未保存的客户端内容保持。",
+        "headers": {
+          "Cache-Control": {
+            "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+            "schema": {
+              "type": "string",
+              "const": "private, no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "507": {
+        "description": "媒体存储配额不足。",
+        "headers": {
+          "Cache-Control": {
+            "description": "敏感内容与媒体均 private, no-store；不由 CDN、浏览器磁盘缓存或 Service Worker 持久缓存。",
+            "schema": {
+              "type": "string",
+              "const": "private, no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "AgeCookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "__Host-age",
+        "description": "签名成年自主声明，固定30天；与管理员无关。"
+      },
+      "AgeBearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "signed age token",
+        "description": "只驻留当前标签页内存；禁止URL、localStorage/sessionStorage持久保存。"
+      },
+      "AdminCookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "__Host-admin",
+        "description": "管理opaque会话，独立cookie，固定8小时。"
+      }
+    }
+  },
+  "x-status": "contract-only",
+  "x-source-requirement": "04-个人Link导航页-需求.md v3.5",
+  "x-schema-source": "web/src/contracts/site-config.ts"
+}

@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "theme": "ink-champagne",
+  "site": {
+    "name": "顾清棠",
+    "tagline": "短发御姐，丝袜和高跟鞋",
+    "description": null,
+    "avatarMediaId": null
+  },
+  "ageGate": {
+    "title": "仅限成年人",
+    "notice": "请确认你已年满 18 岁。",
+    "confirmLabel": "我已年满 18 岁",
+    "exitLabel": "离开",
+    "exitUrl": null,
+    "exitNotice": "离开页面暂不可用，请返回确认页。",
+    "resetLabel": "重新确认年龄"
+  },
+  "links": [
+    {
+      "id": "x_profile",
+      "label": "X 主页",
+      "description": null,
+      "url": null,
+      "position": 1,
+      "visible": true,
+      "enabled": false,
+      "emphasized": false
+    },
+    {
+      "id": "tg_personal",
+      "label": "Telegram 个人账号",
+      "description": null,
+      "url": null,
+      "position": 2,
+      "visible": true,
+      "enabled": false,
+      "emphasized": false
+    },
+    {
+      "id": "tg_preview",
+      "label": "Telegram 预告频道",
+      "description": null,
+      "url": null,
+      "position": 3,
+      "visible": true,
+      "enabled": false,
+      "emphasized": true
+    },
+    {
+      "id": "onlyfans",
+      "label": "OnlyFans 主页",
+      "description": null,
+      "url": null,
+      "position": 4,
+      "visible": true,
+      "enabled": false,
+      "emphasized": false
+    },
+    {
+      "id": "membership",
+      "label": "会员购买",
+      "description": null,
+      "url": null,
+      "position": 5,
+      "visible": true,
+      "enabled": false,
+      "emphasized": false
+    }
+  ],
+  "gallery": {
+    "enabled": false,
+    "title": "照片",
+    "photos": []
+  },
+  "info": {
+    "title": null,
+    "body": null,
+    "faq": []
+  },
+  "footer": {
+    "notice": "仅限成年人",
+    "contactEmail": null,
+    "removalNotice": null,
+    "updateText": null
+  },
+  "meta": {
+    "title": "顾清棠｜个人导航",
+    "description": "顾清棠的个人导航页，仅限成年人。",
+    "shareMediaId": null
+  },
+  "states": {
+    "unavailable": "暂未开放",
+    "loading": "加载中…",
+    "empty": "内容暂未开放",
+    "error": "加载失败，请稍后重试。"
+  }
+}

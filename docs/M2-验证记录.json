@@ -1,0 +1,275 @@
+{
+  "date": "2026-10-29",
+  "phase": "M2 data and interface foundation complete",
+  "baseline": {
+    "command": [
+      "python3",
+      "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-M2/verify.py"
+    ],
+    "inputs": ".requirements-history/20261029-M2/baseline.json + originals/",
+    "stdout": "BASELINE_OK: 5 original documents match SHA-256; no prior web/data implementation",
+    "exitStatus": 0
+  },
+  "commands": [
+    {
+      "role": "type_contract_and_storage_tests",
+      "command": [
+        "npm",
+        "run",
+        "check"
+      ],
+      "cwd": "/Users/macbook/Documents/推特创作者计划/web",
+      "stdout": "\n> gu-qingtang-web@0.2.0 check\n> npm run typecheck && npm run contracts:check && npm test\n\n\n> gu-qingtang-web@0.2.0 typecheck\n> tsc --noEmit\n\n\n> gu-qingtang-web@0.2.0 contracts:check\n> tsx scripts/contracts.ts --check\n\nOPENAPI_OK: 23 operations; references resolved and schema validated\nCONTENT_OK: M1 copy matches generated schema/seed; five targets disabled; real publishing remains blocked\nMEDIA_OK: six source photos listed for controlled import; bootstrap includes no media\n\n> gu-qingtang-web@0.2.0 test\n> tsx --test test/*.test.ts\n\n✔ actual gate and published projections conform to the API response schemas (58.353375ms)\n✔ configuration has exact independent entries and preserves unresolved values (6.222667ms)\n✔ Unicode length uses graphemes, and placeholder text is rejected (0.708ms)\n✔ targets reject scripts, credentials, local hosts, templates and same-site navigation (4.688208ms)\n✔ before confirmation the projection contains neither biography, entry list nor controlled media (0.430375ms)\n✔ normal publication requires exit target, contact and active entry, then ready media (3.018833ms)\n✔ source attribution never expands to arbitrary caller data (0.12275ms)\n✔ optional blank values normalize to null without accepting missing required text (0.522042ms)\n✔ neutral public share assets and controlled portraits have separate purposes (0.688208ms)\n✔ migration and seed are idempotent; bootstrap is closed and creates no account (19.277625ms)\n✔ applied migration checksums prevent silent schema-history changes (5.372167ms)\n✔ CAS rejects stale saves and stale publishes without discarding current draft (2.682917ms)\n✔ failed validation keeps old pointer; successful publication stores an immutable snapshot (2.712917ms)\n✔ database failure inside publication rolls back snapshot, pointer and audit together (1.778584ms)\n✔ media foreign keys protect drafts and all retained published versions (2.871208ms)\n✔ not-ready media prevents publishing without losing the saved draft (1.913417ms)\n✔ public share media and age-gated imagery stay separate at publication (3.84575ms)\n✔ restart preserves draft, published pointer and only finite aggregate dimensions (5.148583ms)\nℹ tests 18\nℹ suites 0\nℹ pass 18\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 287.727042\n",
+      "stderr": "",
+      "exitStatus": 0
+    },
+    {
+      "role": "initialize_local_database",
+      "command": [
+        "npm",
+        "run",
+        "db",
+        "--",
+        "seed",
+        "--db",
+        "./var/site.sqlite"
+      ],
+      "cwd": "/Users/macbook/Documents/推特创作者计划/web",
+      "stdout": "\n> gu-qingtang-web@0.2.0 db\n> tsx scripts/db.ts seed --db ./var/site.sqlite\n\n{\"migrationsApplied\":[\"001_initial.sql\"]}\n{\"initialized\":true,\"draftRevision\":1,\"publishedVersionId\":\"1\",\"bootstrap\":true}\n",
+      "stderr": "",
+      "exitStatus": 0
+    },
+    {
+      "role": "repeat_initialize_without_overwrite",
+      "command": [
+        "npm",
+        "run",
+        "db",
+        "--",
+        "seed",
+        "--db",
+        "./var/site.sqlite"
+      ],
+      "cwd": "/Users/macbook/Documents/推特创作者计划/web",
+      "stdout": "\n> gu-qingtang-web@0.2.0 db\n> tsx scripts/db.ts seed --db ./var/site.sqlite\n\n{\"migrationsApplied\":[]}\n{\"initialized\":false,\"draftRevision\":1,\"publishedVersionId\":\"1\",\"bootstrap\":true}\n",
+      "stderr": "",
+      "exitStatus": 0
+    },
+    {
+      "role": "read_initialized_state",
+      "command": [
+        "npm",
+        "run",
+        "db",
+        "--",
+        "status",
+        "--db",
+        "./var/site.sqlite"
+      ],
+      "cwd": "/Users/macbook/Documents/推特创作者计划/web",
+      "stdout": "\n> gu-qingtang-web@0.2.0 db\n> tsx scripts/db.ts status --db ./var/site.sqlite\n\n{\"migrated\":true,\"migrations\":[{\"name\":\"001_initial.sql\",\"sha256\":\"9b3265ea675e8042a8e6375cbf00e33a730457f9d9072aada8b97bb2e939b994\"}],\"initialized\":true,\"draftRevision\":1,\"publishedVersionId\":\"1\"}\n",
+      "stderr": "",
+      "exitStatus": 0
+    },
+    {
+      "role": "rollback_preflight",
+      "command": [
+        "python3",
+        "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-M2/rollback.py"
+      ],
+      "cwd": "/Users/macbook/Documents/推特创作者计划",
+      "stdout": "ROLLBACK_PREFLIGHT_OK: 24 source artifacts match; no changes applied\n",
+      "stderr": "",
+      "exitStatus": 0
+    },
+    {
+      "role": "patch_check",
+      "command": [
+        "git",
+        "apply",
+        "--check",
+        "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-M2/changes.patch"
+      ],
+      "cwd": "/var/folders/41/5jr3f_td4hg0kppff95bjd0h0000gn/T/m2-review-w2mzblsk",
+      "stdout": "",
+      "stderr": "",
+      "exitStatus": 0
+    },
+    {
+      "role": "patch_apply_on_copy",
+      "command": [
+        "git",
+        "apply",
+        "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-M2/changes.patch"
+      ],
+      "cwd": "/var/folders/41/5jr3f_td4hg0kppff95bjd0h0000gn/T/m2-review-w2mzblsk",
+      "stdout": "",
+      "stderr": "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-M2/changes.patch:57: trailing whitespace.\n日期：2026-10-29  \n/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-M2/changes.patch:58: trailing whitespace.\n版本：v1.0  \n/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-M2/changes.patch:59: trailing whitespace.\n依据：`04-个人Link导航页-需求.md` v3.5、`设计开发计划文档.md` v1.3、M1 可编辑设计与 `design/公开文案配置-M1.json`。  \n/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-M2/changes.patch:6146: trailing whitespace.\n版本：v1.3  \n/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-M2/changes.patch:271: new blank line at EOF.\n+\nwarning: 5 lines add whitespace errors.\n",
+      "exitStatus": 0
+    },
+    {
+      "role": "rollback_on_copy",
+      "command": [
+        "python3",
+        "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-M2/rollback.py",
+        "--root",
+        "/var/folders/41/5jr3f_td4hg0kppff95bjd0h0000gn/T/m2-review-w2mzblsk",
+        "--apply"
+      ],
+      "cwd": "/Users/macbook/Documents/推特创作者计划",
+      "stdout": "ROLLBACK_OK: 3 original documents restored; 21 new source artifacts removed\nRuntime database, media, installed dependencies and verification history retained.\n",
+      "stderr": "",
+      "exitStatus": 0
+    }
+  ],
+  "verified": {
+    "testsPassed": 18,
+    "openApiOperations": 23,
+    "seedTargetsDisabled": true,
+    "defaultAdministratorCreated": false,
+    "draftCas": true,
+    "atomicPublishRollback": true,
+    "immutablePublishedVersions": true,
+    "mediaReferenceProtection": true,
+    "publicPrivateProjectionContract": true,
+    "patchAppliedOnCopy": true,
+    "rollbackOnCopy": true
+  },
+  "artifacts": {
+    "modified": "web/README.md",
+    "specification": "docs/M2-数据与接口约定.md",
+    "diff": ".requirements-history/20261029-M2/changes.patch",
+    "verification": "docs/M2-验证记录.json",
+    "rollback": ".requirements-history/20261029-M2/rollback.py"
+  },
+  "files": [
+    {
+      "path": "00-阅读说明.md",
+      "sha256": "7541f75f5b68c9c1b0dc1a7cb9177a998961c1d8ca0262939e5713f8a019ad0b",
+      "bytes": 4321
+    },
+    {
+      "path": "04-个人Link导航页-需求.md",
+      "sha256": "4e4288fb69b8977bad3acfe4696596f084cf9fc03dd560a190ee4743617d6d2a",
+      "bytes": 31933
+    },
+    {
+      "path": "docs/M2-数据与接口约定.md",
+      "sha256": "337e9e4f118e87d5f1262d566b7ea80256783af534df1a3649965eccc021d7f6",
+      "bytes": 21091
+    },
+    {
+      "path": "web/.env.example",
+      "sha256": "9fba4bf485407520d185e36c5fb08839c7c87c2ea23a1663ed91839ce0ce6433",
+      "bytes": 468
+    },
+    {
+      "path": "web/.gitignore",
+      "sha256": "48de8392e19cc4332fb8c235d38795862f6ff4bf223854655d13cd4999da8d8e",
+      "bytes": 121
+    },
+    {
+      "path": "web/README.md",
+      "sha256": "734a957fb3a875c73474d30f65cf380b282863efbfb9897b43cacd65f244d687",
+      "bytes": 3469
+    },
+    {
+      "path": "web/config/initial-site.json",
+      "sha256": "32a3cd097f3741b77467d688e3b4811d65a42c73f2fb811ef4b93da07d485f8f",
+      "bytes": 2181
+    },
+    {
+      "path": "web/config/media-import-manifest.json",
+      "sha256": "b99fd12fa2733649c74a2a6afc1b39cf52a983bd46d6131fdecabd64ba202d34",
+      "bytes": 2319
+    },
+    {
+      "path": "web/contracts/openapi.json",
+      "sha256": "dca3018d42bbbc0cd1dc65c1228c7fee80b240e100880cdeb9b0736b00474f5d",
+      "bytes": 81632
+    },
+    {
+      "path": "web/contracts/site-config.schema.json",
+      "sha256": "134cd7ddc5d07538dde9fdc55db82294dcefe04e73ab57915a7aa94e1f6bce9f",
+      "bytes": 11442
+    },
+    {
+      "path": "web/migrations/001_initial.sql",
+      "sha256": "9b3265ea675e8042a8e6375cbf00e33a730457f9d9072aada8b97bb2e939b994",
+      "bytes": 5055
+    },
+    {
+      "path": "web/package-lock.json",
+      "sha256": "1e53f2e52528303aeddd95ec7208205a80c25f5d0f892e04289ecf2eef363561",
+      "bytes": 36529
+    },
+    {
+      "path": "web/package.json",
+      "sha256": "026c5ad39cf64fae94d67c709ec7c2a95b5299cfe8a2777f1cc5cce462a2d57b",
+      "bytes": 699
+    },
+    {
+      "path": "web/scripts/contracts.ts",
+      "sha256": "b7388cd7260730c19494ce3b3faaa917b6391d7ca804c1db863a956fc89fc562",
+      "bytes": 2762
+    },
+    {
+      "path": "web/scripts/db.ts",
+      "sha256": "7e4053cfee9a00d88d9911b82b966f5a37ecdd4504724f8fe40ee38422b1f69e",
+      "bytes": 2435
+    },
+    {
+      "path": "web/src/contracts/initial-config.ts",
+      "sha256": "da0c2a9d87b09767de2ded3ffb583cd316aee3e1dc1390ecb9ead5639c27de26",
+      "bytes": 2779
+    },
+    {
+      "path": "web/src/contracts/site-config.ts",
+      "sha256": "b81996f016663b406a81fa780bfaff465f72db0b6b2fc5ce8f5ac03ae1aec92c",
+      "bytes": 11842
+    },
+    {
+      "path": "web/src/storage/database.ts",
+      "sha256": "fb00ecb42565b1f18ba41e36ddd941edc8c31cbe42b40d41480c7cae295a1387",
+      "bytes": 2607
+    },
+    {
+      "path": "web/src/storage/site-store.ts",
+      "sha256": "b3cd9999263e9d7f6d03f6e716f4e0221ebb9248664dcf986cad819c3e4ce9c7",
+      "bytes": 9556
+    },
+    {
+      "path": "web/test/api-contract.test.ts",
+      "sha256": "118db93277960666ac11611af8522baded76dd3fcf8d476ad5add62ff2633838",
+      "bytes": 1967
+    },
+    {
+      "path": "web/test/contracts.test.ts",
+      "sha256": "e33909966f01af21c5345f2abd131f062003b9b1975882477319ddd59a59b037",
+      "bytes": 5602
+    },
+    {
+      "path": "web/test/storage.test.ts",
+      "sha256": "554f9cbbc7c1fa10fe97f86aeb54fd3b7f054eb7d2436a63e6f254ca7638f699",
+      "bytes": 10529
+    },
+    {
+      "path": "web/tsconfig.json",
+      "sha256": "60f4c32e2b2374726fc713512bc8149941d8576c51cf7c7ea9d720c3351dbb82",
+      "bytes": 455
+    },
+    {
+      "path": "设计开发计划文档.md",
+      "sha256": "7c243f7263ccaee84d9b07f9874fc75d7e8a1a33429af5a7de2b7569237469bf",
+      "bytes": 13200
+    }
+  ],
+  "boundaries": {
+    "httpImplemented": false,
+    "uiImplemented": false,
+    "deployed": false,
+    "mediaImported": false,
+    "database": "web/var/site.sqlite",
+    "runtimeDataExcludedFromSourceRollback": true
+  }
+}

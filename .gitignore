@@ -1,0 +1,40 @@
+# macOS
+.DS_Store
+._*
+
+# 依赖
+node_modules/
+.venv/
+venv/
+*_env/
+site-packages/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+
+# 构建产物与缓存
+.next/
+.next-*/
+.turbo/
+dist/
+build/
+out/
+coverage/
+*.tsbuildinfo
+
+# 环境变量
+.env
+.env.*
+!.env.example
+
+# 1.4G 需求快照副本，不入库
+.requirements-history/
+
+# 二进制与大文件
+*.pt
+*.pth
+*.onnx
+*.dylib
+*.so
+*.ttc

@@ -1,0 +1,506 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "number",
+      "const": 1
+    },
+    "theme": {
+      "type": "string",
+      "const": "ink-champagne"
+    },
+    "site": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 384,
+          "x-grapheme-limit": 24
+        },
+        "tagline": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 1440,
+              "x-grapheme-limit": 90
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 8000,
+              "x-grapheme-limit": 500
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "avatarMediaId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_-]{1,80}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "tagline",
+        "description",
+        "avatarMediaId"
+      ],
+      "additionalProperties": false
+    },
+    "ageGate": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 640,
+          "x-grapheme-limit": 40
+        },
+        "notice": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4800,
+          "x-grapheme-limit": 300
+        },
+        "confirmLabel": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 384,
+          "x-grapheme-limit": 24
+        },
+        "exitLabel": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 384,
+          "x-grapheme-limit": 24
+        },
+        "exitUrl": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 2048
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "exitNotice": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2560,
+          "x-grapheme-limit": 160
+        },
+        "resetLabel": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 384,
+          "x-grapheme-limit": 24
+        }
+      },
+      "required": [
+        "title",
+        "notice",
+        "confirmLabel",
+        "exitLabel",
+        "exitUrl",
+        "exitNotice",
+        "resetLabel"
+      ],
+      "additionalProperties": false
+    },
+    "links": {
+      "minItems": 5,
+      "maxItems": 5,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": [
+              "x_profile",
+              "tg_personal",
+              "tg_preview",
+              "onlyfans",
+              "membership"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 384,
+            "x-grapheme-limit": 24
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 640,
+                "x-grapheme-limit": 40
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2048
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "position": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "visible": {
+            "type": "boolean"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "emphasized": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "description",
+          "url",
+          "position",
+          "visible",
+          "enabled",
+          "emphasized"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "gallery": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 640,
+              "x-grapheme-limit": 40
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "photos": {
+          "maxItems": 12,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9_-]{1,80}$"
+              },
+              "mediaId": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9_-]{1,80}$"
+              },
+              "alt": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2560,
+                "x-grapheme-limit": 160
+              },
+              "caption": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 2560,
+                    "x-grapheme-limit": 160
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "position": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 12
+              },
+              "visible": {
+                "type": "boolean"
+              },
+              "focalPoint": {
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  }
+                },
+                "required": [
+                  "x",
+                  "y"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "id",
+              "mediaId",
+              "alt",
+              "caption",
+              "position",
+              "visible",
+              "focalPoint"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "enabled",
+        "title",
+        "photos"
+      ],
+      "additionalProperties": false
+    },
+    "info": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 960,
+              "x-grapheme-limit": 60
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "body": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 16000,
+              "x-grapheme-limit": 1000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "faq": {
+          "maxItems": 10,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9_-]{1,80}$"
+              },
+              "question": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1920,
+                "x-grapheme-limit": 120
+              },
+              "answer": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 16000,
+                "x-grapheme-limit": 1000
+              }
+            },
+            "required": [
+              "id",
+              "question",
+              "answer"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "title",
+        "body",
+        "faq"
+      ],
+      "additionalProperties": false
+    },
+    "footer": {
+      "type": "object",
+      "properties": {
+        "notice": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2560,
+          "x-grapheme-limit": 160
+        },
+        "contactEmail": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 254,
+              "format": "email",
+              "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "removalNotice": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 4800,
+              "x-grapheme-limit": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "updateText": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 1600,
+              "x-grapheme-limit": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "notice",
+        "contactEmail",
+        "removalNotice",
+        "updateText"
+      ],
+      "additionalProperties": false
+    },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 960,
+          "x-grapheme-limit": 60
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2560,
+          "x-grapheme-limit": 160
+        },
+        "shareMediaId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_-]{1,80}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "title",
+        "description",
+        "shareMediaId"
+      ],
+      "additionalProperties": false
+    },
+    "states": {
+      "type": "object",
+      "properties": {
+        "unavailable": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 640,
+          "x-grapheme-limit": 40
+        },
+        "loading": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 960,
+          "x-grapheme-limit": 60
+        },
+        "empty": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1600,
+          "x-grapheme-limit": 100
+        },
+        "error": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2560,
+          "x-grapheme-limit": 160
+        }
+      },
+      "required": [
+        "unavailable",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "theme",
+    "site",
+    "ageGate",
+    "links",
+    "gallery",
+    "info",
+    "footer",
+    "meta",
+    "states"
+  ],
+  "additionalProperties": false
+}

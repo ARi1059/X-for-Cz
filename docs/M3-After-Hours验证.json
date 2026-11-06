@@ -1,0 +1,179 @@
+{
+  "date": "2026-10-29",
+  "scope": "After Hours 公开视觉与动效增量",
+  "localUrl": "http://localhost:3000/",
+  "summary": {
+    "checkTests": {
+      "passed": 38,
+      "failed": 0
+    },
+    "build": "passed",
+    "browserScenarios": {
+      "total": 8,
+      "firstFullRun": "8 passed",
+      "finalFullRun": "7 passed; publication media-decode assertion exceeded 5s",
+      "unchangedTargetedRecheck": "1 passed; failed scenario passed without changing code or assertions"
+    },
+    "livePreview": "passed",
+    "fullM4Acceptance": "not performed",
+    "deployment": "not performed"
+  },
+  "baseline": {
+    "timing": "Captured before implementation edits",
+    "command": "node",
+    "stdin": "const {chromium}=require('playwright');\n(async()=>{\n const b=await chromium.launch({channel:'chrome',headless:true}); const p=await b.newPage({viewport:{width:1440,height:1100},locale:'zh-CN'});\n await p.goto('http://localhost:3000/'); await p.getByRole('heading',{name:'仅限成年人',exact:true}).waitFor();\n await p.screenshot({path:'../.requirements-history/20261029-after-hours/before-gate.png',fullPage:true});\n await p.getByRole('button',{name:'我已年满 18 岁',exact:true}).click();\n await p.waitForFunction(()=>document.querySelectorAll('.gallery-strip img').length===5&&[...document.querySelectorAll('.public-content img')].every(i=>i.complete&&i.naturalWidth));\n await p.screenshot({path:'../.requirements-history/20261029-after-hours/before-desktop.png',fullPage:true});\n await p.setViewportSize({width:390,height:844});await p.screenshot({path:'../.requirements-history/20261029-after-hours/before-mobile.png',fullPage:true});\n console.log(JSON.stringify({status:'BASELINE_CAPTURED',images:await p.locator('.public-content img').count(),links:await p.locator('.public-link').count(),version:await p.evaluate(async()=>(await(await fetch('/api/gate')).json()).versionId)}));\n await b.close();\n})().catch(e=>{console.error(e.message);process.exitCode=1});\n",
+    "cwd": "web",
+    "inputs": {
+      "url": "http://localhost:3000/",
+      "viewports": [
+        {
+          "width": 1440,
+          "height": 1100
+        },
+        {
+          "width": 390,
+          "height": 844
+        }
+      ],
+      "action": "Confirm age then inspect existing homepage"
+    },
+    "stdout": "{\"status\":\"BASELINE_CAPTURED\",\"images\":6,\"links\":5,\"version\":\"local-draft-3\"}\n",
+    "stderr": "",
+    "exitStatus": 0,
+    "observedBehavior": "Original static pills, 80x100 photo strip, five entries and six decoded images"
+  },
+  "modified": {
+    "command": {
+      "command": "node ../.requirements-history/20261029-after-hours/verify-preview.cjs http://localhost:3000/ modified",
+      "cwd": "web",
+      "chunk_id": "d517c9",
+      "wall_time_seconds": 9.042e-06,
+      "exit_code": 0,
+      "original_token_count": 141,
+      "output": "{\"mode\":\"modified\",\"url\":\"http://localhost:3000/\",\"httpStatus\":200,\"version\":\"local-draft-3\",\"preConfirmationProtectedRequests\":0,\"imagesDecoded\":6,\"links\":5,\"galleryAfterLinks\":true,\"viewportResults\":[{\"width\":320,\"noOverflow\":true},{\"width\":360,\"noOverflow\":true},{\"width\":390,\"noOverflow\":true},{\"width\":768,\"noOverflow\":true},{\"width\":1440,\"noOverflow\":true}],\"reloadPreservesPhotos\":true,\"entranceSamples\":[0,0,0.2799,0.6601,0.6601,0.6601,0.9967,0.9998],\"ambientMoves\":true,\"pausedIsStatic\":true,\"reducedIsStatic\":true,\"tiltResponds\":true,\"pageErrors\":[]}\n"
+    },
+    "result": {
+      "mode": "modified",
+      "url": "http://localhost:3000/",
+      "httpStatus": 200,
+      "version": "local-draft-3",
+      "preConfirmationProtectedRequests": 0,
+      "imagesDecoded": 6,
+      "links": 5,
+      "galleryAfterLinks": true,
+      "viewportResults": [
+        {
+          "width": 320,
+          "noOverflow": true
+        },
+        {
+          "width": 360,
+          "noOverflow": true
+        },
+        {
+          "width": 390,
+          "noOverflow": true
+        },
+        {
+          "width": 768,
+          "noOverflow": true
+        },
+        {
+          "width": 1440,
+          "noOverflow": true
+        }
+      ],
+      "reloadPreservesPhotos": true,
+      "entranceSamples": [
+        0,
+        0,
+        0.2799,
+        0.6601,
+        0.6601,
+        0.6601,
+        0.9967,
+        0.9998
+      ],
+      "ambientMoves": true,
+      "pausedIsStatic": true,
+      "reducedIsStatic": true,
+      "tiltResponds": true,
+      "pageErrors": []
+    },
+    "observedBehavior": "Staged identity/link entrance, moving side lights, pointer-responsive photo tilt, full stop/reduced-motion behavior, larger five-photo lookbook"
+  },
+  "commands": {
+    "check": {
+      "command": "npm run check",
+      "cwd": "web",
+      "chunk_id": "06ab37",
+      "wall_time_seconds": 0.000798875,
+      "exit_code": 0,
+      "original_token_count": 1050,
+      "output": "OPENAPI_OK: 23 operations; references resolved and schema validated\nCONTENT_OK: M1 copy matches generated schema/seed; five targets disabled; real publishing remains blocked\nMEDIA_OK: six source photos listed for controlled import; bootstrap includes no media\n\n> gu-qingtang-web@0.3.0 test\n> tsx --test test/*.test.ts\n\n✔ actual gate and published projections conform to the API response schemas (75.483ms)\n✔ password API schemas preserve the runtime grapheme and UTF-8 byte policy (23.254167ms)\n✔ age token is purpose bound, signature checked, fixed 30 days, and expires exactly (2.386125ms)\n✔ CSRF challenge has a short independent purpose and expiry (0.124041ms)\n✔ scrypt uses separate salts, rejects wrong passwords and malformed encodings (291.060667ms)\n✔ production cookies use host prefix, secure httponly strict path and fixed age (0.249875ms)\n✔ configuration has exact independent entries and preserves unresolved values (11.1215ms)\n✔ Unicode length uses graphemes, and placeholder text is rejected (2.8235ms)\n✔ targets reject scripts, credentials, local hosts, templates and same-site navigation (8.811458ms)\n✔ before confirmation the projection contains neither biography, entry list nor controlled media (1.552209ms)\n✔ normal publication requires exit target, contact and active entry, then ready media (7.311208ms)\n✔ source attribution never expands to arbitrary caller data (0.109875ms)\n✔ optional blank values normalize to null without accepting missing required text (1.204625ms)\n✔ neutral public share assets and controlled portraits have separate purposes (3.006834ms)\n✔ HTTP age gate reveals neutral data only, strict Origin/CSRF, fixed expiry, memory revocation (156.503125ms)\n✔ HTTP admin sessions isolate drafts, compare revisions, publish atomically and revoke on password change (255.457ms)\n✔ HTTP media upload requires admin and purpose, hidden and draft images stay private, published images retain references (127.994125ms)\n✔ HTTP login throttles, malformed credentials share one response, logout clears current session (510.107875ms)\n✔ passwords with combining graphemes remain usable after a password change (461.531541ms)\n✔ explicit local draft view keeps age and version checks while serving draft photos without publishing (91.993125ms)\n✔ default public reads keep the published snapshot even during development (18.89225ms)\n✔ explicit loopback development reads the current draft and versions every save without publishing (8.598334ms)\n✔ production and nondevelopment environments always retain published reads with the preview flag set (3.945333ms)\n✔ remote, malformed and HTTPS origins retain published reads even when marked as preview (10.626208ms)\n✔ actual decode strips metadata, keeps aspect, generates private derivatives and path-free records (37.265708ms)\n✔ invalid, truncated, oversized, animated, over-dimension and wrong-purpose uploads leave no rows/files (138.756375ms)\n✔ pagination and referenced deletion protect drafts and retained published versions (46.857709ms)\n✔ transaction failure cleans newly written files; capacity check commits atomically (41.187334ms)\n✔ media file symlinks and replaced directories are never followed (15.588666ms)\n✔ migration and seed are idempotent; bootstrap is closed and creates no account (36.557208ms)\n✔ applied migration checksums prevent silent schema-history changes (1.731083ms)\n✔ CAS rejects stale saves and stale publishes without discarding current draft (2.419291ms)\n✔ failed validation keeps old pointer; successful publication stores an immutable snapshot (3.6675ms)\n✔ database failure inside publication rolls back snapshot, pointer and audit together (2.002584ms)\n✔ media foreign keys protect drafts and all retained published versions (3.283708ms)\n✔ not-ready media prevents publishing without losing the saved draft (3.571292ms)\n✔ public share media and age-gated imagery stay separate at publication (4.168625ms)\n✔ restart preserves draft, published pointer and only finite aggregate dimensions (6.77ms)\nℹ tests 38\nℹ suites 0\nℹ pass 38\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 2267.691667\n"
+    },
+    "firstE2E": {
+      "command": "npm run test:e2e",
+      "cwd": "web",
+      "chunk_id": "d3ade2",
+      "wall_time_seconds": 3.625e-06,
+      "exit_code": 0,
+      "original_token_count": 1355,
+      "output": "[WebServer] (node:2823) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:2824) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:2830) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n\nRunning 8 tests using 1 worker\n\n(node:2831) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:2840) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:2861) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n  ✓  1 e2e/browser.spec.ts:33:1 › first visit isolates content; cookie confirmation persists without extending expiry; reset clears access (2.1s)\n[WebServer] (node:2867) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n  ✓  2 e2e/browser.spec.ts:60:1 › memory confirmation disappears after refresh; empty leave target shows notice (984ms)\n[WebServer] (node:2871) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n  ✓  3 e2e/browser.spec.ts:74:1 › motion can stop mid-entrance, honors system preference, and cleans up after reset (1.1s)\n[WebServer] (node:2877) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:2887) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:2888) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n  ✓  4 e2e/browser.spec.ts:103:1 › saved draft survives reload; private preview renders six images; invalid publish preserves public version (3.1s)\n[WebServer] (node:2891) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:2911) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n  ✓  5 e2e/browser.spec.ts:139:1 › editing during a delayed save preserves later input and the next save persists it (1.3s)\n[WebServer] (node:2912) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n  ✓  6 e2e/browser.spec.ts:162:1 › principal entry changes require confirmation; stale revision errors preserve input (1.1s)\n[WebServer] (node:2916) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:2927) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n  ✓  7 e2e/browser.spec.ts:184:1 › preview uses configured empty and image failure messages without publishing (1.3s)\n[WebServer] (node:2931) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:2935) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:2945) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:2948) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:2952) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:2953) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:2962) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n  ✓  8 e2e/browser.spec.ts:198:1 › valid publication switches text links and media; memory access loads images and resolves attributed navigation (5.9s)\n\n  8 passed (22.8s)\n"
+    },
+    "build": {
+      "command": "NEXT_DIST_DIR=.next-build npm run build",
+      "cwd": "web",
+      "stdout": "\n> gu-qingtang-web@0.3.0 build\n> next build\n\n▲ Next.js 16.4.3 (Turbopack)\n- Environments: .env.local\n✓ Running next.config.ts took 251ms\n\n  Creating an optimized production build ...\n✓ Compiled successfully in 2.5s\n  Running TypeScript ...\n  Finished TypeScript in 2.1s ...\n  Collecting page data using 7 workers ...\n  Generating static pages using 7 workers (0/1) ...\n✓ Generating static pages using 7 workers (1/1) in 383ms\n  Finalizing page optimization ...\n\nRoute (app)\n┌ ƒ /\n├ ƒ /_not-found\n├ ƒ /admin\n├ ƒ /api/[...path]\n├ ƒ /go/[linkId]\n├ ƒ /media/[mediaId]\n└ ƒ /share/[mediaId]\n\n\nƒ  (Dynamic)  server-rendered on demand\n\n",
+      "stderr": "",
+      "exitCode": 0
+    },
+    "finalE2E": {
+      "command": "npm run test:e2e",
+      "cwd": "web",
+      "stdout": "\n> gu-qingtang-web@0.3.0 test:e2e\n> playwright test\n\n\nRunning 8 tests using 1 worker\n\n  ✓  1 e2e/browser.spec.ts:33:1 › first visit isolates content; cookie confirmation persists without extending expiry; reset clears access (12.3s)\n  ✓  2 e2e/browser.spec.ts:60:1 › memory confirmation disappears after refresh; empty leave target shows notice (10.4s)\n  ✓  3 e2e/browser.spec.ts:74:1 › motion can stop mid-entrance, honors system preference, and cleans up after reset (10.0s)\n  ✓  4 e2e/browser.spec.ts:103:1 › saved draft survives reload; private preview renders six images; invalid publish preserves public version (31.1s)\n  ✓  5 e2e/browser.spec.ts:139:1 › editing during a delayed save preserves later input and the next save persists it (8.8s)\n  ✓  6 e2e/browser.spec.ts:162:1 › principal entry changes require confirmation; stale revision errors preserve input (5.7s)\n  ✓  7 e2e/browser.spec.ts:184:1 › preview uses configured empty and image failure messages without publishing (4.1s)\n  ✘  8 e2e/browser.spec.ts:198:1 › valid publication switches text links and media; memory access loads images and resolves attributed navigation (15.8s)\n\n\n  1) e2e/browser.spec.ts:198:1 › valid publication switches text links and media; memory access loads images and resolves attributed navigation \n\n    Error: expect(received).toBe(expected) // Object.is equality\n\n    Expected: true\n    Received: false\n\n    Call Log:\n    - Timeout 5000ms exceeded while waiting on the predicate\n\n      211 |     await view.getByRole('button', { name: '我已年满 18 岁', exact: true }).click();\n      212 |     await expect(view.getByTestId('public-content').getByRole('heading', { name: config.site.name, exact: true })).toBeVisible();\n    > 213 |     await expect.poll(() => view.getByTestId('public-content').locator('img').evaluateAll(images => images.length === 6 && images.every(img => (img as HTMLImageElement).naturalWidth > 0))).toBe(true);\n          |                                                                                                                                                                                              ^\n      214 |     await view.screenshot({ path: 'var/screenshots/M3-public-published-390.png', fullPage: true });\n      215 |     expect(await view.evaluate(() => ({ local: localStorage.length, session: sessionStorage.length }))).toEqual({ local: 0, session: 0 });\n      216 |     expect((await visitor.cookies()).some(cookie => cookie.name.includes('age'))).toBe(false);\n        at /Users/macbook/Documents/推特创作者计划/web/e2e/browser.spec.ts:213:190\n\n    Error Context: var/e2e-artifacts/browser-valid-publication--04364-olves-attributed-navigation/error-context.md\n\n    Error Context: var/e2e-artifacts/browser-valid-publication--04364-olves-attributed-navigation/error-context.md\n\n    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────\n    var/e2e-artifacts/browser-valid-publication--04364-olves-attributed-navigation/trace.zip\n    Usage:\n\n        npx playwright show-trace var/e2e-artifacts/browser-valid-publication--04364-olves-attributed-navigation/trace.zip\n\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n\n  1 failed\n    e2e/browser.spec.ts:198:1 › valid publication switches text links and media; memory access loads images and resolves attributed navigation \n  7 passed (1.9m)\n",
+      "stderr": "[WebServer] (node:4218) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:4227) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:4228) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:4237) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n(node:4238) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:4248) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:4281) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:4327) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:4355) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:4423) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:4465) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:4490) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:4515) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:4528) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:4542) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:4558) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:4575) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:4585) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:4599) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "exitCode": 1
+    },
+    "publicationRecheck": {
+      "command": "npm run test:e2e -- --grep \"valid publication\"",
+      "cwd": "web",
+      "stdout": "\n> gu-qingtang-web@0.3.0 test:e2e\n> playwright test --grep valid publication\n\n\nRunning 1 test using 1 worker\n\n  ✓  1 e2e/browser.spec.ts:198:1 › valid publication switches text links and media; memory access loads images and resolves attributed navigation (18.0s)\n\n  1 passed (31.3s)\n",
+      "stderr": "[WebServer] (node:5089) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:5091) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:5092) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:5101) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n(node:5102) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:5104) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:5133) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:5134) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:5147) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:5151) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:5168) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:5178) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:5181) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:5216) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "exitCode": 0
+    }
+  },
+  "timeoutInvestigation": {
+    "failedCommand": "npm run test:e2e",
+    "exitCode": 1,
+    "assertion": "Published memory-mode media decode did not finish within the existing 5000ms wait",
+    "observedNetwork": "Six initial public media requests were aborted after approximately 10-13ms by remount; the following six were still pending when the assertion ended; no HTTP rejection response was present.",
+    "nextStep": "Run the publication scenario by itself without changing application code or test assertions."
+  },
+  "contentState": {
+    "draftRevision": 3,
+    "publishedPointer": 1,
+    "localPreviewVersion": "local-draft-3",
+    "linkTargets": "remain disabled and unset",
+    "media": "original avatar and five photos; no re-import",
+    "beforeConfirmationProtectedRequests": 0,
+    "normalVisitEvents": "existing aggregate event writes continue"
+  },
+  "screenshots": {
+    "before-desktop.png": ".requirements-history/20261029-after-hours/before-desktop.png",
+    "before-mobile.png": ".requirements-history/20261029-after-hours/before-mobile.png",
+    "modified-gate.png": ".requirements-history/20261029-after-hours/modified-gate.png",
+    "modified-desktop.png": ".requirements-history/20261029-after-hours/modified-desktop.png",
+    "modified-mobile.png": ".requirements-history/20261029-after-hours/modified-mobile.png",
+    "comparison-desktop.png": ".requirements-history/20261029-after-hours/comparison-desktop.png"
+  },
+  "packageRoles": {
+    "source": ".requirements-history/20261029-after-hours/source.zip",
+    "patch": ".requirements-history/20261029-after-hours/change.patch",
+    "verification": ".requirements-history/20261029-after-hours/verification.json",
+    "rollback": ".requirements-history/20261029-after-hours/rollback.py",
+    "packageVerification": ".requirements-history/20261029-after-hours/packaging-verification.json"
+  },
+  "rollbackScope": "Check-only on live workspace; reverse/forward patch and apply/idempotence/conflict checks run on temporary copies. After applying source rollback, npm ci in web and restart development service.",
+  "browserControl": "In-app CUA reported local browser use disabled; actual verification used isolated headless Chrome. User tab refresh not claimed."
+}

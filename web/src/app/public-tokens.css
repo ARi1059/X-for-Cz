@@ -1,0 +1,30 @@
+/*
+ * Public surface tokens (M3 V05/V09/V10).
+ * Admin keeps its own --m1-* palette in globals.css; public views consume these.
+ * Values are intentionally low-chroma warm neutrals plus one champagne family.
+ */
+:root {
+  --public-ink: #100b09;
+  --public-raised: #1c140f;
+  --public-raised-2: #241a13;
+  --public-text: #f3e9db;
+  --public-text-strong: #f6e7d2;
+  --public-muted: #c9b9a5;
+  --public-disabled: #8f8173;
+  --public-line: rgba(216, 180, 138, 0.14);
+  --public-line-strong: rgba(216, 180, 138, 0.36);
+  --public-gold-line: #d8b48a;
+  --public-gold-text: #e6c79b;
+  --public-gold-bright: #f4dcb8;
+  --public-focus: #f4dcb8;
+  --public-gold-fill: #cba774;
+  --public-error: #d8a08a;
+  --public-radius: 4px;
+  --public-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --public-ease-press: cubic-bezier(0.2, 0.75, 0.3, 1);
+  --public-dur-press: 70ms;
+  --public-dur-release: 220ms;
+  --public-dur-hover: 160ms;
+  --public-dur-sheen: 420ms;
+  --public-dur-underline: 240ms;
+}

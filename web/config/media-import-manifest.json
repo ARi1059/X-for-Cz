@@ -1,0 +1,84 @@
+{
+  "stage": "M3 protected-media import pending",
+  "automaticallyPublished": false,
+  "items": [
+    {
+      "source": "design-references/2026-10-29-Linktree-御姐风/用户照片组/头像-红裙镜前.png",
+      "role": "avatar",
+      "position": 1,
+      "suggestedId": "initial-photo-1",
+      "alt": "红裙镜前人像",
+      "caption": null,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "status": "pending-import"
+    },
+    {
+      "source": "design-references/2026-10-29-Linktree-御姐风/用户照片组/照片条-01-绿色露肩.png",
+      "role": "gallery",
+      "position": 1,
+      "suggestedId": "initial-photo-2",
+      "alt": "绿色露肩裙装照片",
+      "caption": null,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "status": "pending-import"
+    },
+    {
+      "source": "design-references/2026-10-29-Linktree-御姐风/用户照片组/照片条-02-红裙走廊.png",
+      "role": "gallery",
+      "position": 2,
+      "suggestedId": "initial-photo-3",
+      "alt": "红裙走廊照片",
+      "caption": null,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "status": "pending-import"
+    },
+    {
+      "source": "design-references/2026-10-29-Linktree-御姐风/用户照片组/照片条-03-香槟礼服.png",
+      "role": "gallery",
+      "position": 3,
+      "suggestedId": "initial-photo-4",
+      "alt": "香槟色礼服照片",
+      "caption": null,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "status": "pending-import"
+    },
+    {
+      "source": "design-references/2026-10-29-Linktree-御姐风/用户照片组/照片条-04-粉色礼服.png",
+      "role": "gallery",
+      "position": 4,
+      "suggestedId": "initial-photo-5",
+      "alt": "粉色礼服照片",
+      "caption": null,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "status": "pending-import"
+    },
+    {
+      "source": "design-references/2026-10-29-Linktree-御姐风/用户照片组/照片条-05-黑裙吧台.png",
+      "role": "gallery",
+      "position": 5,
+      "suggestedId": "initial-photo-6",
+      "alt": "黑裙吧台照片",
+      "caption": null,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "status": "pending-import"
+    }
+  ]
+}

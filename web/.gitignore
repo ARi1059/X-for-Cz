@@ -1,0 +1,17 @@
+node_modules/
+.next/
+.next-*/
+test-results/
+playwright-report/
+coverage/
+.env
+.env.*
+!.env.example
+var/
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+

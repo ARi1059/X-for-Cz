@@ -1,0 +1,406 @@
+{
+  "date": "2026-10-29",
+  "request": "Display the saved photo gallery at http://localhost:3000/.",
+  "behavior": {
+    "development": "Explicit LOCAL_DRAFT_PREVIEW=1 on loopback HTTP reads saved draft after age confirmation.",
+    "production": "Always reads immutable published content.",
+    "publishedPointerChanged": false
+  },
+  "commands": [
+    {
+      "argv": [
+        "npm",
+        "run",
+        "check"
+      ],
+      "cwd": "/Users/macbook/Documents/推特创作者计划/web",
+      "exitStatus": 0,
+      "outputCapture": "completion output",
+      "stdoutAndStderr": "✔ actual gate and published projections conform to the API response schemas (65.182541ms)\n✔ password API schemas preserve the runtime grapheme and UTF-8 byte policy (18.174708ms)\n✔ age token is purpose bound, signature checked, fixed 30 days, and expires exactly (4.159083ms)\n✔ CSRF challenge has a short independent purpose and expiry (0.212417ms)\n✔ scrypt uses separate salts, rejects wrong passwords and malformed encodings (268.64125ms)\n✔ production cookies use host prefix, secure httponly strict path and fixed age (0.215208ms)\n✔ configuration has exact independent entries and preserves unresolved values (15.644667ms)\n✔ Unicode length uses graphemes, and placeholder text is rejected (5.663583ms)\n✔ targets reject scripts, credentials, local hosts, templates and same-site navigation (8.912458ms)\n✔ before confirmation the projection contains neither biography, entry list nor controlled media (1.188333ms)\n✔ normal publication requires exit target, contact and active entry, then ready media (4.251417ms)\n✔ source attribution never expands to arbitrary caller data (0.0725ms)\n✔ optional blank values normalize to null without accepting missing required text (0.435666ms)\n✔ neutral public share assets and controlled portraits have separate purposes (0.546958ms)\n✔ HTTP age gate reveals neutral data only, strict Origin/CSRF, fixed expiry, memory revocation (101.573583ms)\n✔ HTTP admin sessions isolate drafts, compare revisions, publish atomically and revoke on password change (225.209417ms)\n✔ HTTP media upload requires admin and purpose, hidden and draft images stay private, published images retain references (119.293375ms)\n✔ HTTP login throttles, malformed credentials share one response, logout clears current session (454.443166ms)\n✔ passwords with combining graphemes remain usable after a password change (399.007625ms)\n✔ explicit local draft view keeps age and version checks while serving draft photos without publishing (59.406166ms)\n✔ default public reads keep the published snapshot even during development (13.508084ms)\n✔ explicit loopback development reads the current draft and versions every save without publishing (16.110916ms)\n✔ production and nondevelopment environments always retain published reads with the preview flag set (3.180167ms)\n✔ remote, malformed and HTTPS origins retain published reads even when marked as preview (4.527166ms)\n✔ actual decode strips metadata, keeps aspect, generates private derivatives and path-free records (25.031542ms)\n✔ invalid, truncated, oversized, animated, over-dimension and wrong-purpose uploads leave no rows/files (85.742792ms)\n✔ pagination and referenced deletion protect drafts and retained published versions (31.43ms)\n✔ transaction failure cleans newly written files; capacity check commits atomically (27.494167ms)\n✔ media file symlinks and replaced directories are never followed (10.396833ms)\n✔ migration and seed are idempotent; bootstrap is closed and creates no account (27.098666ms)\n✔ applied migration checksums prevent silent schema-history changes (2.239416ms)\n✔ CAS rejects stale saves and stale publishes without discarding current draft (6.595791ms)\n✔ failed validation keeps old pointer; successful publication stores an immutable snapshot (5.343917ms)\n✔ database failure inside publication rolls back snapshot, pointer and audit together (2.176833ms)\n✔ media foreign keys protect drafts and all retained published versions (5.515541ms)\n✔ not-ready media prevents publishing without losing the saved draft (4.633292ms)\n✔ public share media and age-gated imagery stay separate at publication (6.224458ms)\n✔ restart preserves draft, published pointer and only finite aggregate dimensions (15.64025ms)\nℹ tests 38\nℹ suites 0\nℹ pass 38\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 1885.560417\n"
+    },
+    {
+      "argv": [
+        "env",
+        "NEXT_DIST_DIR=.next-build",
+        "npm",
+        "run",
+        "build"
+      ],
+      "cwd": "/Users/macbook/Documents/推特创作者计划/web",
+      "exitStatus": 0,
+      "stdoutAndStderr": "\n> gu-qingtang-web@0.3.0 build\n> next build\n\n▲ Next.js 16.4.3 (Turbopack)\n- Environments: .env.local\n✓ Running next.config.ts took 73ms\n\n  Creating an optimized production build ...\n✓ Compiled successfully in 417ms\n  Running TypeScript ...\n  Finished TypeScript in 516ms ...\n  Collecting page data using 7 workers ...\n  Generating static pages using 7 workers (0/1) ...\n✓ Generating static pages using 7 workers (1/1) in 45ms\n  Finalizing page optimization ...\n\nRoute (app)\n┌ ƒ /\n├ ƒ /_not-found\n├ ƒ /admin\n├ ƒ /api/[...path]\n├ ƒ /go/[linkId]\n├ ƒ /media/[mediaId]\n└ ƒ /share/[mediaId]\n\n\nƒ  (Dynamic)  server-rendered on demand\n\n"
+    },
+    {
+      "argv": [
+        "npm",
+        "run",
+        "test:e2e"
+      ],
+      "cwd": "/Users/macbook/Documents/推特创作者计划/web",
+      "exitStatus": 0,
+      "stdoutAndStderr": "\n> gu-qingtang-web@0.3.0 test:e2e\n> playwright test\n\n[WebServer] (node:98020) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:98023) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:98026) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:98042) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n\nRunning 7 tests using 1 worker\n\n(node:98043) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:98045) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:98071) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n  ✓  1 e2e/browser.spec.ts:33:1 › first visit isolates content; cookie confirmation persists without extending expiry; reset clears access (1.5s)\n[WebServer] (node:98077) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n  ✓  2 e2e/browser.spec.ts:60:1 › memory confirmation disappears after refresh; empty leave target shows notice (679ms)\n[WebServer] (node:98082) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:98090) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n  ✓  3 e2e/browser.spec.ts:74:1 › saved draft survives reload; private preview renders six images; invalid publish preserves public version (1.8s)\n[WebServer] (node:98091) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:98095) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n  ✓  4 e2e/browser.spec.ts:110:1 › editing during a delayed save preserves later input and the next save persists it (900ms)\n[WebServer] (node:98099) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n  ✓  5 e2e/browser.spec.ts:133:1 › principal entry changes require confirmation; stale revision errors preserve input (785ms)\n[WebServer] (node:98100) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n  ✓  6 e2e/browser.spec.ts:155:1 › preview uses configured empty and image failure messages without publishing (645ms)\n[WebServer] (node:98113) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:98119) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:98125) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:98127) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:98138) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n[WebServer] (node:98139) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)\n  ✓  7 e2e/browser.spec.ts:169:1 › valid publication switches text links and media; memory access loads images and resolves attributed navigation (3.0s)\n\n  7 passed (13.9s)\n"
+    }
+  ],
+  "passed": true,
+  "files": {
+    "sourcePackage": ".requirements-history/20261029-local-home-gallery/sources.zip",
+    "diff": ".requirements-history/20261029-local-home-gallery/change.patch",
+    "rollback": ".requirements-history/20261029-local-home-gallery/rollback.py"
+  },
+  "baselineAndModifiedCommands": [
+    {
+      "argv": [
+        "env",
+        "NODE_ENV=development",
+        "node",
+        "--import=tsx",
+        "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/compare-behavior.ts",
+        "--source",
+        "/var/folders/41/5jr3f_td4hg0kppff95bjd0h0000gn/T/gallery-before-3ls0n9gx/web",
+        "--expect-photos",
+        "0"
+      ],
+      "cwd": "/Users/macbook/Documents/推特创作者计划/web",
+      "input": "Copy of current SQLite state, isolated in a temporary directory; no credential files read.",
+      "stdoutAndStderr": "{\"httpStatus\":200,\"versionId\":\"1\",\"galleryEnabled\":false,\"photos\":0,\"mediaStatuses\":[],\"gateContainsGallery\":false,\"publishedVersionUnchanged\":true}\n",
+      "exitStatus": 0
+    },
+    {
+      "argv": [
+        "env",
+        "NODE_ENV=development",
+        "node",
+        "--import=tsx",
+        "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/compare-behavior.ts",
+        "--source",
+        "/Users/macbook/Documents/推特创作者计划/web",
+        "--expect-photos",
+        "5"
+      ],
+      "cwd": "/Users/macbook/Documents/推特创作者计划/web",
+      "input": "Copy of current SQLite state, isolated in a temporary directory; no credential files read.",
+      "stdoutAndStderr": "{\"httpStatus\":200,\"versionId\":\"local-draft-3\",\"galleryEnabled\":true,\"photos\":5,\"mediaStatuses\":[200,200,200,200,200],\"gateContainsGallery\":false,\"publishedVersionUnchanged\":true}\n",
+      "exitStatus": 0
+    }
+  ],
+  "actualLocalBrowser": {
+    "argv": [
+      "node",
+      "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/verify-browser.cjs"
+    ],
+    "cwd": "/Users/macbook/Documents/推特创作者计划/web",
+    "stdoutAndStderr": "{\"url\":\"http://localhost:3000/\",\"httpStatus\":200,\"versionId\":\"local-draft-3\",\"galleryPhotos\":5,\"imagesIncludingAvatar\":6,\"imagesDecoded\":true,\"preConfirmationRequests\":0,\"noOverflow390\":true,\"refreshPreservesPhotos\":true}\n",
+    "exitStatus": 0
+  },
+  "finalLocalState": {
+    "draftRevision": 3,
+    "publishedVersionId": "1",
+    "galleryPhotos": 5
+  },
+  "screenshots": [
+    {
+      "path": ".requirements-history/20261029-local-home-gallery/home-390.png",
+      "sha256": "da49826d8a8f01b5280bb396aae61e1602c3911c169a7bc3055e74795603f5e4"
+    },
+    {
+      "path": ".requirements-history/20261029-local-home-gallery/home-desktop.png",
+      "sha256": "985d62f00e639a1ee4874efbe889f13a44f615660eb3adc70dd34e4700109559"
+    }
+  ],
+  "packaging": {
+    "success": true,
+    "createdAt": "2026-10-29T11:02:38.970762+00:00",
+    "records": [
+      {
+        "argv": [
+          "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/package-and-verify.py",
+          "--verify-artifacts"
+        ],
+        "cwd": "/Users/macbook/Documents/推特创作者计划",
+        "stdout": "ARTIFACTS_OK baseline=11 modified=13 zip_crc_and_sha256=verified actual_env_and_verification_record=excluded\n",
+        "stderr": "",
+        "exitStatus": 0,
+        "expectedExitStatus": 0
+      },
+      {
+        "argv": [
+          "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/package-and-verify.py",
+          "--extract",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/packaging-worktree-fw1eqnra"
+        ],
+        "cwd": "/Users/macbook/Documents/推特创作者计划",
+        "stdout": "ZIP_EXTRACTED files=13\n",
+        "stderr": "",
+        "exitStatus": 0,
+        "expectedExitStatus": 0
+      },
+      {
+        "argv": [
+          "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/package-and-verify.py",
+          "--verify-tree",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/packaging-worktree-fw1eqnra",
+          "modified"
+        ],
+        "cwd": "/Users/macbook/Documents/推特创作者计划",
+        "stdout": "TREE_OK state=modified files=13\n",
+        "stderr": "",
+        "exitStatus": 0,
+        "expectedExitStatus": 0
+      },
+      {
+        "argv": [
+          "patch",
+          "-p1",
+          "-R",
+          "-f",
+          "-i",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/change.patch"
+        ],
+        "cwd": "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/packaging-worktree-fw1eqnra",
+        "stdout": "patching file '00-阅读说明.md'\npatching file 'docs/M3-开发交付.md'\npatching file 'web/.env.example'\npatching file 'web/README.md'\npatching file 'web/scripts/e2e-server.ts'\npatching file 'web/src/app/page.tsx'\npatching file 'web/src/server/http.ts'\npatching file 'web/src/server/publication.ts'\npatching file 'web/src/server/runtime.ts'\npatching file 'web/test/http.test.ts'\npatching file 'web/test/local-preview.test.ts'\n",
+        "stderr": "",
+        "exitStatus": 0,
+        "expectedExitStatus": 0
+      },
+      {
+        "argv": [
+          "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/package-and-verify.py",
+          "--verify-tree",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/packaging-worktree-fw1eqnra",
+          "baseline"
+        ],
+        "cwd": "/Users/macbook/Documents/推特创作者计划",
+        "stdout": "TREE_OK state=baseline files=11\n",
+        "stderr": "",
+        "exitStatus": 0,
+        "expectedExitStatus": 0
+      },
+      {
+        "argv": [
+          "patch",
+          "-p1",
+          "-f",
+          "-i",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/change.patch"
+        ],
+        "cwd": "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/packaging-worktree-fw1eqnra",
+        "stdout": "patching file '00-阅读说明.md'\npatching file 'docs/M3-开发交付.md'\npatching file 'web/.env.example'\npatching file 'web/README.md'\npatching file 'web/scripts/e2e-server.ts'\npatching file 'web/src/app/page.tsx'\npatching file 'web/src/server/http.ts'\npatching file 'web/src/server/publication.ts'\npatching file 'web/src/server/runtime.ts'\npatching file 'web/test/http.test.ts'\npatching file 'web/test/local-preview.test.ts'\n",
+        "stderr": "",
+        "exitStatus": 0,
+        "expectedExitStatus": 0
+      },
+      {
+        "argv": [
+          "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/package-and-verify.py",
+          "--verify-tree",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/packaging-worktree-fw1eqnra",
+          "modified"
+        ],
+        "cwd": "/Users/macbook/Documents/推特创作者计划",
+        "stdout": "TREE_OK state=modified files=13\n",
+        "stderr": "",
+        "exitStatus": 0,
+        "expectedExitStatus": 0
+      },
+      {
+        "argv": [
+          "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/package-and-verify.py",
+          "--fake-env",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/packaging-worktree-fw1eqnra",
+          "1"
+        ],
+        "cwd": "/Users/macbook/Documents/推特创作者计划",
+        "stdout": "FIXTURE_ENV_WRITTEN fake_values_only=true\n",
+        "stderr": "",
+        "exitStatus": 0,
+        "expectedExitStatus": 0
+      },
+      {
+        "argv": [
+          "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/rollback.py",
+          "--root",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/packaging-worktree-fw1eqnra",
+          "--apply"
+        ],
+        "cwd": "/Users/macbook/Documents/推特创作者计划",
+        "stdout": "{\"status\": \"CAS_CONFLICT\", \"mutated\": false, \"paths\": [\"00-阅读说明.md\"]}\n",
+        "stderr": "",
+        "exitStatus": 2,
+        "expectedExitStatus": 2
+      },
+      {
+        "argv": [
+          "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/package-and-verify.py",
+          "--fake-env",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/packaging-worktree-fw1eqnra",
+          "0"
+        ],
+        "cwd": "/Users/macbook/Documents/推特创作者计划",
+        "stdout": "FIXTURE_ENV_WRITTEN fake_values_only=true\n",
+        "stderr": "",
+        "exitStatus": 0,
+        "expectedExitStatus": 0
+      },
+      {
+        "argv": [
+          "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/rollback.py",
+          "--root",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/packaging-worktree-fw1eqnra",
+          "--apply"
+        ],
+        "cwd": "/Users/macbook/Documents/推特创作者计划",
+        "stdout": "{\"status\": \"CAS_CONFLICT\", \"mutated\": false, \"paths\": [\"web/.env.local:LOCAL_DRAFT_PREVIEW\"]}\n",
+        "stderr": "",
+        "exitStatus": 2,
+        "expectedExitStatus": 2
+      },
+      {
+        "argv": [
+          "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/package-and-verify.py",
+          "--verify-tree",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/packaging-worktree-fw1eqnra",
+          "modified"
+        ],
+        "cwd": "/Users/macbook/Documents/推特创作者计划",
+        "stdout": "TREE_OK state=modified files=13\n",
+        "stderr": "",
+        "exitStatus": 0,
+        "expectedExitStatus": 0
+      },
+      {
+        "argv": [
+          "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/package-and-verify.py",
+          "--fake-env",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/packaging-worktree-fw1eqnra",
+          "1"
+        ],
+        "cwd": "/Users/macbook/Documents/推特创作者计划",
+        "stdout": "FIXTURE_ENV_WRITTEN fake_values_only=true\n",
+        "stderr": "",
+        "exitStatus": 0,
+        "expectedExitStatus": 0
+      },
+      {
+        "argv": [
+          "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/rollback.py",
+          "--root",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/packaging-worktree-fw1eqnra"
+        ],
+        "cwd": "/Users/macbook/Documents/推特创作者计划",
+        "stdout": "{\"status\": \"CHECK_OK\", \"sourceFilesPending\": 11, \"sourcesAlreadyBaseline\": 0, \"previewEnvFieldPending\": true, \"mutated\": false, \"otherEnvironmentValues\": \"preserved_and_never_printed\", \"databaseMediaAndCredentials\": \"untouched\"}\n",
+        "stderr": "",
+        "exitStatus": 0,
+        "expectedExitStatus": 0
+      },
+      {
+        "argv": [
+          "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/rollback.py",
+          "--root",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/packaging-worktree-fw1eqnra",
+          "--apply"
+        ],
+        "cwd": "/Users/macbook/Documents/推特创作者计划",
+        "stdout": "{\"status\": \"ROLLED_BACK\", \"sourceFilesPending\": 11, \"sourcesAlreadyBaseline\": 0, \"previewEnvFieldPending\": true, \"mutated\": true, \"otherEnvironmentValues\": \"preserved_and_never_printed\", \"databaseMediaAndCredentials\": \"untouched\"}\n",
+        "stderr": "",
+        "exitStatus": 0,
+        "expectedExitStatus": 0
+      },
+      {
+        "argv": [
+          "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/package-and-verify.py",
+          "--verify-tree",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/packaging-worktree-fw1eqnra",
+          "baseline"
+        ],
+        "cwd": "/Users/macbook/Documents/推特创作者计划",
+        "stdout": "TREE_OK state=baseline files=11\n",
+        "stderr": "",
+        "exitStatus": 0,
+        "expectedExitStatus": 0
+      },
+      {
+        "argv": [
+          "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/package-and-verify.py",
+          "--verify-fake-env",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/packaging-worktree-fw1eqnra"
+        ],
+        "cwd": "/Users/macbook/Documents/推特创作者计划",
+        "stdout": "ENV_ROLLBACK_OK preview_flag_removed=true unrelated_fake_secrets_and_settings_exactly_preserved=true mode=0600\n",
+        "stderr": "",
+        "exitStatus": 0,
+        "expectedExitStatus": 0
+      },
+      {
+        "argv": [
+          "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/rollback.py",
+          "--root",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/packaging-worktree-fw1eqnra",
+          "--apply"
+        ],
+        "cwd": "/Users/macbook/Documents/推特创作者计划",
+        "stdout": "{\"status\": \"ROLLED_BACK\", \"sourceFilesPending\": 0, \"sourcesAlreadyBaseline\": 11, \"previewEnvFieldPending\": false, \"mutated\": false, \"otherEnvironmentValues\": \"preserved_and_never_printed\", \"databaseMediaAndCredentials\": \"untouched\"}\n",
+        "stderr": "",
+        "exitStatus": 0,
+        "expectedExitStatus": 0
+      },
+      {
+        "argv": [
+          "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/package-and-verify.py",
+          "--verify-fake-env",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/packaging-worktree-fw1eqnra"
+        ],
+        "cwd": "/Users/macbook/Documents/推特创作者计划",
+        "stdout": "ENV_ROLLBACK_OK preview_flag_removed=true unrelated_fake_secrets_and_settings_exactly_preserved=true mode=0600\n",
+        "stderr": "",
+        "exitStatus": 0,
+        "expectedExitStatus": 0
+      },
+      {
+        "argv": [
+          "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+          "/Users/macbook/Documents/推特创作者计划/.requirements-history/20261029-local-home-gallery/rollback.py",
+          "--root",
+          "/Users/macbook/Documents/推特创作者计划"
+        ],
+        "cwd": "/Users/macbook/Documents/推特创作者计划",
+        "stdout": "{\"status\": \"CHECK_OK\", \"sourceFilesPending\": 11, \"sourcesAlreadyBaseline\": 0, \"previewEnvFieldPending\": true, \"mutated\": false, \"otherEnvironmentValues\": \"preserved_and_never_printed\", \"databaseMediaAndCredentials\": \"untouched\"}\n",
+        "stderr": "",
+        "exitStatus": 0,
+        "expectedExitStatus": 0
+      }
+    ],
+    "sourceFiles": 13,
+    "changes": 11,
+    "baselineFiles": 11,
+    "zipSha256": "cce2a067a6a94edda1afba7ac61b99f8462385c4fb1926e73da9eca1ded05ae5",
+    "patchSha256": "bd6d6caa261b7869c307017abcc153f701f97a3f23846746fd63a925d4144ae8",
+    "rollbackSha256": "59df54afe1fe25df6a6b0c3a5beb2af8e0f6954f5b61253c5c9405da8cca5f00",
+    "zipCrcAndHashesVerified": true,
+    "patchReverseAndForwardVerified": true,
+    "sourceAndEnvCasGuardsVerified": true,
+    "rollbackRestoresBaseline": true,
+    "rollbackRemovesOnlyFlagPreservingFakeSecrets": true,
+    "idempotent": true,
+    "realRootCheckedWithoutMutation": true,
+    "liveSourceHashesMatch": true,
+    "temporaryTreeRemoved": true,
+    "actualEnvAndFinalVerificationRecordExcluded": true
+  }
+}

@@ -1,0 +1,1137 @@
+{
+  "sessionId": "c4c9dd0a-4ce4-43fb-9845-75fe2ecc76f5",
+  "fileKey": "zZ5q60M8zhzETudwkKVsQQ",
+  "pages": {
+    "M1 · 00 基础规范": "25:2",
+    "M1 · 01 操作组件": "25:3",
+    "M1 · 02 表单与反馈": "25:4",
+    "M1 · 03 公开页面": "25:5",
+    "M1 · 04 管理后台": "25:6",
+    "M1 · 05 状态与流程": "25:7",
+    "M1 · 06 照片素材": "25:8"
+  },
+  "collections": {
+    "primitive": "VariableCollectionId:26:2",
+    "semantic": "VariableCollectionId:26:3"
+  },
+  "variables": {
+    "bg": "VariableID:26:5",
+    "surface": "VariableID:26:7",
+    "hover": "VariableID:26:9",
+    "pressed": "VariableID:26:11",
+    "text": "VariableID:26:13",
+    "muted": "VariableID:26:15",
+    "accent": "VariableID:26:17",
+    "border": "VariableID:26:19",
+    "error": "VariableID:26:21",
+    "success": "VariableID:26:23",
+    "space/0": "VariableID:26:24",
+    "space/2": "VariableID:26:25",
+    "space/4": "VariableID:26:26",
+    "space/8": "VariableID:26:27",
+    "space/12": "VariableID:26:28",
+    "space/16": "VariableID:26:29",
+    "space/20": "VariableID:26:30",
+    "space/24": "VariableID:26:31",
+    "space/28": "VariableID:26:32",
+    "space/32": "VariableID:26:33",
+    "space/40": "VariableID:26:34",
+    "space/48": "VariableID:26:35",
+    "space/56": "VariableID:26:36",
+    "space/64": "VariableID:26:37",
+    "space/80": "VariableID:26:38",
+    "radius/4": "VariableID:26:39",
+    "radius/8": "VariableID:26:40",
+    "radius/12": "VariableID:26:41",
+    "radius/16": "VariableID:26:42",
+    "radius/28": "VariableID:26:43",
+    "radius/999": "VariableID:26:44"
+  },
+  "textStyles": {
+    "title": "S:05f58116a533802d62d8abf810e18a7ec91c4760,",
+    "heading": "S:9e5784a75b5329d4ed66d5c1c5d669b9a6067c6a,",
+    "body": "S:dbed43b61a39122f78b1cbbea06d2c1738c8dd40,",
+    "label": "S:76e35560c161248bfa1ac0913691496a4a0eeabf,",
+    "caption": "S:792c362798a1a762efc7e7e9d2eb59a7b890b008,"
+  },
+  "createdVariableIds": [
+    "VariableID:26:4",
+    "VariableID:26:5",
+    "VariableID:26:6",
+    "VariableID:26:7",
+    "VariableID:26:8",
+    "VariableID:26:9",
+    "VariableID:26:10",
+    "VariableID:26:11",
+    "VariableID:26:12",
+    "VariableID:26:13",
+    "VariableID:26:14",
+    "VariableID:26:15",
+    "VariableID:26:16",
+    "VariableID:26:17",
+    "VariableID:26:18",
+    "VariableID:26:19",
+    "VariableID:26:20",
+    "VariableID:26:21",
+    "VariableID:26:22",
+    "VariableID:26:23",
+    "VariableID:26:24",
+    "VariableID:26:25",
+    "VariableID:26:26",
+    "VariableID:26:27",
+    "VariableID:26:28",
+    "VariableID:26:29",
+    "VariableID:26:30",
+    "VariableID:26:31",
+    "VariableID:26:32",
+    "VariableID:26:33",
+    "VariableID:26:34",
+    "VariableID:26:35",
+    "VariableID:26:36",
+    "VariableID:26:37",
+    "VariableID:26:38",
+    "VariableID:26:39",
+    "VariableID:26:40",
+    "VariableID:26:41",
+    "VariableID:26:42",
+    "VariableID:26:43",
+    "VariableID:26:44"
+  ],
+  "foundationBoard": "26:50",
+  "assetNodes": [
+    "26:79",
+    "26:80",
+    "26:81",
+    "26:82",
+    "26:83",
+    "26:84"
+  ],
+  "buttons": {
+    "Link/Default": "27:2",
+    "Link/Hover": "27:4",
+    "Link/Focus": "27:6",
+    "Link/Pressed": "27:8",
+    "Link/Disabled": "27:10",
+    "Link/Loading": "27:12",
+    "Primary/Default": "27:14",
+    "Primary/Hover": "27:16",
+    "Primary/Focus": "27:18",
+    "Primary/Pressed": "27:20",
+    "Primary/Disabled": "27:22",
+    "Primary/Loading": "27:24",
+    "Secondary/Default": "27:26",
+    "Secondary/Hover": "27:28",
+    "Secondary/Focus": "27:30",
+    "Secondary/Pressed": "27:32",
+    "Secondary/Disabled": "27:34",
+    "Secondary/Loading": "27:36"
+  },
+  "buttonSet": "27:38",
+  "inputs": {
+    "Default": "28:2",
+    "Focus": "28:7",
+    "Error": "28:12",
+    "Disabled": "28:17",
+    "Long": "28:22"
+  },
+  "inputSet": "28:27",
+  "feedback": {
+    "Info": "28:28",
+    "Success": "28:31",
+    "Error": "28:34",
+    "Warning": "28:37"
+  },
+  "feedbackSet": "28:40",
+  "publicFrames": {
+    "Public/360": "29:2",
+    "Public/390": "29:4",
+    "Public/Desktop": "29:6"
+  },
+  "publicColumns": {
+    "Public/360": "29:3",
+    "Public/390": "29:5",
+    "Public/Desktop": "29:7"
+  },
+  "publicSections": {
+    "Public/360": {
+      "identity": "29:10",
+      "links": "29:14"
+    },
+    "Public/390": {
+      "identity": "29:25",
+      "links": "29:29"
+    },
+    "Public/Desktop": {
+      "identity": "29:40",
+      "links": "29:44"
+    }
+  },
+  "resetLinks": {
+    "Public/360": "30:35",
+    "Public/390": "30:55",
+    "Public/Desktop": "30:75"
+  },
+  "galleries": {
+    "Public/360": "30:17",
+    "Public/390": "30:37",
+    "Public/Desktop": "30:57"
+  },
+  "gates": {
+    "Gate/First": "31:17",
+    "Gate/Expired": "31:27",
+    "Gate/Reset": "31:40",
+    "Gate/Storage": "31:53",
+    "Gate/Leaving": "31:66",
+    "Gate/ExitEmpty": "31:75",
+    "Gate/Loading": "31:84",
+    "Gate/Desktop": "31:97"
+  },
+  "gateActions": {
+    "Gate/First": {
+      "confirm": "31:23",
+      "exit": "31:25"
+    },
+    "Gate/Expired": {
+      "confirm": "31:36",
+      "exit": "31:38"
+    },
+    "Gate/Reset": {
+      "confirm": "31:49",
+      "exit": "31:51"
+    },
+    "Gate/Storage": {
+      "confirm": "31:62",
+      "exit": "31:64"
+    },
+    "Gate/Loading": {
+      "confirm": "31:93",
+      "exit": "31:95"
+    }
+  },
+  "loginFrames": {
+    "Admin/Login": "32:2",
+    "Admin/LoginMobile": "32:20",
+    "Admin/LoginError": "32:38",
+    "Admin/LoginLimited": "32:59",
+    "Admin/SessionExpired": "32:80"
+  },
+  "loginActions": {
+    "Admin/Login": "32:17",
+    "Admin/LoginMobile": "32:35",
+    "Admin/LoginError": "32:56",
+    "Admin/LoginLimited": "32:77",
+    "Admin/SessionExpired": "32:98"
+  },
+  "adminFrames": {
+    "Admin/Content": "33:47",
+    "Admin/Links": "33:71",
+    "Admin/Photos": "33:95",
+    "Admin/Account": "33:119",
+    "Admin/ContentMobile": "33:143",
+    "Admin/Preview": "33:154"
+  },
+  "adminAreas": {
+    "Admin/Content": "33:48",
+    "Admin/Links": "33:72",
+    "Admin/Photos": "33:96",
+    "Admin/Account": "33:120",
+    "Admin/ContentMobile": "33:144"
+  },
+  "adminActions": {
+    "Admin/Content": {
+      "logout": "33:60",
+      "save": "33:65",
+      "preview": "33:67",
+      "publish": "33:69"
+    },
+    "Admin/Links": {
+      "logout": "33:84",
+      "save": "33:89",
+      "preview": "33:91",
+      "publish": "33:93"
+    },
+    "Admin/Photos": {
+      "logout": "33:108",
+      "save": "33:113",
+      "preview": "33:115",
+      "publish": "33:117"
+    },
+    "Admin/Account": {
+      "logout": "33:132",
+      "save": "33:137",
+      "preview": "33:139",
+      "publish": "33:141"
+    },
+    "Admin/ContentMobile": {
+      "save": "33:148",
+      "preview": "33:150",
+      "publish": "33:152"
+    },
+    "Admin/Preview": {
+      "back": "33:157"
+    }
+  },
+  "adminTabs": {
+    "Admin/Content": {
+      "Admin/Content": "33:52",
+      "Admin/Links": "33:54",
+      "Admin/Photos": "33:56",
+      "Admin/Account": "33:58"
+    },
+    "Admin/Links": {
+      "Admin/Content": "33:76",
+      "Admin/Links": "33:78",
+      "Admin/Photos": "33:80",
+      "Admin/Account": "33:82"
+    },
+    "Admin/Photos": {
+      "Admin/Content": "33:100",
+      "Admin/Links": "33:102",
+      "Admin/Photos": "33:104",
+      "Admin/Account": "33:106"
+    },
+    "Admin/Account": {
+      "Admin/Content": "33:124",
+      "Admin/Links": "33:126",
+      "Admin/Photos": "33:128",
+      "Admin/Account": "33:130"
+    }
+  },
+  "photoDeleteAction": "34:235",
+  "passwordAction": "36:185",
+  "previewClone": "36:188",
+  "stateFrames": {
+    "Saved": "39:2",
+    "SaveError": "39:13",
+    "Publishing": "39:24",
+    "Published": "39:35",
+    "PublishError": "39:46",
+    "Validation": "39:57",
+    "Unsaved": "39:68",
+    "DeletePhoto": "39:79",
+    "PasswordChanged": "39:90",
+    "UploadError": "39:101",
+    "EmptyConfig": "39:112"
+  },
+  "stateActions": {
+    "Saved": {
+      "primary": "39:9",
+      "secondary": "39:11"
+    },
+    "SaveError": {
+      "primary": "39:20",
+      "secondary": "39:22"
+    },
+    "Publishing": {
+      "primary": "39:31",
+      "secondary": "39:33"
+    },
+    "Published": {
+      "primary": "39:42",
+      "secondary": "39:44"
+    },
+    "PublishError": {
+      "primary": "39:53",
+      "secondary": "39:55"
+    },
+    "Validation": {
+      "primary": "39:64",
+      "secondary": "39:66"
+    },
+    "Unsaved": {
+      "primary": "39:75",
+      "secondary": "39:77"
+    },
+    "DeletePhoto": {
+      "primary": "39:86",
+      "secondary": "39:88"
+    },
+    "PasswordChanged": {
+      "primary": "39:97",
+      "secondary": "39:99"
+    },
+    "UploadError": {
+      "primary": "39:108",
+      "secondary": "39:110"
+    },
+    "EmptyConfig": {
+      "primary": "39:119",
+      "secondary": "39:121"
+    }
+  },
+  "galleryStatesBoard": "40:46",
+  "publicExtras": {
+    "long": "40:95",
+    "slide2": "40:132",
+    "hidden": "40:169",
+    "configured": "40:206"
+  },
+  "mobileAdminFrames": {
+    "Admin/LinksMobile": "41:182",
+    "Admin/PhotosMobile": "41:222",
+    "Admin/AccountMobile": "41:263"
+  },
+  "mobileAdminTabs": {
+    "Admin/LinksMobile": {
+      "Admin/ContentMobile": "41:186",
+      "Admin/LinksMobile": "41:188",
+      "Admin/PhotosMobile": "41:190"
+    },
+    "Admin/PhotosMobile": {
+      "Admin/ContentMobile": "41:226",
+      "Admin/LinksMobile": "41:228",
+      "Admin/PhotosMobile": "41:230"
+    },
+    "Admin/AccountMobile": {
+      "Admin/ContentMobile": "41:267",
+      "Admin/LinksMobile": "41:269",
+      "Admin/PhotosMobile": "41:271"
+    },
+    "Admin/ContentMobile": {
+      "Admin/ContentMobile": "41:294",
+      "Admin/LinksMobile": "41:296",
+      "Admin/PhotosMobile": "41:298"
+    }
+  },
+  "mobileAdminActions": {
+    "Admin/LinksMobile": {
+      "save": "41:218",
+      "preview": "41:220"
+    },
+    "Admin/PhotosMobile": {
+      "save": "41:259",
+      "preview": "41:261"
+    },
+    "Admin/AccountMobile": {
+      "save": "41:289",
+      "preview": "41:291"
+    }
+  },
+  "adminFlowFrames": {
+    "Saved": "45:299",
+    "SaveError": "45:310",
+    "Publishing": "45:321",
+    "Published": "45:332",
+    "PublishError": "45:343",
+    "Validation": "45:354",
+    "Unsaved": "45:365",
+    "DeletePhoto": "45:376",
+    "PasswordChanged": "45:387",
+    "UploadError": "45:398",
+    "EmptyConfig": "45:409"
+  },
+  "adminFlowActions": {
+    "Saved": {
+      "primary": "45:304",
+      "secondary": "45:305"
+    },
+    "SaveError": {
+      "primary": "45:315",
+      "secondary": "45:316"
+    },
+    "Publishing": {
+      "primary": "45:326",
+      "secondary": "45:327"
+    },
+    "Published": {
+      "primary": "45:337",
+      "secondary": "45:338"
+    },
+    "PublishError": {
+      "primary": "45:348",
+      "secondary": "45:349"
+    },
+    "Validation": {
+      "primary": "45:359",
+      "secondary": "45:360"
+    },
+    "Unsaved": {
+      "primary": "45:370",
+      "secondary": "45:371"
+    },
+    "DeletePhoto": {
+      "primary": "45:381",
+      "secondary": "45:382"
+    },
+    "PasswordChanged": {
+      "primary": "45:392",
+      "secondary": "45:393"
+    },
+    "UploadError": {
+      "primary": "45:403",
+      "secondary": "45:404"
+    },
+    "EmptyConfig": {
+      "primary": "45:414",
+      "secondary": "45:415"
+    }
+  },
+  "validation": [
+    {
+      "pageId": "25:2",
+      "pageName": "M1 · 00 基础规范",
+      "nodeCount": 29,
+      "textCount": 13,
+      "instanceCount": 0,
+      "componentCount": 0,
+      "fontFamilies": [
+        "Noto Sans SC"
+      ],
+      "wrongFonts": [],
+      "clippedScreens": [],
+      "prototypeEdges": 0,
+      "frames": [
+        {
+          "id": "26:50",
+          "name": "M1 / 封面与基础规范",
+          "width": 1200,
+          "height": 1000
+        }
+      ]
+    },
+    {
+      "pageId": "25:3",
+      "pageName": "M1 · 01 操作组件",
+      "nodeCount": 42,
+      "textCount": 21,
+      "instanceCount": 0,
+      "componentCount": 18,
+      "fontFamilies": [
+        "Noto Sans SC"
+      ],
+      "wrongFonts": [],
+      "clippedScreens": [],
+      "prototypeEdges": 0,
+      "frames": [
+        {
+          "id": "27:40",
+          "name": "按钮规则",
+          "width": 1100,
+          "height": 76
+        },
+        {
+          "id": "46:2",
+          "name": "尺寸与反馈",
+          "width": 1100,
+          "height": 76
+        }
+      ]
+    },
+    {
+      "pageId": "25:4",
+      "pageName": "M1 · 02 表单与反馈",
+      "nodeCount": 42,
+      "textCount": 25,
+      "instanceCount": 0,
+      "componentCount": 9,
+      "fontFamilies": [
+        "Noto Sans SC"
+      ],
+      "wrongFonts": [],
+      "clippedScreens": [],
+      "prototypeEdges": 0,
+      "frames": [
+        {
+          "id": "28:42",
+          "name": "字段与反馈规则",
+          "width": 1000,
+          "height": 76
+        }
+      ]
+    },
+    {
+      "pageId": "25:5",
+      "pageName": "M1 · 03 公开页面",
+      "nodeCount": 358,
+      "textCount": 158,
+      "instanceCount": 47,
+      "componentCount": 0,
+      "fontFamilies": [
+        "Noto Sans SC"
+      ],
+      "wrongFonts": [],
+      "clippedScreens": [],
+      "prototypeEdges": 17,
+      "frames": [
+        {
+          "id": "29:2",
+          "name": "Public/360",
+          "width": 360,
+          "height": 940
+        },
+        {
+          "id": "29:4",
+          "name": "Public/390",
+          "width": 390,
+          "height": 940
+        },
+        {
+          "id": "29:6",
+          "name": "Public/Desktop",
+          "width": 1440,
+          "height": 1100
+        },
+        {
+          "id": "29:8",
+          "name": "公开页布局标注",
+          "width": 1000,
+          "height": 76
+        },
+        {
+          "id": "30:77",
+          "name": "照片和页脚标注",
+          "width": 1000,
+          "height": 76
+        },
+        {
+          "id": "31:17",
+          "name": "Gate/First",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "id": "31:27",
+          "name": "Gate/Expired",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "id": "31:40",
+          "name": "Gate/Reset",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "id": "31:53",
+          "name": "Gate/Storage",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "id": "31:66",
+          "name": "Gate/Leaving",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "id": "31:75",
+          "name": "Gate/ExitEmpty",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "id": "31:84",
+          "name": "Gate/Loading",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "id": "31:97",
+          "name": "Gate/Desktop",
+          "width": 1440,
+          "height": 1000
+        },
+        {
+          "id": "31:107",
+          "name": "成年声明规则",
+          "width": 900,
+          "height": 98
+        },
+        {
+          "id": "40:95",
+          "name": "Public/LongText",
+          "width": 390,
+          "height": 1180
+        },
+        {
+          "id": "40:132",
+          "name": "Public/390-Slide2",
+          "width": 390,
+          "height": 940
+        },
+        {
+          "id": "40:169",
+          "name": "Public/HiddenEntry",
+          "width": 390,
+          "height": 940
+        },
+        {
+          "id": "40:206",
+          "name": "Public/ConfiguredStyleExample",
+          "width": 390,
+          "height": 940
+        },
+        {
+          "id": "40:248",
+          "name": "溢出与配置样式说明",
+          "width": 1200,
+          "height": 76
+        },
+        {
+          "id": "45:65",
+          "name": "原型规则",
+          "width": 1000,
+          "height": 76
+        }
+      ]
+    },
+    {
+      "pageId": "25:6",
+      "pageName": "M1 · 04 管理后台",
+      "nodeCount": 694,
+      "textCount": 374,
+      "instanceCount": 151,
+      "componentCount": 0,
+      "fontFamilies": [
+        "Noto Sans SC"
+      ],
+      "wrongFonts": [],
+      "clippedScreens": [],
+      "prototypeEdges": 75,
+      "frames": [
+        {
+          "id": "32:2",
+          "name": "Admin/Login",
+          "width": 1440,
+          "height": 1000
+        },
+        {
+          "id": "32:20",
+          "name": "Admin/LoginMobile",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "id": "32:38",
+          "name": "Admin/LoginError",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "id": "32:59",
+          "name": "Admin/LoginLimited",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "id": "32:80",
+          "name": "Admin/SessionExpired",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "id": "32:101",
+          "name": "登录权限与交互",
+          "width": 950,
+          "height": 76
+        },
+        {
+          "id": "33:47",
+          "name": "Admin/Content",
+          "width": 1440,
+          "height": 2100
+        },
+        {
+          "id": "33:71",
+          "name": "Admin/Links",
+          "width": 1440,
+          "height": 1500
+        },
+        {
+          "id": "33:95",
+          "name": "Admin/Photos",
+          "width": 1440,
+          "height": 1250
+        },
+        {
+          "id": "33:119",
+          "name": "Admin/Account",
+          "width": 1440,
+          "height": 1100
+        },
+        {
+          "id": "33:143",
+          "name": "Admin/ContentMobile",
+          "width": 390,
+          "height": 1580
+        },
+        {
+          "id": "33:154",
+          "name": "Admin/Preview",
+          "width": 1440,
+          "height": 1250
+        },
+        {
+          "id": "41:182",
+          "name": "Admin/LinksMobile",
+          "width": 390,
+          "height": 1600
+        },
+        {
+          "id": "41:222",
+          "name": "Admin/PhotosMobile",
+          "width": 390,
+          "height": 1600
+        },
+        {
+          "id": "41:263",
+          "name": "Admin/AccountMobile",
+          "width": 390,
+          "height": 1100
+        },
+        {
+          "id": "45:299",
+          "name": "Flow/Saved",
+          "width": 390,
+          "height": 560
+        },
+        {
+          "id": "45:310",
+          "name": "Flow/SaveError",
+          "width": 390,
+          "height": 560
+        },
+        {
+          "id": "45:321",
+          "name": "Flow/Publishing",
+          "width": 390,
+          "height": 560
+        },
+        {
+          "id": "45:332",
+          "name": "Flow/Published",
+          "width": 390,
+          "height": 560
+        },
+        {
+          "id": "45:343",
+          "name": "Flow/PublishError",
+          "width": 390,
+          "height": 560
+        },
+        {
+          "id": "45:354",
+          "name": "Flow/Validation",
+          "width": 390,
+          "height": 560
+        },
+        {
+          "id": "45:365",
+          "name": "Flow/Unsaved",
+          "width": 390,
+          "height": 560
+        },
+        {
+          "id": "45:376",
+          "name": "Flow/DeletePhoto",
+          "width": 390,
+          "height": 560
+        },
+        {
+          "id": "45:387",
+          "name": "Flow/PasswordChanged",
+          "width": 390,
+          "height": 560
+        },
+        {
+          "id": "45:398",
+          "name": "Flow/UploadError",
+          "width": 390,
+          "height": 560
+        },
+        {
+          "id": "45:409",
+          "name": "Flow/EmptyConfig",
+          "width": 390,
+          "height": 560
+        }
+      ]
+    },
+    {
+      "pageId": "25:7",
+      "pageName": "M1 · 05 状态与流程",
+      "nodeCount": 145,
+      "textCount": 79,
+      "instanceCount": 33,
+      "componentCount": 0,
+      "fontFamilies": [
+        "Noto Sans SC"
+      ],
+      "wrongFonts": [],
+      "clippedScreens": [],
+      "prototypeEdges": 0,
+      "frames": [
+        {
+          "id": "39:2",
+          "name": "State/Saved",
+          "width": 390,
+          "height": 560
+        },
+        {
+          "id": "39:13",
+          "name": "State/SaveError",
+          "width": 390,
+          "height": 560
+        },
+        {
+          "id": "39:24",
+          "name": "State/Publishing",
+          "width": 390,
+          "height": 560
+        },
+        {
+          "id": "39:35",
+          "name": "State/Published",
+          "width": 390,
+          "height": 560
+        },
+        {
+          "id": "39:46",
+          "name": "State/PublishError",
+          "width": 390,
+          "height": 560
+        },
+        {
+          "id": "39:57",
+          "name": "State/Validation",
+          "width": 390,
+          "height": 560
+        },
+        {
+          "id": "39:68",
+          "name": "State/Unsaved",
+          "width": 390,
+          "height": 560
+        },
+        {
+          "id": "39:79",
+          "name": "State/DeletePhoto",
+          "width": 390,
+          "height": 560
+        },
+        {
+          "id": "39:90",
+          "name": "State/PasswordChanged",
+          "width": 390,
+          "height": 560
+        },
+        {
+          "id": "39:101",
+          "name": "State/UploadError",
+          "width": 390,
+          "height": 560
+        },
+        {
+          "id": "39:112",
+          "name": "State/EmptyConfig",
+          "width": 390,
+          "height": 560
+        },
+        {
+          "id": "39:123",
+          "name": "状态说明",
+          "width": 1000,
+          "height": 76
+        },
+        {
+          "id": "40:46",
+          "name": "Gallery states · multiple single zero loading error",
+          "width": 1620,
+          "height": 324
+        }
+      ]
+    },
+    {
+      "pageId": "25:8",
+      "pageName": "M1 · 06 照片素材",
+      "nodeCount": 6,
+      "textCount": 0,
+      "instanceCount": 0,
+      "componentCount": 0,
+      "fontFamilies": [],
+      "wrongFonts": [],
+      "clippedScreens": [],
+      "prototypeEdges": 0,
+      "frames": []
+    }
+  ],
+  "exports": [
+    {
+      "name": "00-基础规范",
+      "nodeId": "26:50",
+      "width": 1200,
+      "height": 1000,
+      "format": "png",
+      "original_width": 1200,
+      "original_height": 1000,
+      "path": "design/exports/M1/00-基础规范.png"
+    },
+    {
+      "name": "01-按钮变体",
+      "nodeId": "27:38",
+      "width": 2088,
+      "height": 328,
+      "format": "png",
+      "original_width": 2088,
+      "original_height": 328,
+      "path": "design/exports/M1/01-按钮变体.png"
+    },
+    {
+      "name": "02-字段变体",
+      "nodeId": "28:27",
+      "width": 2010,
+      "height": 156,
+      "format": "png",
+      "original_width": 2010,
+      "original_height": 156,
+      "path": "design/exports/M1/02-字段变体.png"
+    },
+    {
+      "name": "03-主页-390",
+      "nodeId": "29:4",
+      "width": 390,
+      "height": 940,
+      "format": "png",
+      "original_width": 390,
+      "original_height": 940,
+      "path": "design/exports/M1/03-主页-390.png"
+    },
+    {
+      "name": "03b-主页-360",
+      "nodeId": "29:2",
+      "width": 360,
+      "height": 940,
+      "format": "png",
+      "original_width": 360,
+      "original_height": 940,
+      "path": "design/exports/M1/03b-主页-360.png"
+    },
+    {
+      "name": "03c-主页-桌面",
+      "nodeId": "29:6",
+      "width": 1440,
+      "height": 1100,
+      "format": "png",
+      "original_width": 1440,
+      "original_height": 1100,
+      "path": "design/exports/M1/03c-主页-桌面.png"
+    },
+    {
+      "name": "04-成年确认",
+      "nodeId": "31:17",
+      "width": 390,
+      "height": 844,
+      "format": "png",
+      "original_width": 390,
+      "original_height": 844,
+      "path": "design/exports/M1/04-成年确认.png"
+    },
+    {
+      "name": "05-入口管理",
+      "nodeId": "33:71",
+      "width": 1440,
+      "height": 1500,
+      "format": "png",
+      "original_width": 1440,
+      "original_height": 1500,
+      "path": "design/exports/M1/05-入口管理.png"
+    },
+    {
+      "name": "06-照片管理",
+      "nodeId": "33:95",
+      "width": 1440,
+      "height": 1250,
+      "format": "png",
+      "original_width": 1440,
+      "original_height": 1250,
+      "path": "design/exports/M1/06-照片管理.png"
+    },
+    {
+      "name": "07-基础文案管理",
+      "nodeId": "33:47",
+      "width": 1440,
+      "height": 2100,
+      "format": "png",
+      "original_width": 1440,
+      "original_height": 2100,
+      "path": "design/exports/M1/07-基础文案管理.png"
+    },
+    {
+      "name": "08-照片状态",
+      "nodeId": "40:46",
+      "width": 1620,
+      "height": 324,
+      "format": "png",
+      "original_width": 1620,
+      "original_height": 324,
+      "path": "design/exports/M1/08-照片状态.png"
+    },
+    {
+      "name": "09-发布校验",
+      "nodeId": "39:57",
+      "width": 390,
+      "height": 560,
+      "format": "png",
+      "original_width": 390,
+      "original_height": 560,
+      "path": "design/exports/M1/09-发布校验.png"
+    },
+    {
+      "name": "10-管理员登录",
+      "nodeId": "32:20",
+      "width": 390,
+      "height": 844,
+      "format": "png",
+      "original_width": 390,
+      "original_height": 844,
+      "path": "design/exports/M1/10-管理员登录.png"
+    },
+    {
+      "name": "11-手机内容管理",
+      "nodeId": "33:143",
+      "width": 390,
+      "height": 1580,
+      "format": "png",
+      "original_width": 390,
+      "original_height": 1580,
+      "path": "design/exports/M1/11-手机内容管理.png"
+    },
+    {
+      "name": "12-手机照片管理",
+      "nodeId": "41:222",
+      "width": 390,
+      "height": 1600,
+      "format": "png",
+      "original_width": 390,
+      "original_height": 1600,
+      "path": "design/exports/M1/12-手机照片管理.png"
+    },
+    {
+      "name": "13-长文案检查",
+      "nodeId": "40:95",
+      "width": 390,
+      "height": 1180,
+      "format": "png",
+      "original_width": 390,
+      "original_height": 1180,
+      "path": "design/exports/M1/13-长文案检查.png"
+    },
+    {
+      "name": "14-发布失败",
+      "nodeId": "39:46",
+      "width": 390,
+      "height": 560,
+      "format": "png",
+      "original_width": 390,
+      "original_height": 560,
+      "path": "design/exports/M1/14-发布失败.png"
+    }
+  ],
+  "stage": "M1 design delivered; user review pending",
+  "copyRevision": {
+    "date": "2026-10-29",
+    "config": "design/公开文案配置-M1.json",
+    "remainingFigmaTemplateTexts": 0,
+    "verification": "design/verification-M1-copy.json"
+  }
+}

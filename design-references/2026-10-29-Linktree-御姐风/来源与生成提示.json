@@ -1,0 +1,523 @@
+{
+  "date": "2026-10-29",
+  "active_version": "v4",
+  "selected_style": "风格01-墨黑香槟",
+  "site_name": {
+    "field": "SITE_NAME",
+    "previous_display": "{{SITE_NAME}}",
+    "current_display": "顾清棠",
+    "decision": "暂定；公开名称不追加暂定字样"
+  },
+  "description": "本地静态参考仅替换站点名称；布局、头像、照片条和其他占位文字沿用风格01 v3。",
+  "source_image": {
+    "file": "01-墨黑香槟-v3.png",
+    "sha256": "53c42ad321ef957c0ac417272e462916f12473a918dcd655f0bf27c7240d59fc"
+  },
+  "modified_image": {
+    "file": "01-墨黑香槟-v4.png",
+    "sha256": "296ea1cf6a6c51f0d41cae56b3843eab80decd823eb807a5401d96207678be3d",
+    "size": [
+      768,
+      1792
+    ],
+    "bytes": 901028
+  },
+  "change_request": "Web端采用风格01-墨黑香槟；名称暂定顾清棠，并替换名称占位。",
+  "method": "在既有静态参考名称区域替换文字，未重新生成照片或整体页面。",
+  "verification": {
+    "same_dimensions": true,
+    "changed_bbox_px": [
+      250,
+      387,
+      518,
+      437
+    ],
+    "pixels_outside_changed_bbox_identical": true,
+    "name_visually_checked": true,
+    "remaining_placeholders_preserved": true
+  },
+  "photo_source_manifest": "用户照片组/裁切与顺序.json",
+  "figma": {
+    "url": "https://www.figma.com/design/zZ5q60M8zhzETudwkKVsQQ",
+    "historical_nodes": [
+      "6:2",
+      "7:2",
+      "8:2"
+    ],
+    "status": "本轮未同步；此前三方向 v3 静态参考待整理为风格01可编辑确认稿。"
+  },
+  "historical_versions": "原始、v2、v3及风格02/03均保留供追溯；本轮选定基准为风格01 v4。",
+  "application_development_started": false,
+  "figma_file": "https://www.figma.com/design/zZ5q60M8zhzETudwkKVsQQ",
+  "images": [
+    {
+      "file": "01-墨黑香槟-v4.png",
+      "sha256": "296ea1cf6a6c51f0d41cae56b3843eab80decd823eb807a5401d96207678be3d",
+      "size": [
+        768,
+        1792
+      ],
+      "bytes": 901028
+    }
+  ],
+  "active_metadata_file": "来源与生成提示-v4.json",
+  "historical_v3": {
+    "date": "2026-10-29",
+    "revision_date": "2026-10-29",
+    "active_version": "v3",
+    "description": "三组 Linktree 静态视觉参考统一使用用户提供的六张不同照片：第2张红裙镜前照为头像，其余五张为照片条。",
+    "figma_file": "https://www.figma.com/design/zZ5q60M8zhzETudwkKVsQQ",
+    "images": [
+      {
+        "file": "01-墨黑香槟-v3.png",
+        "path": "/Users/macbook/Documents/推特创作者计划/design-references/2026-10-29-Linktree-御姐风/01-墨黑香槟-v3.png",
+        "width": 768,
+        "height": 1792,
+        "bytes": 914786,
+        "sha256": "53c42ad321ef957c0ac417272e462916f12473a918dcd655f0bf27c7240d59fc",
+        "nodeId": "6:2",
+        "figma_image_hash": "a8f3a4a62f6576d18bcd6519409a584a6e200e3b",
+        "base_file": "01-墨黑香槟-v2.png",
+        "avatar_file": "头像-红裙镜前.png",
+        "avatar_bounds_px": [
+          294,
+          181,
+          474,
+          361
+        ],
+        "photo_order": [
+          "照片条-01-绿色露肩.png",
+          "照片条-02-红裙走廊.png",
+          "照片条-03-香槟礼服.png",
+          "照片条-04-粉色礼服.png",
+          "照片条-05-黑裙吧台.png"
+        ],
+        "photo_upload_order": [
+          1,
+          3,
+          4,
+          5,
+          6
+        ],
+        "photo_rectangle_px": {
+          "x": 40,
+          "y": 1228,
+          "width": 128,
+          "height": 160,
+          "horizontal_gap": 12
+        },
+        "processing": "使用用户原照，仅做同一裁切、等比缩放与圆形/圆角遮罩；保留原始色调。",
+        "figma_verification": {
+          "nodeId": "6:2",
+          "dimensions_match": true,
+          "pixel_exact_match": true,
+          "mean_absolute_channel_difference": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "download_exit_status": 0
+        },
+        "changes_limited_to_avatar_and_photo_rectangles": true
+      },
+      {
+        "file": "02-酒红奶油-v3.png",
+        "path": "/Users/macbook/Documents/推特创作者计划/design-references/2026-10-29-Linktree-御姐风/02-酒红奶油-v3.png",
+        "width": 768,
+        "height": 1792,
+        "bytes": 952604,
+        "sha256": "086488c39eb4148504bafd31cad667521a5fae757b4ec2ced6d762d527f57d7a",
+        "nodeId": "7:2",
+        "figma_image_hash": "aaf118a692c56ba749ae9d34d596e4e13a7a9883",
+        "base_file": "02-酒红奶油-v2.png",
+        "avatar_file": "头像-红裙镜前.png",
+        "avatar_bounds_px": [
+          281,
+          126,
+          487,
+          332
+        ],
+        "photo_order": [
+          "照片条-01-绿色露肩.png",
+          "照片条-02-红裙走廊.png",
+          "照片条-03-香槟礼服.png",
+          "照片条-04-粉色礼服.png",
+          "照片条-05-黑裙吧台.png"
+        ],
+        "photo_upload_order": [
+          1,
+          3,
+          4,
+          5,
+          6
+        ],
+        "photo_rectangle_px": {
+          "x": 40,
+          "y": 1297,
+          "width": 128,
+          "height": 160,
+          "horizontal_gap": 12
+        },
+        "processing": "使用用户原照，仅做同一裁切、等比缩放与圆形/圆角遮罩；保留原始色调。",
+        "figma_verification": {
+          "nodeId": "7:2",
+          "dimensions_match": true,
+          "pixel_exact_match": true,
+          "mean_absolute_channel_difference": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "download_exit_status": 0
+        },
+        "changes_limited_to_avatar_and_photo_rectangles": true
+      },
+      {
+        "file": "03-冷灰银色-v3.png",
+        "path": "/Users/macbook/Documents/推特创作者计划/design-references/2026-10-29-Linktree-御姐风/03-冷灰银色-v3.png",
+        "width": 768,
+        "height": 1792,
+        "bytes": 928995,
+        "sha256": "e287ee3183c02a349175c4b2aee83d75fe00f6f83095b671b4baf5cf0f5c3331",
+        "nodeId": "8:2",
+        "figma_image_hash": "951b6b888be22cebf5f72fd7bdcb3d68218eec34",
+        "base_file": "03-冷灰银色-v2.png",
+        "avatar_file": "头像-红裙镜前.png",
+        "avatar_bounds_px": [
+          280,
+          94,
+          488,
+          302
+        ],
+        "photo_order": [
+          "照片条-01-绿色露肩.png",
+          "照片条-02-红裙走廊.png",
+          "照片条-03-香槟礼服.png",
+          "照片条-04-粉色礼服.png",
+          "照片条-05-黑裙吧台.png"
+        ],
+        "photo_upload_order": [
+          1,
+          3,
+          4,
+          5,
+          6
+        ],
+        "photo_rectangle_px": {
+          "x": 40,
+          "y": 1130,
+          "width": 128,
+          "height": 160,
+          "horizontal_gap": 12
+        },
+        "processing": "使用用户原照，仅做同一裁切、等比缩放与圆形/圆角遮罩；保留原始色调。",
+        "figma_verification": {
+          "nodeId": "8:2",
+          "dimensions_match": true,
+          "pixel_exact_match": true,
+          "mean_absolute_channel_difference": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "download_exit_status": 0
+        },
+        "changes_limited_to_avatar_and_photo_rectangles": true
+      }
+    ],
+    "avatar": {
+      "file": "头像-红裙镜前.png",
+      "path": "/Users/macbook/Documents/推特创作者计划/design-references/2026-10-29-Linktree-御姐风/用户照片组/头像-红裙镜前.png",
+      "width": 600,
+      "height": 600,
+      "bytes": 299375,
+      "sha256": "850b4f73b02bd63b7189cfc4376a3825ebff8e71601e2aa2a6e1aca5d271f95b",
+      "source": "02-红裙镜前.jpg",
+      "crop_px": [
+        520,
+        380,
+        1040,
+        900
+      ],
+      "size": [
+        600,
+        600
+      ],
+      "role": "avatar",
+      "upload_index": 2
+    },
+    "shared_photo_set": {
+      "description": "用户提供的五张照片条素材，与独立头像共六张。",
+      "order_policy": "三方案相同照片、相同裁切、相同顺序、原始色调。",
+      "photos": [
+        {
+          "file": "照片条-01-绿色露肩.png",
+          "path": "/Users/macbook/Documents/推特创作者计划/design-references/2026-10-29-Linktree-御姐风/用户照片组/照片条-01-绿色露肩.png",
+          "width": 512,
+          "height": 640,
+          "bytes": 396611,
+          "sha256": "5131e9067049d48692bded65fca6c9a8609ddba53c67580777d9615b658ea67d",
+          "source": "01-绿色露肩.jpg",
+          "crop_px": [
+            500,
+            410,
+            1220,
+            1310
+          ],
+          "size": [
+            512,
+            640
+          ],
+          "role": "gallery",
+          "upload_index": 1
+        },
+        {
+          "file": "照片条-02-红裙走廊.png",
+          "path": "/Users/macbook/Documents/推特创作者计划/design-references/2026-10-29-Linktree-御姐风/用户照片组/照片条-02-红裙走廊.png",
+          "width": 512,
+          "height": 640,
+          "bytes": 357046,
+          "sha256": "59f2aad4c8a4934e167f9c78bdedf1eb12bb6d3f3458d3424fc4b11828a1c5c8",
+          "source": "03-红裙走廊.jpg",
+          "crop_px": [
+            0,
+            307,
+            1280,
+            1907
+          ],
+          "size": [
+            512,
+            640
+          ],
+          "role": "gallery",
+          "upload_index": 3
+        },
+        {
+          "file": "照片条-03-香槟礼服.png",
+          "path": "/Users/macbook/Documents/推特创作者计划/design-references/2026-10-29-Linktree-御姐风/用户照片组/照片条-03-香槟礼服.png",
+          "width": 512,
+          "height": 640,
+          "bytes": 453831,
+          "sha256": "1e20456cc1474bab551f506fac0b12d2c91e124e9b07ced84a006eee64e8dd0a",
+          "source": "04-香槟礼服.jpg",
+          "crop_px": [
+            200,
+            320,
+            1160,
+            1520
+          ],
+          "size": [
+            512,
+            640
+          ],
+          "role": "gallery",
+          "upload_index": 4
+        },
+        {
+          "file": "照片条-04-粉色礼服.png",
+          "path": "/Users/macbook/Documents/推特创作者计划/design-references/2026-10-29-Linktree-御姐风/用户照片组/照片条-04-粉色礼服.png",
+          "width": 512,
+          "height": 640,
+          "bytes": 398052,
+          "sha256": "9101151f23e700618af910af9e635702e03c16d27dc96153c97c35df1a930d81",
+          "source": "05-粉色礼服.jpg",
+          "crop_px": [
+            240,
+            240,
+            1280,
+            1540
+          ],
+          "size": [
+            512,
+            640
+          ],
+          "role": "gallery",
+          "upload_index": 5
+        },
+        {
+          "file": "照片条-05-黑裙吧台.png",
+          "path": "/Users/macbook/Documents/推特创作者计划/design-references/2026-10-29-Linktree-御姐风/用户照片组/照片条-05-黑裙吧台.png",
+          "width": 512,
+          "height": 640,
+          "bytes": 336909,
+          "sha256": "5070db89c183d6ba7b769d21090a076fb92d7f6dca980d8331deed8d1b5b887b",
+          "source": "06-黑裙吧台.jpg",
+          "crop_px": [
+            20,
+            200,
+            940,
+            1350
+          ],
+          "size": [
+            512,
+            640
+          ],
+          "role": "gallery",
+          "upload_index": 6
+        }
+      ]
+    },
+    "source_assets": [
+      {
+        "file": "01-绿色露肩.jpg",
+        "path": "/Users/macbook/Documents/推特创作者计划/design-references/2026-10-29-Linktree-御姐风/用户照片组/01-绿色露肩.jpg",
+        "width": 1280,
+        "height": 1707,
+        "bytes": 199349,
+        "sha256": "ccdb7ff6f5eaeb7572068e0a6a7509e7bad2b5d2ef4207070c236ba4e67ec5bb",
+        "upload_index": 1,
+        "source": "用户本轮附件"
+      },
+      {
+        "file": "02-红裙镜前.jpg",
+        "path": "/Users/macbook/Documents/推特创作者计划/design-references/2026-10-29-Linktree-御姐风/用户照片组/02-红裙镜前.jpg",
+        "width": 1280,
+        "height": 1920,
+        "bytes": 195829,
+        "sha256": "513ee20d9ace7f5c3c0f32fd6ed5c352155bf99953d318e36772998734de5939",
+        "upload_index": 2,
+        "source": "用户本轮附件"
+      },
+      {
+        "file": "03-红裙走廊.jpg",
+        "path": "/Users/macbook/Documents/推特创作者计划/design-references/2026-10-29-Linktree-御姐风/用户照片组/03-红裙走廊.jpg",
+        "width": 1280,
+        "height": 1907,
+        "bytes": 164819,
+        "sha256": "d911f6d439f06f2fefae05f3a29d5c1b9cc09255cb8eacdc54ddb1570289542c",
+        "upload_index": 3,
+        "source": "用户本轮附件"
+      },
+      {
+        "file": "04-香槟礼服.jpg",
+        "path": "/Users/macbook/Documents/推特创作者计划/design-references/2026-10-29-Linktree-御姐风/用户照片组/04-香槟礼服.jpg",
+        "width": 1280,
+        "height": 1707,
+        "bytes": 248233,
+        "sha256": "caf86f935961e2bfee4c8453103942ff6cfe99fe4829bd59e5596c97707802bd",
+        "upload_index": 4,
+        "source": "用户本轮附件"
+      },
+      {
+        "file": "05-粉色礼服.jpg",
+        "path": "/Users/macbook/Documents/推特创作者计划/design-references/2026-10-29-Linktree-御姐风/用户照片组/05-粉色礼服.jpg",
+        "width": 1280,
+        "height": 1920,
+        "bytes": 184974,
+        "sha256": "57d2c6f828d41be7f550a7b45a74e74b0bc6fdba15b80e748207f30f6666f9cb",
+        "upload_index": 5,
+        "source": "用户本轮附件"
+      },
+      {
+        "file": "06-黑裙吧台.jpg",
+        "path": "/Users/macbook/Documents/推特创作者计划/design-references/2026-10-29-Linktree-御姐风/用户照片组/06-黑裙吧台.jpg",
+        "width": 960,
+        "height": 1440,
+        "bytes": 104522,
+        "sha256": "e5d311f101bbffabc9cdac17ab71a2db393c9ec520be12851112254091d38943",
+        "upload_index": 6,
+        "source": "用户本轮附件"
+      }
+    ],
+    "duplicate_attachment": {
+      "upload_indices": [
+        6,
+        7
+      ],
+      "identical_sha256": "e5d311f101bbffabc9cdac17ab71a2db393c9ec520be12851112254091d38943",
+      "action": "第7个附件与第6个完全相同，仅使用一次。"
+    },
+    "comparison_image": {
+      "file": "三方案统一照片对比-v3.png",
+      "path": "/Users/macbook/Documents/推特创作者计划/design-references/2026-10-29-Linktree-御姐风/三方案统一照片对比-v3.png",
+      "width": 1248,
+      "height": 1000,
+      "bytes": 945315,
+      "sha256": "e964e35d19afc30d8865d438710e740410e3891fe4d27b2bb4e6f3dc9a48f4eb"
+    },
+    "previous_version_manifest": "来源与生成提示-v2.json",
+    "original_images": [
+      {
+        "file": "01-墨黑香槟.png",
+        "url": "https://www.figma.com/api/mcp/asset/03377e57-8dff-4c34-a12a-cadd2fd1f91c.png",
+        "nodeId": "6:2",
+        "prompt": "Use case: ui-mockup. Create one polished, realistic MOBILE LINK-IN-BIO / LINKTREE-STYLE personal links page. Visual direction: Obsidian Champagne Links. The requested product is specifically a simple Linktree-like page, not a magazine, fashion landing page, portfolio, or marketing website.\n\nTarget frame: 390 x 844 CSS pixels, render at approximately 780 x 1688 pixels. A single mobile page, flat frontal screenshot, no phone frame, device, browser chrome, status bar or perspective. Entire screen background is solid warm charcoal #171615. Center one narrow column with 24 CSS px side padding. All identity information is centered. Confident mature feminine elegance comes from understated warm ivory text and a tiny champagne accent #BEA77F. Use a normal highly readable UI sans-serif, no enormous editorial serif headings, max 24px CSS name. Keep lots of clean space around the profile.\n\nEXACT STRUCTURE FROM TOP:\nAt y about 48 CSS px, a SMALL 76px circular avatar; synthetic fully clothed adult woman in her thirties with short dark bob, rear three-quarter view, dark tailored jacket; face hidden. Avatar stays small, never a large photograph.\nBelow avatar centered {{SITE_NAME}} in medium 23px, then {{SITE_TAGLINE}} in 14px with short placeholder content only.\nAt y about 220px start FIVE LARGE, SEPARATE, FULL-WIDTH ROUNDED PILL BUTTONS, equal 54px CSS height, 12px gaps, soft 18-26px radius. Each is a standalone button with a clear filled surface, not just a line of text or list separator. Button labels centered, icons small on left, all text readable. No long descriptions. Labels exactly: {{X_PROFILE_LABEL}}, {{TG_PERSONAL_LABEL}}, {{TG_PREVIEW_LABEL}}, {{ONLYFANS_LABEL}}, {{MEMBERSHIP_LABEL}}. The five buttons use consistent softly lighter charcoal surfaces with ivory lettering; only the third can have a thin champagne edge. Avoid glossy gold fill or shiny gradients. All five buttons fully visible before the photo module, no irrelevant actions.\n\nBelow all five buttons place one OPTIONAL TINY PHOTO CAROUSEL about 90px CSS tall, three small rounded photo thumbnails in one horizontal strip with a tiny position dot. Photos show synthetic fully clothed adult fashion looks from rear, face hidden, no identifying background; not a large image, not a hero, not a masonry grid. Footer very small {{FOOTER_NOTICE}}. This is the homepage AFTER adult self-declaration, no age gate overlay and no login.\n\nEvery visible word in the UI must be one of the exact curly-brace placeholder strings; do not add English slogans, real personal names, fake counts, prices, dates, navigation headings, brand monograms, Linktree logo, watermark or copied brand assets. Current date anchor 2026-10-29, display no dates. No nudity, lingerie, sexual acts or fetish closeups. Strong Linktree/profile-link page silhouette must be immediately recognizable: SMALL CENTERED AVATAR + SHORT CENTERED BIO + FIVE BIG STACKED PILL BUTTONS.",
+        "path": "/Users/macbook/Documents/推特创作者计划/design-references/2026-10-29-Linktree-御姐风/01-墨黑香槟.png",
+        "width": 768,
+        "height": 1792,
+        "bytes": 1102162,
+        "sha256": "e132473cf2ac6de83c7d2b739c99c06bb99417a9b8794c434d27b09dda35c0ee",
+        "status": "原始静态参考保留；对应 Figma 节点现已更新为 v2"
+      },
+      {
+        "file": "02-酒红奶油.png",
+        "url": "https://www.figma.com/api/mcp/asset/92129c76-b430-4bb7-94af-95c322e59cff.png",
+        "nodeId": "7:2",
+        "prompt": "Use case: ui-mockup. Produce one production-quality MOBILE LINKTREE-STYLE personal link aggregator, not an editorial magazine page, portfolio, fashion campaign or landing page. This direction differs ONLY in visual theme, not navigation architecture.\n\nFrame 390 x 844 CSS pixels, natural 780 x 1688 render, flat mobile-page screenshot only; no phone frame, browser/system chrome, fake mockup. Rich clean warm ivory #F4F0E8 background, deep mature burgundy #5C2434 for each button, soft off-white lettering, near-black text. Avoid pink, lace, hearts, ornaments, neon, luxury magazine serif; use one clean, readable modern sans family throughout. The atmosphere is mature, confident and refined, with visual restraint.\n\nCentered single column about 342px CSS wide. Profile header short: a small 72px circular photo avatar with a fully clothed adult woman in her thirties, short dark bob, face turned away; centered {{SITE_NAME}} in 22px sans bold and centered {{SITE_TAGLINE}} below it. The avatar must stay small: no hero image.\n\nImmediately after the compact header show all FIVE LARGE, INDIVIDUAL, SAME-WIDTH, STACKED LINKTREE PILL BUTTONS, each about 52px high and 12px apart, with 18px radius, no captions. Labels in exact order: {{X_PROFILE_LABEL}}, {{TG_PERSONAL_LABEL}}, {{TG_PREVIEW_LABEL}}, {{ONLYFANS_LABEL}}, {{MEMBERSHIP_LABEL}}. Same mature burgundy fill and pale text on all five for this stylistic direction, optional tiny consistent simple white line icon on left; text centered/readable. No added sections between header and buttons. Buttons are the visual dominant focus.\n\nAfter the five links only, add a discreet optional carousel of three small 76px-high cropped fashion portraits, aligned in a simple horizontal swipe row with a tiny position indicator; subject clothed in mature contemporary fashion, face kept out of frame, no sexual pose. Footer below is tiny {{FOOTER_NOTICE}}. The carousel is secondary and does not delay or displace buttons. Entire five-button stack should occupy the upper half after the compact profile header.\n\nShow no age-gate modal; this is after self-declaration. All UI text must consist only of these literal placeholders: {{SITE_NAME}}, {{SITE_TAGLINE}}, the five specified labels, {{FOOTER_NOTICE}}. Do not add slogans, monograms, real names, brand text, URLs, counts, prices, decorations with letters or date. No real Linktree trademark, logo or copied assets. No nudity, lingerie, explicit or fetish content. Clear recognizable layout: small centered avatar, brief identity, five full-width stacked rounded buttons, small gallery at bottom. Date anchor 2026-10-29; display no date.",
+        "path": "/Users/macbook/Documents/推特创作者计划/design-references/2026-10-29-Linktree-御姐风/02-酒红奶油.png",
+        "width": 768,
+        "height": 1792,
+        "bytes": 1207524,
+        "sha256": "5f371ba028618da7f0c84baeba28c496bbe4516b5ba097bded3ff79517bc2653",
+        "status": "原始静态参考保留；对应 Figma 节点现已更新为 v2"
+      },
+      {
+        "file": "03-冷灰银色.png",
+        "url": "https://www.figma.com/api/mcp/asset/b98f47f2-60cc-4850-ba6a-c2f66d418987.png",
+        "nodeId": "8:2",
+        "prompt": "Use case: ui-mockup. One fully designed SINGLE mobile LINK-IN-BIO / LINKTREE-LIKE profile page. The link list is the core. Do not create a fashion magazine, portfolio, campaign landing page, editorial asymmetrical layout or photography-first site. This direction shares the exact same simple Linktree page structure as the other directions, with a distinct cool graphite theme.\n\n390 x 844 CSS px natural mobile webpage rendered 780 x 1688. Flat screenshot only; no phone frame, device mockup, browser/system bars, fake perspective. Centered narrow page column, light cool-gray #E8EAEB background, graphite near-black #222629 typography and flat graphite buttons; tiny matte-silver separators, no blue neon, no chrome or metallic gradients, no gold. Modern clean sans-serif, readable short bio, 22px name, no oversize typography. Calm, mature, precise, slightly cool urban fashion mood. No gradients, shadows or decorative cards.\n\nAt the very top center put a compact circular 72px avatar: synthetic fully clothed mature adult woman in her thirties, short dark bob, face turned away, dark tailored modern outfit in a plain photo studio. Directly beneath: centered {{SITE_NAME}}, then one centered short line {{SITE_TAGLINE}}. Keep this profile block concise.\n\nThe immediate next element is a centered vertical stack of exactly FIVE separate, large, clear full-width pill buttons, each same width and height approximately 52px, 12px vertical gap, radius 26px, charcoal fill and light-gray text. Text labels in exact order and exact spelling: {{X_PROFILE_LABEL}}, {{TG_PERSONAL_LABEL}}, {{TG_PREVIEW_LABEL}}, {{ONLYFANS_LABEL}}, {{MEMBERSHIP_LABEL}}. Each row may have one small consistent platform-style line icon; no repeated complex badges. Each is unmistakably a tappable button. Keep the labels centered and readable. No captions, new links or FAQ between or around this button stack. All five fit in a simple continuous list.\n\nAfter the buttons, at most one small horizontal swipeable photo strip with 2 or 3 small crops no taller than 80 CSS px, faces not visible, fully clothed mature fashion references; simple pager dots only. Compact {{FOOTER_NOTICE}} below. Gallery stays secondary and never becomes a hero. No other content or large images.\n\nAll visible interface text must ONLY use these exact placeholders: {{SITE_NAME}}, {{SITE_TAGLINE}}, the five button labels above, {{FOOTER_NOTICE}}. Absolutely no extra catchphrase, letters in a logo, fake number, prices, people names, URL, date or text ornaments. No age gate appears because screen is after adult self-declaration. No login or registration. No nudity, lingerie, explicit acts or fetish imagery. This must read immediately as a polished Linktree-style creator links page, not a blog or luxury retail shop. Date anchor 2026-10-29; don't show any date.",
+        "path": "/Users/macbook/Documents/推特创作者计划/design-references/2026-10-29-Linktree-御姐风/03-冷灰银色.png",
+        "width": 768,
+        "height": 1792,
+        "bytes": 1136586,
+        "sha256": "6a07416df59b742a6172ec01e5bcbc4454f5bd2201950415e85543bf185f7c55",
+        "status": "原始静态参考保留；对应 Figma 节点现已更新为 v2"
+      }
+    ],
+    "verification": {
+      "source_files_sha256_preserved": true,
+      "previous_artifacts_sha256_unchanged": true,
+      "source_photo_count": 6,
+      "avatar_count": 1,
+      "gallery_photo_count": 5,
+      "shared_photo_content_identical_across_three_themes": true,
+      "page_changes_limited_to_avatar_and_photos": true,
+      "figma_screenshot_checks": [
+        {
+          "nodeId": "6:2",
+          "dimensions_match": true,
+          "pixel_exact_match": true,
+          "mean_absolute_channel_difference": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "download_exit_status": 0
+        },
+        {
+          "nodeId": "7:2",
+          "dimensions_match": true,
+          "pixel_exact_match": true,
+          "mean_absolute_channel_difference": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "download_exit_status": 0
+        },
+        {
+          "nodeId": "8:2",
+          "dimensions_match": true,
+          "pixel_exact_match": true,
+          "mean_absolute_channel_difference": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "download_exit_status": 0
+        }
+      ],
+      "application_code_written": false
+    }
+  }
+}
