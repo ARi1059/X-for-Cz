@@ -14,7 +14,7 @@ import {
   STORY_BIO, STORY_SECTIONS, STORY_SOURCES, formatUpdated,
   type StoryFeed, type StoryPost,
 } from './story-content';
-import './light-gallery.css';
+import './story-shell.css';
 import './story-lab.css';
 
 type Props = {
@@ -258,7 +258,7 @@ export function StoryLab({
   }
 
   function renderLinks() {
-    return <nav className="lg-links story-links" aria-label="个人导航" data-pending={navigationFeedback.pendingId ? 'true' : undefined}>
+    return <nav className="sh-links story-links" aria-label="个人导航" data-pending={navigationFeedback.pendingId ? 'true' : undefined}>
       {links.map((link, index) => {
         const Icon = linkIcons[link.id];
         const isPrimary = link.id === primaryId;
@@ -267,14 +267,14 @@ export function StoryLab({
         const state = !link.available ? 'unavailable' : isPending ? 'pending' : hasError ? 'error' : 'available';
         const errorId = `story-link-error-${link.id}`;
         const body = <>
-          <span className="lg-link-index">{String(index + 1).padStart(2, '0')}</span>
-          <span className="lg-link-icon">{link.id === 'x_profile' ? <span className="lg-x-mark" aria-hidden="true">X</span> : <Icon size={16} strokeWidth={1.25} aria-hidden="true" />}</span>
-          <span className="lg-link-label">{link.label}{link.description && <small>{link.description}</small>}</span>
-          <span className="lg-link-end">{isPending ? <small aria-hidden="true">正在打开…</small> : !link.available && <small>暂未开放</small>}{isPrimary ? <ArrowUpRight size={17} strokeWidth={1.2} aria-hidden="true" /> : <ChevronRight size={13} strokeWidth={1.2} aria-hidden="true" />}</span>
-          {isPending && <span className="lg-link-progress" aria-hidden="true" />}
+          <span className="sh-link-index">{String(index + 1).padStart(2, '0')}</span>
+          <span className="sh-link-icon">{link.id === 'x_profile' ? <span className="sh-x-mark" aria-hidden="true">X</span> : <Icon size={16} strokeWidth={1.25} aria-hidden="true" />}</span>
+          <span className="sh-link-label">{link.label}{link.description && <small>{link.description}</small>}</span>
+          <span className="sh-link-end">{isPending ? <small aria-hidden="true">正在打开…</small> : !link.available && <small>暂未开放</small>}{isPrimary ? <ArrowUpRight size={17} strokeWidth={1.2} aria-hidden="true" /> : <ChevronRight size={13} strokeWidth={1.2} aria-hidden="true" />}</span>
+          {isPending && <span className="sh-link-progress" aria-hidden="true" />}
         </>;
-        const className = 'lg-platform' + (isPrimary ? ' is-emphasized' : '');
-        return <div className="lg-link-shell" data-primary={isPrimary ? 'true' : undefined} key={link.id}>
+        const className = 'sh-platform' + (isPrimary ? ' is-emphasized' : '');
+        return <div className="sh-link-shell" data-primary={isPrimary ? 'true' : undefined} key={link.id}>
           {link.available ? <a className={className} data-variant={isPrimary ? 'primary' : 'secondary'} data-state={state}
             aria-busy={isPending} aria-disabled={navigationFeedback.pendingId ? true : undefined}
             aria-describedby={hasError ? errorId : undefined} href={linkHref(link.id)} rel="noopener noreferrer"
@@ -290,7 +290,7 @@ export function StoryLab({
               onNavigate?.(link.id, true);
             }}>{body}</a>
             : <button type="button" className={className} data-variant="secondary" data-state={state} disabled>{body}</button>}
-          {hasError && <div className="link-feedback"><span className="lg-feedback-label" aria-hidden="true">{link.label}</span><p id={errorId} role="alert">{navigationFeedback.message}</p>
+          {hasError && <div className="link-feedback"><span className="sh-feedback-label" aria-hidden="true">{link.label}</span><p id={errorId} role="alert">{navigationFeedback.message}</p>
             <button type="button" className="link-retry" disabled={Boolean(navigationFeedback.pendingId)} onClick={() => onNavigate?.(link.id, navigationFeedback.retryNewTab)}>重试</button></div>}
         </div>;
       })}
@@ -299,14 +299,14 @@ export function StoryLab({
 
   function renderMeet() {
     return <div className="story-meet">
-      <header className="lg-identity">
-        {data.site.avatarMediaId && <MediaImage mediaId={data.site.avatarMediaId} alt={data.site.name + '的头像'} version={data.versionId} token={token} className="lg-avatar" {...mediaState} onAccessError={status => onAccessError?.(status)} />}
-        <div><p className="lg-eyebrow">A LITTLE CLOSER</p><h1>{data.site.name}<span>.</span></h1></div>
+      <header className="sh-identity">
+        {data.site.avatarMediaId && <MediaImage mediaId={data.site.avatarMediaId} alt={data.site.name + '的头像'} version={data.versionId} token={token} className="sh-avatar" {...mediaState} onAccessError={status => onAccessError?.(status)} />}
+        <div><p className="sh-eyebrow">A LITTLE CLOSER</p><h1>{data.site.name}<span>.</span></h1></div>
       </header>
-      {data.site.tagline && <p className="lg-tagline">{data.site.tagline}</p>}
-      {data.site.description && <p className="lg-description">{data.site.description}</p>}
+      {data.site.tagline && <p className="sh-tagline">{data.site.tagline}</p>}
+      {data.site.description && <p className="sh-description">{data.site.description}</p>}
       {renderLinks()}
-      <p className="lg-nav-note">光影之外，在这里找到我。<span>THE LINKS. THE LOOKS. THE LITTLE MOMENTS.</span></p>
+      <p className="sh-nav-note">光影之外，在这里找到我。<span>THE LINKS. THE LOOKS. THE LITTLE MOMENTS.</span></p>
     </div>;
   }
 
@@ -374,16 +374,16 @@ export function StoryLab({
   }
 
   function renderFooter(mobile = false) {
-    return <footer className={'story-footer lg-footer' + (mobile ? ' story-footer-mobile' : '')}>
+    return <footer className={'story-footer sh-footer' + (mobile ? ' story-footer-mobile' : '')}>
       <div><span>仅限成年人</span><button type="button" onClick={() => infoDialog.current?.showModal()}><Info size={13} aria-hidden="true" />站点说明</button>
         {onReset && <button type="button" onClick={onReset}>重新确认年龄</button>}</div>
-      <div><button type="button" className="lg-motion" aria-pressed={!useStatic} disabled={reduced} onClick={() => setStaticMode(value => !value)}>
+      <div><button type="button" className="sh-motion" aria-pressed={!useStatic} disabled={reduced} onClick={() => setStaticMode(value => !value)}>
         {useStatic ? <Play size={12} aria-hidden="true" /> : <Pause size={12} aria-hidden="true" />}{reduced ? '系统减少动态' : staticMode ? '开启动效' : '静态浏览'}
-      </button><a href="/">返回原版</a></div>
+      </button></div>
     </footer>;
   }
 
-  return <section ref={track} className="story-lab light-gallery" data-testid="story-lab" data-motion={useStatic ? 'off' : 'on'}>
+  return <section ref={track} className="story-lab story-shell" data-testid="story-lab" data-motion={useStatic ? 'off' : 'on'}>
     {!mobile && <div className="story-fixed">
       <div className="story-backdrop" aria-hidden="true">
         {BACKGROUNDS.map((source, index) => <div className="story-bg-layer" key={source} ref={element => { bgRefs.current[index] = element; }}>
@@ -392,8 +392,8 @@ export function StoryLab({
       </div>
       <div className="story-wash" aria-hidden="true" />
       <header className="story-topbar">
-        <a className="lg-wordmark" href="/" aria-label="返回原版导航">GU QINGTANG<span>PRIVATE EDITION</span></a>
-        <span className="lg-edition">LUSION LAB / STORY 01</span>
+        <span className="sh-wordmark">GU QINGTANG<span>PRIVATE EDITION</span></span>
+        <span className="sh-edition">LUSION LAB / STORY 01</span>
       </header>
       <p className="sr-only" ref={statusRef} role="status" aria-live="polite">{STORY_SECTIONS[0]!.title}</p>
       <main className="story-panel" ref={panelRef} data-active="0">
@@ -413,7 +413,7 @@ export function StoryLab({
 
     {mobile && <main className="story-mobile">
       <header className="story-mobile-topbar">
-        <a className="lg-wordmark" href="/" aria-label="返回原版导航">GU QINGTANG<span>PRIVATE EDITION</span></a>
+        <span className="sh-wordmark">GU QINGTANG<span>PRIVATE EDITION</span></span>
         <span>STORY 01</span>
       </header>
       {STORY_SECTIONS.map((item, index) => <section className="story-mobile-section" key={item.id} data-section={index}>
@@ -444,17 +444,17 @@ export function StoryLab({
 
     {intro && <IntroCurtain onDone={onIntroDone ?? (() => {})} />}
 
-    <dialog ref={infoDialog} className="lg-dialog" aria-labelledby="story-info-title" onClick={event => { if (event.target === event.currentTarget) infoDialog.current?.close(); }}>
-      <div className="lg-dialog-content"><header><h2 id="story-info-title">站点说明</h2><button type="button" aria-label="关闭站点说明" onClick={() => infoDialog.current?.close()}><X size={22} strokeWidth={1} /></button></header>
-        {(data.info.title || data.info.body || data.info.faq.length > 0) && <section className="lg-info"><h3>{data.info.title}</h3><p className="prose">{data.info.body}</p>
+    <dialog ref={infoDialog} className="sh-dialog" aria-labelledby="story-info-title" onClick={event => { if (event.target === event.currentTarget) infoDialog.current?.close(); }}>
+      <div className="sh-dialog-content"><header><h2 id="story-info-title">站点说明</h2><button type="button" aria-label="关闭站点说明" onClick={() => infoDialog.current?.close()}><X size={22} strokeWidth={1} /></button></header>
+        {(data.info.title || data.info.body || data.info.faq.length > 0) && <section className="sh-info"><h3>{data.info.title}</h3><p className="prose">{data.info.body}</p>
           {data.info.faq.map(item => <details key={item.id}><summary>{item.question}</summary><p className="prose">{item.answer}</p></details>)}</section>}
         <footer>{data.footer.notice && <p>{data.footer.notice}</p>}{data.footer.contactEmail && <a href={'mailto:' + data.footer.contactEmail}>{data.footer.contactEmail}</a>}
           {data.footer.removalNotice && <p className="prose">{data.footer.removalNotice}</p>}{data.footer.updateText && <p>{data.footer.updateText}</p>}</footer>
       </div>
     </dialog>
 
-    <dialog ref={tutorialDialog} className="lg-dialog story-tutorial" aria-labelledby="story-tutorial-title" onClick={event => { if (event.target === event.currentTarget) tutorialDialog.current?.close(); }}>
-      <div className="lg-dialog-content"><header><h2 id="story-tutorial-title">会员购买教程</h2><button type="button" aria-label="关闭会员购买教程" onClick={() => tutorialDialog.current?.close()}><X size={22} strokeWidth={1} /></button></header>
+    <dialog ref={tutorialDialog} className="sh-dialog story-tutorial" aria-labelledby="story-tutorial-title" onClick={event => { if (event.target === event.currentTarget) tutorialDialog.current?.close(); }}>
+      <div className="sh-dialog-content"><header><h2 id="story-tutorial-title">会员购买教程</h2><button type="button" aria-label="关闭会员购买教程" onClick={() => tutorialDialog.current?.close()}><X size={22} strokeWidth={1} /></button></header>
         <section className="story-tutorial-body">
           <p>会员只通过 Telegram Bot 使用 USDT 购买；站内不收款、不保存支付信息。Bot 确认到账后发一条仅允许一人使用的频道链接。</p>
           <ol>{PURCHASE_STEPS.map((step, index) => <li key={step.title}><span>{String(index + 1).padStart(2, '0')}</span><div><strong>{step.title}</strong><p>{step.body}</p></div></li>)}</ol>
