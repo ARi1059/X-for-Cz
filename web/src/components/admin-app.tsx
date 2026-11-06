@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState, type ReactNode, type FormEvent } from 'react';
 import type { SiteConfig, ValidationIssue } from '../contracts/site-config.ts';
 import { api, ApiError, errorMessage, postBody, previewProjection, type AdminSession, type Draft, type Preview, type MediaList, type MediaRecord, type Stats } from './client-api.ts';
-import { MediaImage, PublicView } from './public-view.tsx';
+import { MediaImage } from './media-image.tsx';
+import { StoryLab } from './story-lab.tsx';
 
 type Tab = 'content' | 'age' | 'links' | 'photos' | 'info' | 'footer' | 'states' | 'account' | 'stats';
 type LinkStateChange = { id: SiteConfig['links'][number]['id']; field: 'enabled' | 'visible'; label: string };

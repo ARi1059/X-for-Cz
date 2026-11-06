@@ -5,7 +5,7 @@ import {
   ArrowUpRight, Check, ChevronDown, ChevronRight, Gem, Heart, Info, Pause, Play, Radio, Send, X,
 } from 'lucide-react';
 import type { PublicSite } from './client-api';
-import { MediaImage } from './public-view';
+import { MediaImage } from './media-image';
 import { idleNavigationFeedback, type NavigationFeedback } from './navigation-state';
 import { resolvePrimaryLinkId } from './link-presentation';
 import { IntroCurtain } from './intro-curtain';
