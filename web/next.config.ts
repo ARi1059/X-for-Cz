@@ -6,7 +6,7 @@ const config: NextConfig = {
   devIndicators: false,
   serverExternalPackages: ['sharp'],
   // Runtime data and secrets are provisioned separately from the application build.
-  outputFileTracingExcludes: { '/*': ['./var/**/*', './.env*', './.next-e2e/**/*'] },
+  outputFileTracingExcludes: { '/*': ['./var/**/*', './.env*'] },
   async headers() {
     return [{ source: '/:path*', headers: [
       { key: 'X-Content-Type-Options', value: 'nosniff' },
