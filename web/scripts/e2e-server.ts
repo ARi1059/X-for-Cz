@@ -33,7 +33,7 @@ try {
   } finally { db.close(); }
   const server = spawn(process.execPath, ['node_modules/next/dist/bin/next', 'dev', '--hostname', 'localhost', '--port', '3103'], {
     stdio: 'inherit', env: { ...process.env, NODE_ENV: 'development', APP_ORIGIN: 'http://localhost:3103', DATABASE_PATH: filename,
-      MEDIA_ROOT: mediaRoot, AGE_SIGNING_SECRET: randomBytes(48).toString('base64url'), SESSION_HASH_SECRET: randomBytes(48).toString('base64url'), NEXT_DIST_DIR: '.next-e2e', LOCAL_DRAFT_PREVIEW: '0' },
+      MEDIA_ROOT: mediaRoot, AGE_SIGNING_SECRET: randomBytes(48).toString('base64url'), SESSION_HASH_SECRET: randomBytes(48).toString('base64url'), LOCAL_DRAFT_PREVIEW: '0' },
   });
   process.on('SIGTERM', () => server.kill('SIGTERM'));
   process.on('SIGINT', () => server.kill('SIGTERM'));
