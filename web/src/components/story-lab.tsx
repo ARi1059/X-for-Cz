@@ -20,6 +20,7 @@ import './story-lab.css';
 type Props = {
   data: PublicSite;
   token?: string;
+  preview?: boolean;
   intro?: boolean;
   onIntroDone?: () => void;
   navigationFeedback?: NavigationFeedback;
@@ -36,7 +37,7 @@ const MOBILE_QUERY = '(max-width: 959px)';
 const PHONE_QUERY = '(max-width: 599px)';
 
 export function StoryLab({
-  data, token = '', intro = false, onIntroDone, navigationFeedback = idleNavigationFeedback,
+  data, token = '', preview = false, intro = false, onIntroDone, navigationFeedback = idleNavigationFeedback,
   onReset, onNavigate, onAccessError,
 }: Props) {
   const track = useRef<HTMLElement>(null);
@@ -300,7 +301,7 @@ export function StoryLab({
   function renderMeet() {
     return <div className="story-meet">
       <header className="sh-identity">
-        {data.site.avatarMediaId && <MediaImage mediaId={data.site.avatarMediaId} alt={data.site.name + '的头像'} version={data.versionId} token={token} className="sh-avatar" {...mediaState} onAccessError={status => onAccessError?.(status)} />}
+        {data.site.avatarMediaId && <MediaImage mediaId={data.site.avatarMediaId} alt={data.site.name + '的头像'} version={data.versionId} token={token} admin={preview} className="sh-avatar" {...mediaState} onAccessError={status => onAccessError?.(status)} />}
         <div><p className="sh-eyebrow">A LITTLE CLOSER</p><h1>{data.site.name}<span>.</span></h1></div>
       </header>
       {data.site.tagline && <p className="sh-tagline">{data.site.tagline}</p>}
