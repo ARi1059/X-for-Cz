@@ -39,19 +39,19 @@ test('first visit isolates content; cookie confirmation persists without extendi
   expect(await response!.text()).not.toContain('短发御姐');
   await expect(page.getByRole('heading', { name: '仅限成年人' })).toBeVisible();
   expect(controlled).toEqual([]);
-  await page.screenshot({ path: 'var/screenshots/M3-gate-390.png', fullPage: true });
+  await page.screenshot({ path: 'var/screenshots/story-gate-390.png', fullPage: true });
   await page.getByRole('button', { name: '我已年满 18 岁', exact: true }).click();
-  await expect(page.getByTestId('public-content')).toBeVisible();
-  await expect(page.getByRole('navigation', { name: '个人导航' }).getByRole('button')).toHaveCount(5);
-  await expect(page.getByTestId('public-content').getByRole('img')).toHaveCount(0);
+  const story = page.getByTestId('story-lab');
+  await expect(story).toBeVisible();
+  await expect(story.getByRole('navigation', { name: '个人导航' }).locator('.sh-platform')).toHaveCount(5);
   const first = (await page.context().cookies()).find(value => value.name === 'age_dev');
   expect(first?.httpOnly).toBe(true);
   await page.reload();
-  await expect(page.getByTestId('public-content')).toBeVisible();
+  await expect(page.getByTestId('story-lab')).toBeVisible();
   const second = (await page.context().cookies()).find(value => value.name === 'age_dev');
   expect(second?.value).toBe(first?.value);
   expect(second?.expires).toBe(first?.expires);
-  await page.screenshot({ path: 'var/screenshots/M3-public-bootstrap-390.png', fullPage: true });
+  await page.screenshot({ path: 'var/screenshots/story-mobile-390.png', fullPage: false });
   await page.getByRole('button', { name: '重新确认年龄' }).click();
   await expect(page.getByRole('heading', { name: '仅限成年人' })).toBeVisible();
   expect(await page.evaluate(() => ({ local: localStorage.length, session: sessionStorage.length }))).toEqual({ local: 0, session: 0 });
@@ -62,7 +62,7 @@ test('memory confirmation disappears after refresh; empty leave target shows not
   await page.goto('/');
   await page.getByLabel('仅在本次访问中确认').check();
   await page.getByRole('button', { name: '我已年满 18 岁', exact: true }).click();
-  await expect(page.getByTestId('public-content')).toBeVisible();
+  await expect(page.getByTestId('story-lab')).toBeVisible();
   expect((await page.context().cookies()).some(value => value.name.includes('age'))).toBe(false);
   await page.reload();
   await expect(page.getByRole('heading', { name: '仅限成年人' })).toBeVisible();
@@ -71,38 +71,8 @@ test('memory confirmation disappears after refresh; empty leave target shows not
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
 
-test('motion can stop mid-entrance, honors system preference, and cleans up after reset', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'no-preference' });
-  await page.goto('/');
-  await page.getByRole('button', { name: '我已年满 18 岁', exact: true }).click();
-  const content = page.getByTestId('public-content');
-  await expect(content).toHaveAttribute('data-motion', 'on');
-  await content.getByRole('button', { name: '暂停动效', exact: true }).click();
-  await expect(content).toHaveAttribute('data-motion', 'off');
-  await expect.poll(() => content.locator('.noir-link-shell').evaluateAll(items => items.every(item => getComputedStyle(item).opacity === '1' && getComputedStyle(item).transform === 'none'))).toBe(true);
-  const glow = content.locator('.noir-light-bloom').first();
-  const stopped = await glow.evaluate(item => getComputedStyle(item).transform);
-  await page.waitForTimeout(180);
-  expect(await glow.evaluate(item => getComputedStyle(item).transform)).toBe(stopped);
-  await content.getByRole('button', { name: '启用动效', exact: true }).click();
-  await expect(content).toHaveAttribute('data-motion', 'on');
-  const moving = await glow.evaluate(item => getComputedStyle(item).transform);
-  await expect.poll(() => glow.evaluate(item => getComputedStyle(item).transform)).not.toBe(moving);
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await expect(content.getByRole('button', { name: '系统已减少动态效果' })).toBeDisabled();
-  await expect(content).toHaveAttribute('data-motion', 'off');
-  await expect.poll(() => content.locator('.noir-link-shell').evaluateAll(items => items.every(item => getComputedStyle(item).opacity === '1'))).toBe(true);
-  await page.getByRole('button', { name: '重新确认年龄' }).click();
-  await expect(content).toHaveCount(0);
-  await page.getByRole('button', { name: '我已年满 18 岁', exact: true }).click();
-  await expect(content).toBeVisible();
-  await expect(content).toHaveAttribute('data-motion', 'off');
-  await expect(content.getByRole('navigation', { name: '个人导航' }).getByRole('button')).toHaveCount(5);
-});
-
-test('saved draft survives reload; private preview renders six images; invalid publish preserves public version', async ({ page }) => {
+test('saved draft survives reload; full-screen preview renders the story; invalid publish preserves the public version', async ({ page }) => {
   test.setTimeout(90_000);
-  // The admin preview can be slow on a loaded machine: six display images plus publish validation.
   await page.setViewportSize({ width: 1440, height: 1000 });
   await login(page);
   const before = await (await control.get('/api/gate')).json();
@@ -112,22 +82,13 @@ test('saved draft survives reload; private preview renders six images; invalid p
   await page.reload();
   await expect(page.getByLabel('站点名称', { exact: true })).toHaveValue('顾清棠·草稿验证');
   await page.getByRole('button', { name: '预览草稿', exact: true }).click();
-  const preview = page.getByTestId('draft-preview');
-  await expect(preview.getByRole('img')).toHaveCount(6);
-  await expect.poll(() => preview.locator('img').evaluateAll(images => images.every(img => (img as HTMLImageElement).naturalWidth > 0)), { timeout: 20_000 }).toBe(true);
-  await page.screenshot({ path: 'var/screenshots/M3-admin-preview-desktop.png', fullPage: true });
-  for (let i = 0; i < 4; i++) await preview.getByRole('button', { name: '下一张照片' }).click();
-  await expect(preview.locator('.gallery-controls')).toContainText('5 / 5');
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await preview.locator('.gallery-strip').focus();
-  await page.keyboard.press('ArrowLeft');
-  await expect(preview.locator('.gallery-controls')).toContainText('4 / 5');
-  await preview.locator('.gallery-strip').evaluate(element => { element.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true })); element.scrollLeft = element.scrollWidth; });
-  await expect(preview.locator('.gallery-controls')).toContainText('5 / 5');
-  await page.setViewportSize({ width: 360, height: 800 });
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-  await page.screenshot({ path: 'var/screenshots/M3-admin-preview-360.png', fullPage: true });
+  const dialog = page.locator('dialog.preview-dialog');
+  await expect(dialog.locator('.story-lab')).toBeVisible();
+  await expect(dialog.locator('.preview-bar')).toContainText('尚未发布');
+  await expect(dialog.getByRole('heading', { name: '顾清棠·草稿验证', exact: false }).first()).toBeVisible();
+  const avatar = dialog.locator('.sh-avatar img');
+  await expect.poll(() => avatar.evaluate((image: HTMLImageElement) => image.naturalWidth > 0), { timeout: 20_000 }).toBe(true);
+  await page.screenshot({ path: 'var/screenshots/story-admin-preview.png' });
   await page.getByRole('button', { name: '返回编辑', exact: true }).click();
   await page.getByRole('button', { name: '检查并发布' }).click();
   await expect(page.getByText('请检查以下字段：')).toBeVisible();
@@ -135,7 +96,6 @@ test('saved draft survives reload; private preview renders six images; invalid p
   expect(after.versionId).toBe(before.versionId);
   expect(after.name).toBe(before.name);
   expect((await currentDraft()).config.site.name).toBe('顾清棠·草稿验证');
-  await page.screenshot({ path: 'var/screenshots/M3-admin-validation-360.png', fullPage: true });
 });
 
 test('editing during a delayed save preserves later input and the next save persists it', async ({ page }) => {
@@ -183,22 +143,9 @@ test('principal entry changes require confirmation; stale revision errors preser
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
 
-test('preview uses configured empty and image failure messages without publishing', async ({ page }) => {
-  const config = structuredClone(baseline.config);
-  config.links.forEach(link => { link.visible = false; });
-  config.states.empty = '当前入口为空（验证）'; config.states.error = '照片加载失败（验证）';
-  await replaceDraft(config); await login(page);
-  await page.route('**/api/admin/media/*/content?*', route => route.fulfill({ status: 500, contentType: 'application/json', body: '{}' }));
-  await page.getByRole('button', { name: '预览草稿', exact: true }).click();
-  const preview = page.getByTestId('draft-preview');
-  await expect(preview.getByText(config.states.empty, { exact: true })).toBeVisible();
-  await expect(preview.getByText(config.states.error, { exact: true })).toHaveCount(6);
-  await page.getByRole('button', { name: '返回编辑', exact: true }).click();
-});
-
 // Last scenario publishes only to the disposable server. No destination request leaves the test browser.
-test('valid publication switches text links and media; memory access loads images and resolves attributed navigation', async ({ page, browser }) => {
-  test.setTimeout(90_000); // Includes cold compilation of the protected-media route in the disposable dev server.
+test('valid publication switches content; memory access loads the avatar and resolves attributed navigation', async ({ page, browser }) => {
+  test.setTimeout(90_000);
   const config = structuredClone(baseline.config);
   config.site.name = '发布流程验证'; config.ageGate.exitUrl = 'https://www.wikipedia.org/';
   config.footer.contactEmail = 'fixture@qingtang.invalid';
@@ -212,9 +159,10 @@ test('valid publication switches text links and media; memory access loads image
     await expect(view.locator('main').getByRole('img')).toHaveCount(0);
     await view.getByLabel('仅在本次访问中确认').check();
     await view.getByRole('button', { name: '我已年满 18 岁', exact: true }).click();
-    await expect(view.getByTestId('public-content').getByRole('heading', { name: config.site.name, exact: true })).toBeVisible();
-    await expect.poll(() => view.getByTestId('public-content').locator('img').evaluateAll(images => images.length === 6 && images.every(img => (img as HTMLImageElement).naturalWidth > 0)), { timeout: 20_000 }).toBe(true);
-    await view.screenshot({ path: 'var/screenshots/M3-public-published-390.png', fullPage: true });
+    const story = view.getByTestId('story-lab');
+    await expect(story.getByRole('heading', { name: config.site.name, exact: false }).first()).toBeVisible();
+    await expect.poll(() => story.locator('.sh-avatar img').evaluate((image: HTMLImageElement) => image.naturalWidth > 0), { timeout: 20_000 }).toBe(true);
+    await view.screenshot({ path: 'var/screenshots/story-published-390.png', fullPage: false });
     expect(await view.evaluate(() => ({ local: localStorage.length, session: sessionStorage.length }))).toEqual({ local: 0, session: 0 });
     expect((await visitor.cookies()).some(cookie => cookie.name.includes('age'))).toBe(false);
     await view.route('https://x.com/m3_fixture', route => route.fulfill({ contentType: 'text/plain', body: 'fixture destination' }));
@@ -224,7 +172,7 @@ test('valid publication switches text links and media; memory access loads image
     await view.goto('/?from=profile');
     await view.getByLabel('仅在本次访问中确认').check();
     await view.getByRole('button', { name: '我已年满 18 岁', exact: true }).click();
-    await expect(view.getByTestId('public-content')).toBeVisible();
+    await expect(view.getByTestId('story-lab')).toBeVisible();
     await visitor.route('https://x.com/m3_fixture', route => route.fulfill({ contentType: 'text/plain', body: 'desktop fixture destination' }));
     const popupPromise = view.waitForEvent('popup');
     await view.getByRole('link', { name: 'X 主页，前往外部平台', exact: true }).click();
