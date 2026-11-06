@@ -4,15 +4,13 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { ArrowUpRight } from 'lucide-react';
 import { api, ApiError, errorMessage, postBody, type Gate, type PublicSite } from './client-api.ts';
-import { PublicView } from './public-view.tsx';
-import { NoirStage } from './noir-motion.tsx';
+import { GateStage } from './gate-stage.tsx';
 import { idleNavigationFeedback, type NavigationFeedback } from './navigation-state.ts';
 import { OpenCursor } from './open-cursor.tsx';
 
-const LightGallery = dynamic(() => import('./light-gallery.tsx').then(module => module.LightGallery), { ssr: false, loading: () => <p className="noir-loading" role="status">正在加载导航…</p> });
-const StoryLab = dynamic(() => import('./story-lab.tsx').then(module => module.StoryLab), { ssr: false, loading: () => <p className="noir-loading" role="status">正在加载故事页面…</p> });
+const StoryLab = dynamic(() => import('./story-lab.tsx').then(module => module.StoryLab), { ssr: false, loading: () => <p className="page-loading" role="status">正在加载故事页面…</p> });
 
-export function PublicApp({ lightGallery = false, lusionLab = false }: { lightGallery?: boolean; lusionLab?: boolean }) {
+export function PublicApp() {
   const [gate, setGate] = useState<Gate | null>(null);
   const [site, setSite] = useState<PublicSite | null>(null);
   const [token, setToken] = useState('');
@@ -138,29 +136,25 @@ export function PublicApp({ lightGallery = false, lusionLab = false }: { lightGa
       }
     }
   }
-  if (!gate) return <main className="noir-page"><div className="noir-loading"><span className="noir-loading-mark" aria-hidden="true">GQ</span><p role="status">{message || '加载中…'}</p>{message && <button type="button" className="pill secondary" onClick={() => location.reload()}>重试</button>}</div></main>;
+  if (!gate) return <main className="gate-page"><div className="page-loading"><span className="page-loading-mark" aria-hidden="true">GQ</span><p role="status">{message || '加载中…'}</p>{message && <button type="button" className="pill secondary" onClick={() => location.reload()}>重试</button>}</div></main>;
   if (site) {
-    return <main className={lightGallery || lusionLab ? 'light-gallery-page' : 'noir-page'}>{token && <p className="memory-notice" role="status">本次确认仅在当前页面有效，刷新后需重新确认。</p>}{message && <p className="public-notice feedback error" role="alert">{message}</p>}{site && <OpenCursor />}
-        <div className="noir-grain" aria-hidden="true" />
-        {lusionLab
-          ? <StoryLab data={site} token={token} intro={intro} onIntroDone={() => setIntro(false)} navigationFeedback={navigationFeedback} onReset={() => void reset()} onNavigate={(id, newTab) => void navigate(id, newTab)} onAccessError={status => void accessError(status)} />
-          : lightGallery
-            ? <LightGallery data={site} token={token} intro={intro} lusion={false} onIntroDone={() => setIntro(false)} navigationFeedback={navigationFeedback} onReset={() => void reset()} onNavigate={(id, newTab) => void navigate(id, newTab)} onAccessError={status => void accessError(status)} />
-            : <PublicView data={site} token={token} intro={intro} onIntroDone={() => setIntro(false)} navigationFeedback={navigationFeedback} onReset={() => void reset()} onNavigate={(id, newTab) => void navigate(id, newTab)} onAccessError={status => void accessError(status)} />}
-      </main>;
+    return <main className="story-page">{token && <p className="memory-notice" role="status">本次确认仅在当前页面有效，刷新后需重新确认。</p>}{message && <p className="public-notice feedback error" role="alert">{message}</p>}
+      <OpenCursor />
+      <StoryLab data={site} token={token} intro={intro} onIntroDone={() => setIntro(false)} navigationFeedback={navigationFeedback} onReset={() => void reset()} onNavigate={(id, newTab) => void navigate(id, newTab)} onAccessError={status => void accessError(status)} />
+    </main>;
   }
-  return <main className="noir-page"><NoirStage gate version={gate.versionId} className="noir-gate"><section className="gate-content identity" aria-busy={busy}>
-    <p className="noir-eyebrow noir-reveal">A PRIVATE INVITATION</p>
-    <p className="gate-brand noir-reveal">{gate.name}</p>
-    <p className="age-mark noir-reveal" aria-hidden="true">18<span>+</span></p>
+  return <main className="gate-page"><GateStage><section className="gate-content gate-panel identity" aria-busy={busy}>
+    <p className="gate-eyebrow gate-reveal">A PRIVATE INVITATION</p>
+    <p className="gate-brand gate-reveal">{gate.name}</p>
+    <p className="age-mark gate-reveal" aria-hidden="true">18<span>+</span></p>
     <h1 ref={heading} tabIndex={-1}>{left ? gate.ageGate.exitLabel : gate.ageGate.title}</h1>
     {!left && <p className="muted">{gate.ageGate.notice}</p>}
     {message && <p className="feedback error" role="alert">{message}</p>}
     {left ? <button type="button" className="pill secondary" onClick={() => { setLeft(false); setMessage(''); }}>返回确认页</button> : <>
-      <button type="button" className="pill primary noir-gate-enter" disabled={busy} onClick={() => void confirm()}><span>{busy ? '处理中…' : gate.ageGate.confirmLabel}</span><ArrowUpRight size={19} strokeWidth={1.3} aria-hidden="true" /></button>
+      <button type="button" className="pill primary gate-enter" disabled={busy} onClick={() => void confirm()}><span>{busy ? '处理中…' : gate.ageGate.confirmLabel}</span><ArrowUpRight size={19} strokeWidth={1.3} aria-hidden="true" /></button>
       <button type="button" className="pill secondary" disabled={busy} onClick={() => void leave()}>{gate.ageGate.exitLabel}</button>
       <label className="checkbox-row memory-choice"><input type="checkbox" checked={memory} onChange={event => setMemory(event.target.checked)} />仅在本次访问中确认</label>
     </>}
-    <p className="noir-gate-footnote" aria-hidden="true">PRIVATE EDITION · EST. 2026</p>
-  </section></NoirStage></main>;
+    <p className="gate-footnote" aria-hidden="true">PRIVATE EDITION · EST. 2026</p>
+  </section></GateStage></main>;
 }
