@@ -10,7 +10,7 @@ import { initialConfigFromDesign, mediaImportManifest } from '../src/contracts/i
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const mode = process.argv[2];
 if (!['--write', '--check'].includes(mode ?? '')) throw new Error('Use --write or --check');
-const copy = JSON.parse(await readFile(resolve(root, '../design/公开文案配置-M1.json'), 'utf8'));
+const copy = JSON.parse(await readFile(resolve(root, 'config/content-base.json'), 'utf8'));
 const schema = z.toJSONSchema(siteConfigSchema, { target: 'draft-2020-12' });
 const config = initialConfigFromDesign(copy);
 const outputs: Record<string, unknown> = {
@@ -41,5 +41,5 @@ if (mode === '--check') {
   assert.equal(new Set(operationIds).size, operationIds.length);
   console.log(`OPENAPI_OK: ${operationIds.length} operations; references resolved and schema validated`);
 }
-console.log('CONTENT_OK: M1 copy matches generated schema/seed; five targets disabled; real publishing remains blocked');
+console.log('CONTENT_OK: content baseline matches generated schema/seed; five targets disabled; real publishing remains blocked');
 console.log('MEDIA_OK: six source photos listed for controlled import; bootstrap includes no media');
