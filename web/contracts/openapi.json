@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
   "info": {
-    "title": "顾清棠个人导航站 M2 API 契约",
+    "title": "教父个人导航站 M2 API 契约",
     "version": "1.0.0",
     "description": "M2接口约定；HTTP处理器、浏览器交互、鉴权与媒体传输在M3实现，本文档不代表已运行服务。所有业务路径同源，真实域名待配置。"
   },

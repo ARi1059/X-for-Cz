@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { BRAND } from '../brand';
 
 /**
  * Light-only age-gate backdrop. It renders abstract light, never media, and
@@ -16,8 +17,8 @@ export function GateStage({ children }: { children: ReactNode }) {
       <div className="gate-stage-vignette" />
     </div>
     <div className="gate-topbar">
-      <span className="gate-monogram" aria-hidden="true">GQ<span>·</span></span>
-      <span className="gate-edition" aria-hidden="true">GU QINGTANG<small>PRIVATE EDITION</small></span>
+      <span className="gate-monogram" aria-hidden="true">{BRAND.monogram}<span>·</span></span>
+      <span className="gate-edition" aria-hidden="true">{BRAND.wordmark}<small>PRIVATE EDITION</small></span>
     </div>
     {children}
   </div>;

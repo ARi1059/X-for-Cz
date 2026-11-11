@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">西西里线人双向机器人头像</title>
+  <desc id="desc">墨绿徽章中的两枚对向消息气泡与往返箭头，代表双向联络。</desc>
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="75%"><stop stop-color="#3f5049"/><stop offset="1" stop-color="#17211e"/></radialGradient>
+    <linearGradient id="silver" x2="1" y2="1"><stop stop-color="#e5d7ad"/><stop offset=".5" stop-color="#98a080"/><stop offset="1" stop-color="#e5d7ad"/></linearGradient>
+  </defs>
+  <circle cx="256" cy="256" r="248" fill="#0a100e"/>
+  <circle cx="256" cy="256" r="235" fill="url(#bg)" stroke="url(#silver)" stroke-width="5"/>
+  <circle cx="256" cy="256" r="218" fill="none" stroke="#8f9b7d" stroke-opacity=".58" stroke-width="2"/>
+  <path d="M126 151h185c19 0 34 15 34 34v88c0 19-15 34-34 34H220l-49 38v-38h-45c-19 0-34-15-34-34v-88c0-19 15-34 34-34z" fill="#d7cfad" stroke="#e9d9a9" stroke-width="6"/>
+  <path d="M257 212h130c18 0 32 14 32 32v83c0 18-14 32-32 32h-29v37l-47-37h-54c-18 0-32-14-32-32v-28" fill="#26362f" stroke="#c5c99b" stroke-width="6"/>
+  <circle cx="139" cy="230" r="9" fill="#405047"/><circle cx="173" cy="230" r="9" fill="#405047"/><circle cx="207" cy="230" r="9" fill="#405047"/>
+  <path d="M289 272h91m-17-17 18 17-18 17" fill="none" stroke="#ddc98f" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M355 309h-91m17-17-18 17 18 17" fill="none" stroke="#aab58c" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M132 396c22-2 42-15 58-37M132 396c20 14 42 16 63 5" fill="none" stroke="#c1c398" stroke-width="5" stroke-linecap="round"/>
+  <path d="M149 382c-12-9-15-18-13-28 11 2 19 9 23 22M167 370c-5-12-3-21 3-28 10 7 13 16 10 27M165 397c10-10 20-13 29-9-2 11-10 18-24 21" fill="#abb58a" stroke="#d5d0a5" stroke-width="2"/>
+  <path d="M256 88v16M88 256h16M408 256h16" stroke="#ded2a3" stroke-width="4" stroke-linecap="round"/>
+</svg>

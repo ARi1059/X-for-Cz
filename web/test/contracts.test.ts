@@ -7,8 +7,8 @@ const initial = () => parseSiteConfig(JSON.parse(readFileSync(new URL('../config
 
 test('configuration has exact independent entries and preserves unresolved values', () => {
   const config = initial();
-  assert.equal(config.site.name, '顾清棠');
-  assert.equal(config.site.tagline, '短发御姐，丝袜和高跟鞋');
+  assert.equal(config.site.name, '教父');
+  assert.equal(config.site.tagline, '每位主角，各自成章');
   assert(config.links.every(link => !link.enabled && link.url === null));
   const duplicate = structuredClone(config);
   duplicate.links[1]!.id = duplicate.links[0]!.id;

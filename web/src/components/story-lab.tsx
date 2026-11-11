@@ -5,12 +5,13 @@ import {
   ArrowUpRight, Check, ChevronDown, ChevronRight, Gem, Heart, Info, Pause, Play, Radio, Send, X,
 } from 'lucide-react';
 import type { PublicSite } from './client-api';
+import { BRAND } from '../brand';
 import { MediaImage } from './media-image';
 import { idleNavigationFeedback, type NavigationFeedback } from './navigation-state';
 import { resolvePrimaryLinkId } from './link-presentation';
 import { IntroCurtain } from './intro-curtain';
 import {
-  FALLBACK_FEED, MEMBERSHIP_BENEFITS, MEMBERSHIP_TIERS, PURCHASE_FAQ, PURCHASE_STEPS,
+  EMPTY_FEED, MEMBERSHIP_BENEFITS, MEMBERSHIP_TIERS, PURCHASE_FAQ, PURCHASE_STEPS,
   STORY_BIO, STORY_SECTIONS, STORY_SOURCES, formatUpdated,
   type StoryFeed, type StoryPost,
 } from './story-content';
@@ -46,7 +47,7 @@ export function StoryLab({
   const railRef = useRef<HTMLElement>(null);
   const hintRef = useRef<HTMLButtonElement>(null);
   const statusRef = useRef<HTMLParagraphElement>(null);
-  const [feed, setFeed] = useState<StoryFeed>(FALLBACK_FEED);
+  const [feed, setFeed] = useState<StoryFeed>(EMPTY_FEED);
   const [feedLoading, setFeedLoading] = useState(true);
   const [staticMode, setStaticMode] = useState(false);
   const [mobile, setMobile] = useState(() => typeof window !== 'undefined' && matchMedia(MOBILE_QUERY).matches);
@@ -60,7 +61,7 @@ export function StoryLab({
   const mediaState = { loadingText: data.states.loading, errorText: data.states.error };
 
   const links = useMemo(() => data.links.map(link => link.id === 'tg_personal'
-    ? { ...link, label: 'Telegram 防丢主页', description: '永久入口 · 丢了也能找到我' }
+    ? { ...link, description: '官方入口与服务状态公告' }
     : link), [data.links]);
   const primaryId = links.find(link => link.id === 'tg_personal' && link.available)?.id ?? resolvePrimaryLinkId(links);
 
@@ -301,26 +302,28 @@ export function StoryLab({
   function renderMeet() {
     return <div className="story-meet">
       <header className="sh-identity">
-        {data.site.avatarMediaId && <MediaImage mediaId={data.site.avatarMediaId} alt={data.site.name + '的头像'} version={data.versionId} token={token} admin={preview} className="sh-avatar" {...mediaState} onAccessError={status => onAccessError?.(status)} />}
-        <div><p className="sh-eyebrow">A LITTLE CLOSER</p><h1>{data.site.name}<span>.</span></h1></div>
+        {data.site.avatarMediaId ? <MediaImage mediaId={data.site.avatarMediaId} alt={data.site.name + '的头像'} version={data.versionId} token={token} admin={preview} className="sh-avatar" {...mediaState} onAccessError={status => onAccessError?.(status)} />
+          : <img src="/brand/godfather-personal.png" alt="教父黑金徽章头像" className="sh-avatar" />}
+        <div><p className="sh-eyebrow">FROM THE GODFATHER</p><h1>{data.site.name}<span>.</span></h1></div>
       </header>
       {data.site.tagline && <p className="sh-tagline">{data.site.tagline}</p>}
       {data.site.description && <p className="sh-description">{data.site.description}</p>}
       {renderLinks()}
-      <p className="sh-nav-note">光影之外，在这里找到我。<span>THE LINKS. THE LOOKS. THE LITTLE MOMENTS.</span></p>
+      <p className="sh-nav-note">每位主角，各自成章。<span>EVERY STORY. ITS OWN CHAPTER.</span></p>
     </div>;
   }
 
   function renderAbout() {
+    const stats = feed.stats.filter(stat => stat.count !== null);
     return <>
       <p className="story-lead">{STORY_BIO}</p>
-      <div className="story-stats" aria-busy={feedLoading}>
-        {feed.stats.map(stat => <div className="story-stat" key={stat.key}>
+      {stats.length > 0 && <div className="story-stats" aria-busy={feedLoading}>
+        {stats.map(stat => <div className="story-stat" key={stat.key}>
           <span className="story-stat-label">{stat.label}</span>
           <strong>{stat.display}</strong>
-          <small>{stat.demo ? '示例数据' : `更新于 ${formatUpdated(stat.updatedAt)}`}{!stat.demo && <i>{stat.source}</i>}</small>
+          <small>{stat.state === 'demo' ? '示例数据' : `更新于 ${formatUpdated(stat.updatedAt)}`}{stat.state !== 'demo' && <i>{stat.source}</i>}</small>
         </div>)}
-      </div>
+      </div>}
       <p className="story-source">{feed.notice ?? STORY_SOURCES}</p>
       <div className="story-actions">{renderCta('x_profile', '关注 X')}{renderCta('tg_preview', '进入预告频道')}</div>
     </>;
@@ -329,9 +332,14 @@ export function StoryLab({
   function renderPreview() {
     const total = Math.min(feed.posts.length, 3);
     const visible = phone && !previewExpanded ? 2 : 3;
+    const posts = feed.posts.slice(0, visible);
     return <>
-      <p className="story-lead">X 上最新发布的视频和图片，会自动同步到这里；本页只加载链接和预览图，不在服务器保存原片。</p>
-      <div className="story-posts">{feed.posts.slice(0, visible).map(renderPost)}</div>
+      <p className="story-lead">{feed.posts.length
+        ? '教父主号的最新风格企划与作品预览，按人物与系列持续记录。'
+        : '主角档案与系列更新，汇集在教父的战利品日记。'}</p>
+      {posts.length > 0
+        ? <div className="story-posts">{posts.map(renderPost)}</div>
+        : <p className="story-posts-empty" role="status">{feedLoading ? '正在同步 X 内容…' : 'X 最新内容暂未同步，先进入预告频道查看。'}</p>}
       {phone && total > 2 && <button type="button" className="story-preview-more" aria-expanded={previewExpanded}
         onClick={() => setPreviewExpanded(value => !value)}>{previewExpanded ? '收起预告' : `查看全部 ${total} 条`}
         <ChevronDown size={13} strokeWidth={1.2} aria-hidden="true" /></button>}
@@ -341,7 +349,7 @@ export function StoryLab({
 
   function renderMembership() {
     return <>
-      <p className="story-lead">会员频道以 USDT 支付，通过 Telegram Bot 下单；确认后进入会员频道，单月 / 季度 / 年费到期自动移出。</p>
+      <p className="story-lead">{BRAND.channels.membership}是会员作品档案。通过{BRAND.bots.payment}查看当前套餐与 USDT 报价，确认后获取会员频道入口。</p>
       <ul className="story-benefits">{MEMBERSHIP_BENEFITS.map(benefit => <li key={benefit}><Check size={12} strokeWidth={1.5} aria-hidden="true" />{benefit}</li>)}</ul>
       <div className="story-tiers">{MEMBERSHIP_TIERS.map(tier => <div className={'story-tier' + (tier.featured ? ' is-featured' : '')} key={tier.id}>
         <span>{tier.name}</span><strong>{tier.period}</strong><small>{tier.note}</small>
@@ -359,7 +367,7 @@ export function StoryLab({
         <span>{String(index + 1).padStart(2, '0')}</span><div><strong>{step.title}</strong><p>{step.body}</p></div>
       </li>)}</ol>
       <div className="story-actions">
-        {renderCta('membership', '打开 Telegram Bot', true)}
+        {renderCta('membership', '打开缄默法则通行证', true)}
         <button type="button" className="story-cta" onClick={() => tutorialDialog.current?.showModal()}>查看完整教程</button>
       </div>
       <p className="story-warning">只使用 Bot 内显示的 USDT 地址和网络；不要向任何人私下转账。邀请链接仅限一人，转发会失效。</p>
@@ -393,8 +401,8 @@ export function StoryLab({
       </div>
       <div className="story-wash" aria-hidden="true" />
       <header className="story-topbar">
-        <span className="sh-wordmark">GU QINGTANG<span>PRIVATE EDITION</span></span>
-        <span className="sh-edition">LUSION LAB / STORY 01</span>
+        <span className="sh-wordmark">{BRAND.wordmark}<span>PRIVATE EDITION</span></span>
+        <span className="sh-edition">PRIVATE ARCHIVE / VOL. 01</span>
       </header>
       <p className="sr-only" ref={statusRef} role="status" aria-live="polite">{STORY_SECTIONS[0]!.title}</p>
       <main className="story-panel" ref={panelRef} data-active="0">
@@ -414,7 +422,7 @@ export function StoryLab({
 
     {mobile && <main className="story-mobile">
       <header className="story-mobile-topbar">
-        <span className="sh-wordmark">GU QINGTANG<span>PRIVATE EDITION</span></span>
+        <span className="sh-wordmark">{BRAND.wordmark}<span>PRIVATE EDITION</span></span>
         <span>STORY 01</span>
       </header>
       {STORY_SECTIONS.map((item, index) => <section className="story-mobile-section" key={item.id} data-section={index}>

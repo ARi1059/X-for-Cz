@@ -1,4 +1,4 @@
-# 顾清棠 Web 工程
+# 教父 Web 工程
 
 公开页只有一套视觉：**Story Lab 滚动叙事**。年龄确认后进入五段式故事页（相遇 → 简介 → 预告 → 会员 → 购买），桌面固定左栏 + 右侧人像背景随滚动交叉淡入，手机改为纵向堆叠。管理后台、SQLite 数据层、受控媒体与 23 个 HTTP 操作保持原样。
 
@@ -16,7 +16,7 @@
 | `/go/[linkId]` | 入口跳转（校验版本与成年凭据后 302 到真实目标） |
 | `/media/[mediaId]` | 受控媒体，需成年凭据与当前版本 |
 | `/share/[mediaId]` | 中性分享图，仅限标记为公开的素材 |
-| `/api/lab/story` | Story Lab 的 X / Telegram 数据（无凭证时返回示例数据） |
+| `/api/lab/story` | Story Lab 的 X / Telegram 公开数据；生产环境可用，服务端缓存，未配置时返回空态 |
 
 后台仍保留**头像与照片条**编辑：头像用于公开页身份区；照片条数据继续保存在草稿/发布配置中，但当前 Story Lab 不渲染照片条，五张背景为 `web/public/lusion/01–05.jpg` 固定资源。
 
@@ -69,18 +69,53 @@ npm run dev
 
 必填：`APP_ORIGIN`（完整 origin）、`DATABASE_PATH`、`MEDIA_ROOT`、`AGE_SIGNING_SECRET`、`SESSION_HASH_SECRET`（各 ≥32 字符且不同）。
 
-可选：`LOCAL_DRAFT_PREVIEW`；`X_BEARER_TOKEN` / `X_USERNAME`（X 粉丝数与最新帖）；`TELEGRAM_BOT_TOKEN` / `TELEGRAM_ANTI_LOSS_CHAT` / `TELEGRAM_PREVIEW_CHAT`（频道人数）。未配置时 `/api/lab/story` 返回示例数据并标注“示例”。
+可选：`LOCAL_DRAFT_PREVIEW`；`X_BEARER_TOKEN` / `X_USERNAME`（X 粉丝数与最新帖）；`TELEGRAM_BOT_TOKEN` / `TELEGRAM_ANTI_LOSS_CHAT` / `TELEGRAM_PREVIEW_CHAT`（频道人数）；`STORY_FEED_TTL_SECONDS`（缓存秒数，默认 300）。
+
+### Story Lab 数据接入
+
+- 服务端调用 X API v2 与 Telegram Bot API（`getChatMemberCount`），token 不出现在响应、日志或前端。
+- 未配置或请求失败时按来源降级：能读粉丝数就只显示粉丝数；帖子读不到时提示先进入预告频道；全部不可用时显示「实时数据暂不可用」。生产环境**不会**展示示例数字，示例数据只在开发环境且完全未配置时出现。
+- 进程内缓存 5 分钟；X 返回 403 时冷却 30 分钟，429 时按 `x-rate-limit-reset` 冷却，避免耗尽读额度。
+- 建议给网站单独建一个只加入频道的 Telegram Bot，不复用运营 Bot 的 token。X 免费套餐通常读不了时间线，只显示粉丝数属预期行为。
+- 配置后运行 `npm run integrations:check` 验证；输出不含密钥。
 
 ## 验证
 
 ```sh
-npm run check      # typecheck + 契约检查 + 44 项单元测试
+npm run check      # typecheck + 契约检查 + 53 项单元测试
 npm run build      # 生产构建
 npm run test:e2e   # 6 项浏览器回归（独立 3103 端口 + 临时数据库）
+npm run integrations:check  # 可选：验证 X / Telegram 凭证（不打印密钥）
 ```
 
-浏览器测试会在 `localhost:3103` 启动独立 dev 服务，使用临时数据库与媒体目录，不读写本机 `var/`。2026-11-06 重构后的结果：typecheck 通过、44/44 单元测试、6/6 浏览器测试、生产构建通过。
+浏览器测试会在 `localhost:3103` 启动独立 dev 服务，使用临时数据库与媒体目录，不读写本机 `var/`。2026-11-06 数据接入后的结果：typecheck 通过、53/53 单元测试、生产构建通过。浏览器回归依赖 `../design-references/` 照片素材，当前本机缺失，未能执行。
 
 ## 运行数据与回退
 
 `var/` 保存数据库、媒体、备份与本机凭据，不纳入版本控制。回退代码用 git 历史；数据库与媒体需要单独备份（运行中可热备份 SQLite 或用 `sqlite3 .backup`）。上线前仍需补齐真实入口目标、联系邮箱与中性离开地址，并执行正常发布。
+
+## 常见问题：`next dev` 卡住、端口无响应
+
+如果 `next dev` 一直不输出 Ready、`curl localhost:3000` 也连不上，先检查文件是否被 iCloud 驱逐：
+
+```sh
+ls -lO src/app/page.tsx var/site.sqlite node_modules/next/dist/server/next.js
+```
+
+出现 `compressed,dataless` 表示文件只在 iCloud 里，Next 读取时会阻塞。处理顺序：
+
+1. `brctl download .`（iCloud 守护进程无响应时会立即返回但不下载）；
+2. 逐文件触发下载：
+   ```sh
+   find . -path ./node_modules -prune -o -type f -flags +dataless -print0 \
+     | xargs -0 -P 10 -n 1 sh -c 'cat "$1" > /dev/null' sh
+   ```
+3. 长期方案：把项目移出 `~/Documents`，或关闭「桌面与文档」iCloud 同步。否则文件会再次被驱逐，`node_modules` 与 `var/` 尤其容易触发。
+
+## 教父品牌迁移
+
+品牌基线见 `../docs/IP宇宙设定-v1.md`。网站字标为 THE GODFATHER / GF；主理人教父与多位成年女主各有角色。`config/content-base.json` 是初始文案基线，`src/brand.ts` 是前台固定品牌文字，运行内容仍由 SQLite 草稿/发布分别维护。
+
+`npm run brand:migrate` 默认只预览；`npm run brand:migrate -- --apply` 先创建一致性数据库备份，再将草稿与当前公开配置分别迁移品牌与头像，保留两者内容差异、真实链接、媒体库与历史快照。备份路径可通过 `BRAND_BACKUP_PATH` 指定。历史版本按原有不可变约束保留，不作为现行设定。
+
+五个入口保持原有 key：`x_profile` 为教父主号、`tg_personal` 为西西里安全屋、`tg_preview` 为教父的战利品日记、`onlyfans` 为独立外链、`membership` 为缄默法则通行证。`tg_personal` 目标必须实际指向防丢频道；双向联系应指向独立的西西里线人，不自动复用地址。真实用户名及外部账号更名由实际账号持有人另行配置。

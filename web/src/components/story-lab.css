@@ -195,6 +195,16 @@
 .story-stat small i { font-style: normal; color: var(--public-gold-text); opacity: .8; }
 .story-source { margin-top: 10px; color: var(--public-disabled); font-size: 8px; line-height: 1.7; letter-spacing: .03em; }
 
+.story-posts-empty {
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px dashed var(--public-line);
+  color: var(--public-disabled);
+  font-size: 10px;
+  line-height: 1.7;
+  letter-spacing: .03em;
+}
+
 .story-posts { display: flex; flex-direction: column; gap: 6px; margin-top: 14px; }
 .story-post {
   display: grid;

@@ -42,4 +42,4 @@ if (mode === '--check') {
   console.log(`OPENAPI_OK: ${operationIds.length} operations; references resolved and schema validated`);
 }
 console.log('CONTENT_OK: content baseline matches generated schema/seed; five targets disabled; real publishing remains blocked');
-console.log('MEDIA_OK: six source photos listed for controlled import; bootstrap includes no media');
+console.log(`MEDIA_OK: ${copy.photos.length} brand source listed for controlled import; bootstrap includes no media`);

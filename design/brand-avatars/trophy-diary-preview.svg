@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">教父的战利品日记预览频道头像</title>
+  <desc id="desc">酒红与古金色徽章中的打开日记本，页上有星形印记和书签。</desc>
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="42%" r="74%"><stop stop-color="#71383b"/><stop offset="1" stop-color="#30191d"/></radialGradient>
+    <linearGradient id="gold" x2="1" y2="1"><stop stop-color="#f5dfa2"/><stop offset=".52" stop-color="#b1823f"/><stop offset="1" stop-color="#f0d99c"/></linearGradient>
+  </defs>
+  <circle cx="256" cy="256" r="248" fill="#190e10"/>
+  <circle cx="256" cy="256" r="235" fill="url(#bg)" stroke="url(#gold)" stroke-width="5"/>
+  <circle cx="256" cy="256" r="218" fill="none" stroke="#d0a667" stroke-opacity=".48" stroke-width="2"/>
+  <path d="M113 175c48-20 96-12 143 20v196c-45-29-93-38-143-18z" fill="#eee2c8" stroke="#e0c182" stroke-width="5"/>
+  <path d="M399 175c-48-20-96-12-143 20v196c45-29 93-38 143-18z" fill="#d7c7a8" stroke="#e0c182" stroke-width="5"/>
+  <path d="M256 195v195" stroke="#755238" stroke-width="7"/>
+  <path d="M138 211c35-10 68-5 98 12M138 244c35-10 68-5 98 12M138 277c35-10 68-5 98 12M138 310c35-10 68-5 98 12" fill="none" stroke="#9e8765" stroke-width="5" stroke-linecap="round"/>
+  <path d="M276 224c31-17 58-21 98-13M276 257c31-17 58-21 98-13M276 290c31-17 58-21 98-13M276 323c31-17 58-21 98-13" fill="none" stroke="#9e8765" stroke-width="5" stroke-linecap="round"/>
+  <path d="m327 125 12 25 28 4-20 19 5 28-25-13-25 13 5-28-20-19 28-4z" fill="#a82f3b" stroke="#f1d899" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M351 348h25v80l-12-12-13 12z" fill="#922832" stroke="#efcf8e" stroke-width="4"/>
+  <circle cx="256" cy="405" r="9" fill="#a82f3b" stroke="#f1d899" stroke-width="4"/>
+</svg>

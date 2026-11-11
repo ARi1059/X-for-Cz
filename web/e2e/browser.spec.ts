@@ -36,7 +36,7 @@ test('first visit isolates content; cookie confirmation persists without extendi
   page.on('request', request => { if (/\/media\/|\/api\/site/.test(request.url())) controlled.push(request.url()); });
   const response = await page.goto('/?from=profile');
   expect(response?.headers()['cache-control']).toContain('no-store');
-  expect(await response!.text()).not.toContain('短发御姐');
+  expect(await response!.text()).not.toContain('每位主角，各自成章');
   await expect(page.getByRole('heading', { name: '仅限成年人' })).toBeVisible();
   expect(controlled).toEqual([]);
   await page.screenshot({ path: 'var/screenshots/story-gate-390.png', fullPage: true });
@@ -76,16 +76,16 @@ test('saved draft survives reload; full-screen preview renders the story; invali
   await page.setViewportSize({ width: 1440, height: 1000 });
   await login(page);
   const before = await (await control.get('/api/gate')).json();
-  await page.getByLabel('站点名称', { exact: true }).fill('顾清棠·草稿验证');
+  await page.getByLabel('站点名称', { exact: true }).fill('教父·草稿验证');
   await page.getByRole('button', { name: '保存草稿', exact: true }).click();
   await expect(page.getByText(/草稿已保存/).first()).toBeVisible();
   await page.reload();
-  await expect(page.getByLabel('站点名称', { exact: true })).toHaveValue('顾清棠·草稿验证');
+  await expect(page.getByLabel('站点名称', { exact: true })).toHaveValue('教父·草稿验证');
   await page.getByRole('button', { name: '预览草稿', exact: true }).click();
   const dialog = page.locator('dialog.preview-dialog');
   await expect(dialog.locator('.story-lab')).toBeVisible();
   await expect(dialog.locator('.preview-bar')).toContainText('尚未发布');
-  await expect(dialog.getByRole('heading', { name: '顾清棠·草稿验证', exact: false }).first()).toBeVisible();
+  await expect(dialog.getByRole('heading', { name: '教父·草稿验证', exact: false }).first()).toBeVisible();
   const avatar = dialog.locator('.sh-avatar img');
   await expect.poll(() => avatar.evaluate((image: HTMLImageElement) => image.naturalWidth > 0), { timeout: 20_000 }).toBe(true);
   await page.screenshot({ path: 'var/screenshots/story-admin-preview.png' });
@@ -95,7 +95,7 @@ test('saved draft survives reload; full-screen preview renders the story; invali
   const after = await (await control.get('/api/gate')).json();
   expect(after.versionId).toBe(before.versionId);
   expect(after.name).toBe(before.name);
-  expect((await currentDraft()).config.site.name).toBe('顾清棠·草稿验证');
+  expect((await currentDraft()).config.site.name).toBe('教父·草稿验证');
 });
 
 test('editing during a delayed save preserves later input and the next save persists it', async ({ page }) => {
@@ -125,7 +125,7 @@ test('principal entry changes require confirmation; stale revision errors preser
   await page.setViewportSize({ width: 360, height: 800 });
   await login(page);
   await page.getByRole('button', { name: '五个导航入口', exact: true }).click();
-  const panel = page.locator('.editor-panel').filter({ has: page.getByRole('heading', { name: '3. Telegram 预告频道', exact: true }) });
+  const panel = page.locator('.editor-panel').filter({ has: page.getByRole('heading', { name: '3. 教父的战利品日记', exact: true }) });
   await panel.getByLabel('目标地址', { exact: true }).fill('https://t.me/m3_fixture');
   await panel.getByLabel('启用入口', { exact: true }).check();
   await panel.getByLabel('启用入口', { exact: true }).click();
@@ -148,7 +148,7 @@ test('valid publication switches content; memory access loads the avatar and res
   test.setTimeout(90_000);
   const config = structuredClone(baseline.config);
   config.site.name = '发布流程验证'; config.ageGate.exitUrl = 'https://www.wikipedia.org/';
-  config.footer.contactEmail = 'fixture@qingtang.invalid';
+  config.footer.contactEmail = 'fixture@godfather.invalid';
   config.links[0]!.enabled = true; config.links[0]!.url = 'https://x.com/m3_fixture';
   await replaceDraft(config); await login(page);
   await page.getByRole('button', { name: '检查并发布' }).click();
@@ -166,7 +166,7 @@ test('valid publication switches content; memory access loads the avatar and res
     expect(await view.evaluate(() => ({ local: localStorage.length, session: sessionStorage.length }))).toEqual({ local: 0, session: 0 });
     expect((await visitor.cookies()).some(cookie => cookie.name.includes('age'))).toBe(false);
     await view.route('https://x.com/m3_fixture', route => route.fulfill({ contentType: 'text/plain', body: 'fixture destination' }));
-    await view.getByRole('link', { name: 'X 主页，前往外部平台', exact: true }).click();
+    await view.getByRole('link', { name: '教父 · X，前往外部平台', exact: true }).click();
     await expect(view).toHaveURL('https://x.com/m3_fixture');
     await view.setViewportSize({ width: 1440, height: 1000 });
     await view.goto('/?from=profile');
@@ -175,7 +175,7 @@ test('valid publication switches content; memory access loads the avatar and res
     await expect(view.getByTestId('story-lab')).toBeVisible();
     await visitor.route('https://x.com/m3_fixture', route => route.fulfill({ contentType: 'text/plain', body: 'desktop fixture destination' }));
     const popupPromise = view.waitForEvent('popup');
-    await view.getByRole('link', { name: 'X 主页，前往外部平台', exact: true }).click();
+    await view.getByRole('link', { name: '教父 · X，前往外部平台', exact: true }).click();
     const popup = await popupPromise;
     await expect(popup).toHaveURL('https://x.com/m3_fixture', { timeout: 15_000 });
     expect(await popup.evaluate(() => window.opener === null)).toBe(true);

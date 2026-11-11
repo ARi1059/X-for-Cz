@@ -10,7 +10,7 @@ import { importMedia } from '../src/server/media.ts';
 import { fixtureAccount } from '../e2e/fixture.ts';
 
 // Browser tests own a new database and media directory on every run.
-const directory = mkdtempSync(join(tmpdir(), 'guqingtang-e2e-'));
+const directory = mkdtempSync(join(tmpdir(), 'godfather-e2e-'));
 const filename = join(directory, 'site.sqlite');
 const mediaRoot = join(directory, 'media');
 try {

@@ -136,7 +136,7 @@ export function PublicApp() {
       }
     }
   }
-  if (!gate) return <main className="gate-page"><div className="page-loading"><span className="page-loading-mark" aria-hidden="true">GQ</span><p role="status">{message || '加载中…'}</p>{message && <button type="button" className="pill secondary" onClick={() => location.reload()}>重试</button>}</div></main>;
+  if (!gate) return <main className="gate-page"><div className="page-loading"><span className="page-loading-mark" aria-hidden="true">GF</span><p role="status">{message || '加载中…'}</p>{message && <button type="button" className="pill secondary" onClick={() => location.reload()}>重试</button>}</div></main>;
   if (site) {
     return <main className="story-page">{token && <p className="memory-notice" role="status">本次确认仅在当前页面有效，刷新后需重新确认。</p>}{message && <p className="public-notice feedback error" role="alert">{message}</p>}
       <OpenCursor />

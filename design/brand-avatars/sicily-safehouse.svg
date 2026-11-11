@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">西西里安全屋防丢频道头像</title>
+  <desc id="desc">橄榄绿夜色徽章中的石屋、拱门与照明窗，屋前有橄榄枝。</desc>
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="38%" r="76%"><stop stop-color="#405247"/><stop offset="1" stop-color="#17241f"/></radialGradient>
+    <linearGradient id="gold" x2="1" y2="1"><stop stop-color="#e9d49c"/><stop offset=".5" stop-color="#9d8451"/><stop offset="1" stop-color="#e8d39c"/></linearGradient>
+  </defs>
+  <circle cx="256" cy="256" r="248" fill="#0b1310"/>
+  <circle cx="256" cy="256" r="235" fill="url(#bg)" stroke="url(#gold)" stroke-width="5"/>
+  <circle cx="256" cy="256" r="218" fill="none" stroke="#98a27d" stroke-opacity=".5" stroke-width="2"/>
+  <path d="M133 223 256 130l123 93v170H133z" fill="#28352d" stroke="#d4c18d" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M109 229 256 116l147 113" fill="none" stroke="#e5d3a1" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M218 393v-89c0-22 17-40 38-40s38 18 38 40v89" fill="#17211d" stroke="#d8c38e" stroke-width="6"/>
+  <path d="M237 393v-87c0-11 8-20 19-20s19 9 19 20v87" fill="#111916" stroke="#9ba17d" stroke-width="3"/>
+  <rect x="158" y="251" width="39" height="48" rx="3" fill="#d3ad62" stroke="#eddaa7" stroke-width="4"/>
+  <path d="M177 253v44M160 275h35" stroke="#6c5d3d" stroke-width="3"/>
+  <path d="M310 255h37v43h-37z" fill="#d3ad62" stroke="#eddaa7" stroke-width="4"/>
+  <path d="M328 257v39M312 276h33" stroke="#6c5d3d" stroke-width="3"/>
+  <path d="M124 375c28-2 48-18 60-47M124 375c22 15 44 16 66 3" fill="none" stroke="#bdc18c" stroke-width="5" stroke-linecap="round"/>
+  <path d="M141 360c-13-10-15-20-12-29 12 2 20 10 23 24M157 348c-7-13-5-23 1-30 11 7 15 17 12 29M154 374c11-11 22-13 31-9-2 12-11 20-25 22" fill="#aeb488" stroke="#d6d0a2" stroke-width="2"/>
+  <circle cx="342" cy="153" r="23" fill="#e5d9b1" opacity=".94"/>
+  <circle cx="353" cy="146" r="23" fill="#405247"/>
+  <path d="M256 87v16M87 256h16M409 256h16" stroke="#d8c792" stroke-width="4" stroke-linecap="round"/>
+</svg>

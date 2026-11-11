@@ -11,10 +11,10 @@ import { migrate, openDatabase } from '../src/storage/database.ts';
 import { readDraft, readPublished, saveDraft, seedSite } from '../src/storage/site-store.ts';
 import { importMedia } from '../src/server/media.ts';
 
-const origin = 'https://nav.gu-qingtang.cn';
+const origin = 'https://nav.godfather.cn';
 const password = 'test passphrase 4321';
 async function fixture(t: { after(fn: () => Promise<void> | void): void }) {
-  const directory = await mkdtemp(join(tmpdir(), 'qingtang-http-'));
+  const directory = await mkdtemp(join(tmpdir(), 'godfather-http-'));
   const db = openDatabase(join(directory, 'site.sqlite')); migrate(db);
   seedSite(db, JSON.parse(await readFile(new URL('../config/initial-site.json', import.meta.url), 'utf8')));
   const now = Date.now();
@@ -46,7 +46,7 @@ async function fixture(t: { after(fn: () => Promise<void> | void): void }) {
 test('HTTP age gate reveals neutral data only, strict Origin/CSRF, fixed expiry, memory revocation', async t => {
   const f = await fixture(t); const gateResponse = await f.req('/api/gate'); const gate = await gateResponse.json();
   assert.equal(gateResponse.headers.get('cache-control'), 'private, no-store');
-  assert.equal(gate.name, '顾清棠'); assert.equal(gate.ageStatus.confirmed, false);
+  assert.equal(gate.name, '教父'); assert.equal(gate.ageStatus.confirmed, false);
   const raw = JSON.stringify(gate); assert(!raw.includes('tagline')); assert(!raw.includes('x_profile')); assert(!raw.includes('avatarMediaId'));
   assert.equal((await f.req('/api/site')).status, 401);
   assert.equal((await f.req('/api/admin/draft')).status, 401);
@@ -74,7 +74,7 @@ test('HTTP admin sessions isolate drafts, compare revisions, publish atomically 
   assert.equal((await f.req('/api/admin/publish', { ...admin,method:'POST',json:{expectedRevision:draft.revision} })).status,422);
   assert.equal(readPublished(f.db).versionId,'1');
   const preview = await f.req('/api/admin/preview', admin); assert((await preview.json()).publishIssues.length >= 3);
-  const config = draft.config; config.ageGate.exitUrl = 'https://www.wikipedia.org/'; config.footer.contactEmail = 'contact@gu-qingtang.cn'; config.links[0].url='https://x.com/gu_qingtang'; config.links[0].enabled=true;
+  const config = draft.config; config.ageGate.exitUrl = 'https://www.wikipedia.org/'; config.footer.contactEmail = 'contact@godfather.cn'; config.links[0].url='https://x.com/godfather'; config.links[0].enabled=true;
   assert.equal((await f.req('/api/admin/draft', {cookie:admin.cookie,method:'PUT',json:{expectedRevision:draft.revision,config}})).status,403);
   const saved = await f.req('/api/admin/draft', {...admin,method:'PUT',json:{expectedRevision:draft.revision,config}}); const next = await saved.json(); assert.equal(next.revision,2);
   assert.equal((await f.req('/api/admin/draft', {...admin,method:'PUT',json:{expectedRevision:draft.revision,config}})).status,409);
@@ -83,10 +83,10 @@ test('HTTP admin sessions isolate drafts, compare revisions, publish atomically 
   const age = await f.confirm('cookie');
   const publicSite = await (await f.req('/api/site',{cookie:age.cookie!})).json(); assert.equal(publicSite.versionId,version); assert.equal(publicSite.links[0].available,true); assert(!JSON.stringify(publicSite).includes('https://x.com'));
   assert.equal((await f.req('/go/x_profile?version=1',{cookie:age.cookie!})).status,409);
-  const go = await f.req(`/go/x_profile?version=${version}&from=pin`,{cookie:age.cookie!}); assert.equal(go.status,302); assert.equal(go.headers.get('location'),'https://x.com/gu_qingtang');
+  const go = await f.req(`/go/x_profile?version=${version}&from=pin`,{cookie:age.cookie!}); assert.equal(go.status,302); assert.equal(go.headers.get('location'),'https://x.com/godfather');
   const memory = await f.confirm();
   assert.equal((await f.req(`/go/x_profile?version=${version}`,{bearer:memory.grant.accessToken})).status,401);
-  const resolved = await f.req('/api/links/x_profile/resolve',{method:'POST',bearer:memory.grant.accessToken,csrf:memory.csrf,json:{versionId:version,source:'weekly'}}); assert.equal(resolved.status,200); assert.equal((await resolved.json()).url,'https://x.com/gu_qingtang');
+  const resolved = await f.req('/api/links/x_profile/resolve',{method:'POST',bearer:memory.grant.accessToken,csrf:memory.csrf,json:{versionId:version,source:'weekly'}}); assert.equal(resolved.status,200); assert.equal((await resolved.json()).url,'https://x.com/godfather');
   const today = new Date().toISOString().slice(0,10); const stats = await f.req(`/api/admin/stats?from=${today}&to=${today}`,admin); const report = await stats.json(); assert(report.buckets.some((v:{event:string;linkId:string;count:number}) => v.event==='link_click' && v.linkId==='x_profile' && v.count===1));
   assert.equal((await f.req('/api/admin/stats?from=2026-01-01&to=2026-05-01',admin)).status,400);
   const sessionBefore = await (await f.req('/api/admin/session',admin)).json(); assert.equal(sessionBefore.expiresAt,admin.session.expiresAt);
@@ -111,7 +111,7 @@ test('HTTP media upload requires admin and purpose, hidden and draft images stay
   const decoded = await sharp(Buffer.from(await content.arrayBuffer())).metadata(); assert.equal(decoded.exif,undefined);
   assert.equal((await f.req(`/media/${media.id}?version=1`,{bearer:age.grant.accessToken})).status,404);
   assert.equal((await f.req(`/share/${media.id}?version=1`)).status,404);
-  const d = await (await f.req('/api/admin/draft',admin)).json(); d.config.site.avatarMediaId=media.id;d.config.ageGate.exitUrl='https://www.wikipedia.org/';d.config.footer.contactEmail='contact@gu-qingtang.cn';d.config.links[0].url='https://x.com/gu_qingtang';d.config.links[0].enabled=true;
+  const d = await (await f.req('/api/admin/draft',admin)).json(); d.config.site.avatarMediaId=media.id;d.config.ageGate.exitUrl='https://www.wikipedia.org/';d.config.footer.contactEmail='contact@godfather.cn';d.config.links[0].url='https://x.com/godfather';d.config.links[0].enabled=true;
   const saved = await (await f.req('/api/admin/draft',{...admin,method:'PUT',json:{expectedRevision:d.revision,config:d.config}})).json();
   assert.equal((await f.req(`/api/admin/media/${media.id}`,{...admin,method:'DELETE'})).status,409);
   const published = await (await f.req('/api/admin/publish',{...admin,method:'POST',json:{expectedRevision:saved.revision}})).json();

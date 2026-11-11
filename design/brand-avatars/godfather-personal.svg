@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">教父个人头像</title>
+  <desc id="desc">黑金徽章中的成年男性西装侧影，肩上别一枝红玫瑰。</desc>
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="38%" r="72%"><stop stop-color="#34302a"/><stop offset="1" stop-color="#101111"/></radialGradient>
+    <linearGradient id="gold" x2="1" y2="1"><stop stop-color="#f1d89a"/><stop offset=".52" stop-color="#a87935"/><stop offset="1" stop-color="#f4dfa9"/></linearGradient>
+  </defs>
+  <circle cx="256" cy="256" r="248" fill="#080909"/>
+  <circle cx="256" cy="256" r="235" fill="url(#bg)" stroke="url(#gold)" stroke-width="5"/>
+  <circle cx="256" cy="256" r="218" fill="none" stroke="#806338" stroke-opacity=".55" stroke-width="2"/>
+  <path d="M107 408c15-72 60-111 115-123 22-5 46-5 68 0 55 12 100 51 115 123v29H107z" fill="#111416" stroke="#b18b4e" stroke-width="4"/>
+  <path d="m201 294 55 66 54-66 27 17-23 126H198l-22-126z" fill="#e6dfd0"/>
+  <path d="m241 353 15-19 16 19-8 20 20 64h-56l21-64z" fill="#702b30"/>
+  <path d="M204 139c13-32 42-52 78-47 39 5 62 34 66 76 3 32-7 62-25 83-14 18-32 29-51 31-30 4-58-18-73-46-12-23-16-51-11-75 3-9 8-16 16-22z" fill="#bd8f70"/>
+  <path d="M187 182c-8-58 22-103 77-111 46-6 86 18 97 61-23-15-45-23-70-23-26 0-48 10-63 28-12 15-20 34-24 57-5-4-11-8-17-12z" fill="#171817"/>
+  <path d="M188 194c-6 34 4 73 27 99l-20 10c-27-23-42-59-39-93 1-20 8-37 19-50z" fill="#171817"/>
+  <path d="M222 207c10-7 20-8 29-4M290 203c10-4 20-3 28 3" fill="none" stroke="#31251f" stroke-width="5" stroke-linecap="round"/>
+  <path d="M260 208c-1 17-4 29-11 38 7 5 15 6 23 2" fill="none" stroke="#855e4a" stroke-width="4" stroke-linecap="round"/>
+  <path d="M244 266c14 7 30 7 44 0" fill="none" stroke="#643b36" stroke-width="5" stroke-linecap="round"/>
+  <path d="M154 362c19-12 35-13 50-2l-14 27c-13-7-25-8-38-3z" fill="#8f262e"/>
+  <path d="M174 379c14-15 29-22 44-22-7 18-19 31-37 39z" fill="#b6343a"/>
+  <path d="M177 384c-1 17-8 27-19 34" fill="none" stroke="#62704a" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="256" cy="256" r="4" fill="#f1d89a"/>
+</svg>

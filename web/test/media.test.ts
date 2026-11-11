@@ -8,7 +8,7 @@ import { migrate, openDatabase } from '../src/storage/database.ts';
 import { seedSite, readDraft, saveDraft, publishDraft } from '../src/storage/site-store.ts';
 import { importMedia, listMedia, readMedia, removeMedia, MediaError, MEDIA_LIMITS } from '../src/server/media.ts';
 function fixture() {
-  const root = mkdtempSync(join(tmpdir(), 'gqt-media-'));
+  const root = mkdtempSync(join(tmpdir(), 'gf-media-'));
   const db = openDatabase(join(root, 'site.sqlite')); migrate(db);
   seedSite(db, JSON.parse(readFileSync(new URL('../config/initial-site.json', import.meta.url), 'utf8')));
   return { db, root, mediaRoot: join(root, 'media'), close: () => { db.close(); rmSync(root, { recursive: true, force: true }); } };

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1920, initial-scale=1">
+  <meta name="theme-color" content="#11110f">
+  <title>教父 IP｜首发预热</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #11110f;
+      --paper: #eee8dd;
+      --muted: #aaa397;
+      --gold: #bd9a62;
+      --wine: #743c3f;
+      --line: rgba(210, 182, 133, .34);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--ink); }
+    body { font-family: "PingFang SC", "Songti SC", "Noto Serif CJK SC", serif; color: var(--paper); }
+    .poster {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      padding: 46px 76px 38px;
+      background:
+        radial-gradient(ellipse at 15% 88%, rgba(116, 60, 63, .18), transparent 37%),
+        linear-gradient(135deg, #171715 0%, #10100e 52%, #171615 100%);
+    }
+    .poster::before, .poster::after { content: ""; position: absolute; pointer-events: none; }
+    .poster::before { inset: 22px; border: 1px solid rgba(210, 182, 133, .15); }
+    .poster::after { left: 76px; right: 76px; bottom: 24px; height: 1px; background: var(--line); }
+    .topbar {
+      position: relative;
+      z-index: 2;
+      height: 84px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand { display: flex; align-items: center; gap: 18px; }
+    .seal { width: 58px; height: 58px; border: 1px solid var(--gold); border-radius: 50%; display: grid; place-items: center; color: #e1c58f; font: 18px Georgia, serif; box-shadow: inset 0 0 0 4px rgba(189,154,98,.10); }
+    .brand-name { font: 17px Georgia, "Times New Roman", serif; letter-spacing: 3px; }
+    .brand-name small { display: block; margin-top: 7px; color: var(--muted); font: 10px "Helvetica Neue", sans-serif; letter-spacing: 2px; }
+    .top-meta { display: flex; align-items: center; gap: 34px; color: var(--muted); font: 11px "Helvetica Neue", sans-serif; letter-spacing: 1.5px; }
+    .top-meta b { color: #dfc690; font-weight: 500; }
+    .layout { position: relative; z-index: 1; display: grid; grid-template-columns: 650px 1fr; gap: 46px; padding-top: 30px; height: 875px; }
+    .story { position: relative; padding: 54px 12px 0 28px; }
+    .eyebrow { display: flex; align-items: center; gap: 12px; color: #c2a16b; font: 11px "Helvetica Neue", sans-serif; letter-spacing: 2px; }
+    .eyebrow::before { content: ""; width: 31px; height: 1px; background: var(--gold); }
+    h1 { margin: 33px 0 0 -7px; color: #f0eade; font-size: 151px; font-weight: 500; line-height: 1.05; }
+    .english { margin-top: 6px; color: #c3a777; font: 16px Georgia, "Times New Roman", serif; letter-spacing: 4px; }
+    .rule { width: 295px; height: 1px; margin: 37px 0 28px; background: linear-gradient(90deg, var(--gold), rgba(189,154,98,.04)); }
+    .promise { font-size: 37px; line-height: 1.55; font-weight: 500; }
+    .promise em { color: #d4ae72; font-style: normal; }
+    .subcopy { margin-top: 19px; color: #c4bbae; font-size: 20px; line-height: 1.9; }
+    .subcopy strong { color: #e6ded0; font-weight: 500; }
+    .archive-stamp { position: relative; width: 470px; margin-top: 35px; padding: 17px 18px 15px; border: 1px solid rgba(189,154,98,.47); background: rgba(28,26,22,.68); display: flex; align-items: center; justify-content: space-between; }
+    .archive-stamp::before { content: ""; position: absolute; inset: 5px; border: 1px solid rgba(189,154,98,.14); pointer-events: none; }
+    .archive-stamp span { position: relative; }
+    .archive-label { color: var(--muted); font: 9px "Helvetica Neue", sans-serif; letter-spacing: 1.8px; }
+    .archive-name { display: block; margin-top: 8px; color: var(--paper); font-size: 16px; }
+    .seal-mark { width: 42px; height: 42px; border-radius: 50%; border: 1px solid #8e7147; display: grid; place-items: center; color: #d4b87e; font: 14px Georgia, serif; }
+    .story-foot { position: absolute; left: 28px; bottom: 14px; display: flex; align-items: center; gap: 15px; color: #b2aa9c; font: 11px "Helvetica Neue", sans-serif; letter-spacing: 1px; }
+    .age { color: #d6c5a1; border: 1px solid rgba(214,197,161,.55); padding: 6px 9px; font-size: 10px; }
+    .photo-wall { display: grid; grid-template-rows: 1fr 1fr; gap: 12px; min-width: 0; height: 815px; }
+    .top-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; min-height: 0; }
+    .bottom-photos { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; min-height: 0; }
+    .photo {
+      position: relative;
+      overflow: hidden;
+      background: #282521;
+      border: 1px solid rgba(210, 182, 133, .28);
+    }
+    .photo img { width: 100%; height: 100%; display: block; object-fit: cover; filter: brightness(.72) saturate(.77) contrast(1.04); transform: scale(1.015); }
+    .photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,8,8,.05) 38%, rgba(8,8,8,.68) 100%), linear-gradient(90deg, rgba(9,9,9,.13), transparent 46%); }
+    .photo-meta { position: absolute; z-index: 1; left: 22px; right: 22px; bottom: 18px; display: flex; justify-content: space-between; align-items: end; }
+    .photo-meta small { display: block; color: #d3b77f; font: 9px "Helvetica Neue", sans-serif; letter-spacing: 1.7px; }
+    .photo-meta strong { display: block; margin-top: 6px; color: #f0e8db; font-size: 18px; font-weight: 400; }
+    .photo-meta i { color: rgba(238,232,221,.72); font: normal 10px Georgia, serif; }
+    .bottom-banner { position: absolute; z-index: 2; right: 0; bottom: 0; display: flex; align-items: center; gap: 15px; padding: 13px 18px; background: rgba(17,17,15,.92); border: 1px solid rgba(210,182,133,.38); color: #ddd2bf; font-size: 13px; }
+    .bottom-banner b { color: #c9a66e; font-weight: 500; }
+    .bottom-banner span { width: 1px; height: 16px; background: rgba(210,182,133,.45); }
+    .footer { position: absolute; z-index: 2; left: 76px; right: 76px; bottom: 42px; display: flex; justify-content: space-between; color: #938b7e; font: 10px "Helvetica Neue", sans-serif; letter-spacing: 1.6px; }
+    .footer strong { color: #c8b791; font-weight: 400; }
+    @media print { html, body { print-color-adjust: exact; -webkit-print-color-adjust: exact; } }
+  </style>
+</head>
+<body>
+  <main class="poster" aria-label="教父 IP 首发预热海报">
+    <header class="topbar">
+      <div class="brand">
+        <span class="seal">GF</span>
+        <span class="brand-name">THE GODFATHER<small>SICILIAN PRIVATE ARCHIVE</small></span>
+      </div>
+      <div class="top-meta"><b>首发预热</b><span>VOL. 01</span><span>仅限成年人</span></div>
+    </header>
+    <section class="layout">
+      <div class="story">
+        <div class="eyebrow">A NEW PRIVATE ARCHIVE</div>
+        <h1>教父</h1>
+        <div class="english">THE GODFATHER</div>
+        <div class="rule"></div>
+        <div class="promise">每位主角，<br><em>各自成章。</em></div>
+        <div class="subcopy">多位成年女主 · 风格因人而异<br><strong>首批人物企划，即将启封</strong></div>
+        <div class="archive-stamp">
+          <span><span class="archive-label">PUBLIC PREVIEW / OFFICIAL CHANNEL</span><span class="archive-name">教父的战利品日记</span></span>
+          <span class="seal-mark">01</span>
+        </div>
+        <div class="story-foot"><span class="age">18+</span><span>仅限成年人</span><span>·</span><span>预热企划</span></div>
+      </div>
+      <div class="photo-wall" aria-label="四种风格氛围画面">
+        <div class="top-photos">
+          <figure class="photo" style="margin:0"><img src="../../web/public/lusion/02.jpg" alt="酒红礼服造型氛围照" style="object-position:50% 38%"><figcaption class="photo-meta"><span><small>STYLE FILE / 01</small><strong>酒红 · 夜色</strong></span><i>01 — 04</i></figcaption></figure>
+          <figure class="photo" style="margin:0"><img src="../../web/public/lusion/03.jpg" alt="冬日礼服造型氛围照" style="object-position:50% 38%"><figcaption class="photo-meta"><span><small>STYLE FILE / 02</small><strong>冬日 · 留白</strong></span><i>ARCHIVE</i></figcaption></figure>
+        </div>
+        <div class="bottom-photos">
+          <figure class="photo" style="margin:0"><img src="../../web/public/lusion/04.jpg" alt="粉色礼服造型氛围照" style="object-position:50% 35%"><figcaption class="photo-meta"><span><small>STYLE FILE / 03</small><strong>柔粉 · 轻熟</strong></span><i>MOOD</i></figcaption></figure>
+          <figure class="photo" style="margin:0"><img src="../../web/public/lusion/05.jpg" alt="香槟礼服造型氛围照" style="object-position:50% 35%"><figcaption class="photo-meta"><span><small>STYLE FILE / 04</small><strong>香槟 · 经典</strong></span><i>FRAME</i></figcaption></figure>
+          <figure class="photo" style="margin:0"><img src="assets/都市绿调人物裁切.jpg" alt="都市绿调礼服造型氛围照" style="object-position:50% 32%"><figcaption class="photo-meta"><span><small>STYLE FILE / 05</small><strong>都市 · 从容</strong></span><i>PORTRAIT</i></figcaption></figure>
+        </div>
+        <div class="bottom-banner"><b>预览</b> 教父的战利品日记 <span></span> <b>会员</b> 缄默法则之下</div>
+      </div>
+    </section>
+    <footer class="footer"><span>THE GODFATHER · PRIVATE ARCHIVE</span><span><strong>主理人：教父</strong>　/　人物与风格档案　/　即将开启</span></footer>
+  </main>
+</body>
+</html>

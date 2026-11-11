@@ -2,6 +2,8 @@
  * version will move this into the published site config; the Lab keeps the
  * copy in one typed module so it is easy to review and replace. */
 
+import { BRAND } from '../brand';
+
 export type StorySection = {
   id: 'meet' | 'about' | 'preview' | 'membership' | 'purchase';
   kicker: string;
@@ -11,13 +13,15 @@ export type StorySection = {
 
 export const STORY_SECTIONS: StorySection[] = [
   { id: 'meet', kicker: '01 / FIND ME HERE', title: '与我相遇', nav: '与我相遇' },
-  { id: 'about', kicker: '02 / ABOUT', title: '个人简介', nav: '个人简介' },
-  { id: 'preview', kicker: '03 / PREVIEW', title: '预告频道', nav: '预告频道' },
-  { id: 'membership', kicker: '04 / MEMBERSHIP', title: '会员有什么', nav: '会员有什么' },
-  { id: 'purchase', kicker: '05 / HOW TO JOIN', title: '购买方式', nav: '购买方式' },
+  { id: 'about', kicker: '02 / ABOUT', title: '教父主理', nav: '教父主理' },
+  { id: 'preview', kicker: '03 / PREVIEW', title: BRAND.channels.preview, nav: '预览档案' },
+  { id: 'membership', kicker: '04 / MEMBERSHIP', title: BRAND.channels.membership, nav: '会员档案' },
+  { id: 'purchase', kicker: '05 / HOW TO JOIN', title: '缄默法则通行证', nav: '购买方式' },
 ];
 
-export const STORY_BIO = '顾清棠，短发御姐，丝袜和高跟鞋。这里是我所有入口的永久索引。';
+export const STORY_BIO = BRAND.bio;
+
+export type StoryStatState = 'live' | 'demo' | 'unavailable';
 
 export type StoryStat = {
   key: string;
@@ -26,7 +30,7 @@ export type StoryStat = {
   display: string;
   updatedAt: string;
   source: string;
-  demo: boolean;
+  state: StoryStatState;
 };
 
 export type StoryPost = {
@@ -49,8 +53,8 @@ export type StoryFeed = {
 
 export const MEMBERSHIP_BENEFITS = [
   '会员频道全部内容',
-  '每周更新，优先看新片',
-  '会员投票 / 点单 / 优先回复',
+  '多位成年主角，各自独立系列',
+  '更新与服务范围以当前套餐为准',
   '一次性加入链接，仅本人可用',
 ];
 
@@ -92,9 +96,9 @@ export const STORY_SOURCES = '数据来自 X 与 Telegram 公开指标；OnlyFan
 const demoTime = new Date(Date.now() - 12 * 60 * 1000).toISOString();
 
 export const FALLBACK_STATS: StoryStat[] = [
-  { key: 'x', label: 'X 粉丝', count: 12800, display: '12.8K', updatedAt: demoTime, source: 'X API', demo: true },
-  { key: 'tg_anti', label: 'Telegram 防丢主页', count: 3400, display: '3.4K', updatedAt: demoTime, source: 'Telegram', demo: true },
-  { key: 'tg_preview', label: 'Telegram 预告频道', count: 1900, display: '1.9K', updatedAt: demoTime, source: 'Telegram', demo: true },
+  { key: 'x', label: 'X 粉丝', count: 12800, display: '12.8K', updatedAt: demoTime, source: 'X API', state: 'demo' },
+  { key: 'tg_anti', label: BRAND.channels.backup, count: 3400, display: '3.4K', updatedAt: demoTime, source: 'Telegram', state: 'demo' },
+  { key: 'tg_preview', label: BRAND.channels.preview, count: 1900, display: '1.9K', updatedAt: demoTime, source: 'Telegram', state: 'demo' },
 ];
 
 export const FALLBACK_POSTS: StoryPost[] = [
@@ -109,6 +113,15 @@ export const FALLBACK_FEED: StoryFeed = {
   updatedAt: demoTime,
   demo: true,
   notice: '示例数据 · 配置 X / Telegram API 后自动更新',
+};
+
+/** 首屏与生产环境未接入时的空态；不展示任何示例数字。 */
+export const EMPTY_FEED: StoryFeed = {
+  stats: FALLBACK_STATS.map(item => ({ ...item, count: null, display: '—', state: 'unavailable' })),
+  posts: [],
+  updatedAt: demoTime,
+  demo: false,
+  notice: null,
 };
 
 export function formatCount(count: number): string {

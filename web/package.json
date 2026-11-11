@@ -1,5 +1,5 @@
 {
-  "name": "gu-qingtang-web",
+  "name": "godfather-web",
   "version": "0.3.0",
   "private": true,
   "type": "module",
@@ -17,8 +17,10 @@
     "build": "next build",
     "start": "next start --hostname localhost",
     "setup": "tsx scripts/setup.ts",
+    "integrations:check": "tsx scripts/check-integrations.ts",
     "media:import": "node --env-file=.env.local --import=tsx scripts/import-design-media.ts",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "brand:migrate": "node --env-file=.env.local --import=tsx scripts/migrate-brand.ts"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

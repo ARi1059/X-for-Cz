@@ -40,7 +40,7 @@ test('migration and seed are idempotent; bootstrap is closed and creates no acco
 });
 
 test('applied migration checksums prevent silent schema-history changes', () => {
-  const folder = mkdtempSync(join(tmpdir(), 'gqt-migration-'));
+  const folder = mkdtempSync(join(tmpdir(), 'gf-migration-'));
   const db = openDatabase(':memory:');
   try {
     const source = fileURLToPath(new URL('../migrations/001_initial.sql', import.meta.url));
@@ -77,7 +77,7 @@ test('failed validation keeps old pointer; successful publication stores an immu
     assert.equal(published.bootstrap, false);
     const next = readDraft(db).config; next.site.name = '新的未发布名称';
     saveDraft(db, next, { expectedRevision: 2 });
-    assert.equal(readPublished(db).config.site.name, '顾清棠');
+    assert.equal(readPublished(db).config.site.name, '教父');
     assert.throws(() => db.prepare('UPDATE published_versions SET config_json = ? WHERE id = ?').run('{}', published.versionId), /immutable/);
     assert.throws(() => db.prepare('DELETE FROM published_versions WHERE id = ?').run(published.versionId), /retained/);
     assert.equal(db.prepare('SELECT count(*) AS total FROM published_versions').get()!.total, 2);
@@ -158,7 +158,7 @@ test('public share media and age-gated imagery stay separate at publication', ()
 });
 
 test('restart preserves draft, published pointer and only finite aggregate dimensions', () => {
-  const folder = mkdtempSync(join(tmpdir(), 'gqt-persist-')); const path = join(folder, 'site.sqlite');
+  const folder = mkdtempSync(join(tmpdir(), 'gf-persist-')); const path = join(folder, 'site.sqlite');
   let db = openDatabase(path);
   try {
     migrate(db); seedSite(db, initial());
